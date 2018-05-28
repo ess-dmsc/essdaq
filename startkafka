@@ -1,0 +1,12 @@
+#!/bin/bash
+
+echo "Starting Zookeeper and Kafka"
+
+cd  ~/essproj/kafka_2.11-1.0.0/bin
+
+echo "Starting Zookeeper"
+./zookeeper-server-start.sh -daemon ~/essproj/kafka_2.11-1.0.0/config/zookeeper.properties
+
+echo "Starting Kafka"
+./kafka-server-start.sh -daemon ~/essproj/server.config
+

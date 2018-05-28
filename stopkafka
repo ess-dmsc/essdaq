@@ -1,0 +1,11 @@
+#!/bin/bash
+
+echo "stopping Kafka and Zookeeper"
+
+cd  ~/essproj/kafka_2.11-1.0.0/bin
+
+echo "Stopping Kafka"
+./kafka-server-stop.sh
+
+echo "Stopping Zookeeper"
+./zookeeper-server-stop.sh
