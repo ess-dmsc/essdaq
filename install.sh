@@ -1,47 +1,63 @@
 #!/bin/bash
 
-sudo apt install curl cmake default-jre qt5-default
+read -r -p "Install and setup conan? [Y/n]" getconan
+getconan=${getconan,,} # tolower
+if [[ $getconan =~ ^(yes|y| ) ]]; then
+sudo apt install pip2
+pip2 install conan
+conan remote add conancommunity https://api.bintray.com/conan/conan-community/conan
+conan remote add conan-transit https://api.bintray.com/conan/conan/conan-transit
+conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+conan remote add ess-dmsc https://api.bintray.com/conan/ess-dmsc/conan
+conan profile new --detect default
+#only ubuntu
+conan profile update settings.compiler.libcxx=libstdc++11 default
+fi
 
-# could be (libpcap-devel on CentOS)
-sudo apt install libpcap-dev
+read -r -p "Install docker and start up grafana? [Y/n]" getgrafana
+getgrafana=${getgrafana,,} # tolower
+if [[ $getgrafana =~ ^(yes|y| ) ]]; then
+sudo apt install curl
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt-get update
+apt-cache policy docker-ce
+#confirm here
+#sudo apt-get install -y docker-ce
+sudo apt-get install docker-ce
 
-#pip2 install conan
-#conan remote add conancommunity https://api.bintray.com/conan/conan-community/conan
-#conan remote add conan-transit https://api.bintray.com/conan/conan/conan-transit
-#conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-#conan remote add ess-dmsc https://api.bintray.com/conan/ess-dmsc/conan
-#conan profile new --detect default
-
-#exit 1
-
-#edit ~/.conan/profiles/default to replace compiler.libcxx=libstdc++ with compiler.libcxx=libstdc++11
-
-#docker.io - FOLLOW INSTRUCTIONS FROM https://store.docker.com/search?type=edition&offering=community
-
-#git clone https://github.com/ess-dmsc/utils.git
-#cd utils
 sudo docker swarm init
-sudo docker stack deploy -c docker-metrics-env/docker-compose.yml metrics 
+sudo docker stack deploy -c docker-metrics-env/docker-compose.yml metrics
+fi
 
-curl -LO http://ftp.download-by.net/apache/kafka/1.0.0/kafka_2.11-1.0.0.tgz
-gunzip ./kafka_2.11-1.0.0.tgz
-tar xvf ./kafka_2.11-1.0.0.tar
+read -r -p "Install kafka? [Y/n]" getfkafka
+getfkafka=${getfkafka,,} # tolower
+if [[ $getfkafka =~ ^(yes|y| ) ]]; then
+sudo apt install curl default-jre
+curl -LO http://ftp.download-by.net/apache/kafka/1.1.0/kafka_2.11-1.1.0.tgz
+gunzip ./kafka_2.11-1.1.0.tgz
+tar xvf ./kafka_2.11-1.1.0.tar
+fi
 
+read -r -p "Get and build EFU? [Y/n]" getefu
+getefu=${getefu,,} # tolower
+if [[ $getefu =~ ^(yes|y| ) ]]; then
+sudo apt install cmake libpcap-dev
+# could be (libpcap-devel on CentOS)
 git clone https://github.com/ess-dmsc/event-formation-unit.git
-cd event-formation-unit
-mkdir build
-cd build
+mkdir ./event-formation-unit/build
+pushd event-formation-unit/build
 cmake ..
 #(or -DCMAKE_BUILD_TYPE=Release -DBUILDSTR=speedtest ..)
-make
+make -j2
+popd
+fi
 
-cd ../..
-
+read -r -p "Get and build Daquiri? [Y/n]" getdaquiri
+getdaquiri=${getdaquiri,,} # tolower
+if [[ $getdaquiri =~ ^(yes|y| ) ]]; then
+sudo apt install cmake qt5-default
 git clone https://github.com/ess-dmsc/daquiri.git
-#cd daquiri
-#./utils/first_build.sh
-
-#./bin/efu -d lib/gdgem -f ../prototype2/gdgem/nmx_config.json -p 6006 -c -5
-
-
-
+pushd daquiri
+./utils/first_build.sh
+fi
