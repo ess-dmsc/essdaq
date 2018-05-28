@@ -2,7 +2,7 @@
 
 echo "stopping Kafka and Zookeeper"
 
-cd  ~/essproj/kafka_2.11-1.0.0/bin
+cd  ~/essdaq/kafka_2.11-1.0.0/bin
 
 echo "Stopping Kafka"
 ./kafka-server-stop.sh
