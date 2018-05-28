@@ -4,7 +4,7 @@ read -r -p "Install and setup conan? [Y/n]" getconan
 getconan=${getconan,,} # tolower
 if [[ $getconan =~ ^(yes|y| ) ]]; then
 sudo apt install python-pip
-pip install conan
+pip2 install conan
 conan remote add conancommunity https://api.bintray.com/conan/conan-community/conan
 conan remote add conan-transit https://api.bintray.com/conan/conan/conan-transit
 conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
