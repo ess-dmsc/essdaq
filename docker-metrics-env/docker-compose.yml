@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  graphite:
+    image: graphiteapp/graphite-statsd:1.0.2-1
+    ports:
+      - "80:80"
+      - "2003-2004:2003-2004"
+      - "2023-2024:2023-2024"
+      - "8125:8125/udp"
+      - "8126:8126"
+    volumes:
+      - ./files/storage-aggregation.conf:/opt/graphite/conf/storage-aggregation.conf
+      - ./files/storage-schemas.conf:/opt/graphite/conf/storage-schemas.conf
+      - graphite-data:/opt/graphite/storage
+
+  grafana:
+    image: grafana/grafana:4.4.2
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+
+volumes:
+  graphite-data:
+  grafana-data:

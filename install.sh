@@ -1,3 +1,5 @@
+#!/bin/bash
+
 sudo apt install curl cmake default-jre qt5-default
 
 # could be (libpcap-devel on CentOS)
@@ -9,6 +11,8 @@ conan remote add conan-transit https://api.bintray.com/conan/conan/conan-transit
 conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 conan remote add ess-dmsc https://api.bintray.com/conan/ess-dmsc/conan
 conan profile new --detect default
+
+exit 1
 
 edit ~/.conan/profiles/default to replace compiler.libcxx=libstdc++ with compiler.libcxx=libstdc++11
 
