@@ -3,7 +3,7 @@
 read -r -p "Install and setup conan? [Y/n]" getconan
 getconan=${getconan,,} # tolower
 if [[ $getconan =~ ^(yes|y| ) ]]; then
-sudo apt install python-pip
+sudo apt install -y python-pip
 sudo pip2 install conan
 conan remote add conancommunity https://api.bintray.com/conan/conan-community/conan
 conan remote add conan-transit https://api.bintray.com/conan/conan/conan-transit
@@ -17,17 +17,13 @@ fi
 read -r -p "Install docker and start up grafana? [Y/n]" getgrafana
 getgrafana=${getgrafana,,} # tolower
 if [[ $getgrafana =~ ^(yes|y| ) ]]; then
-sudo apt install curl
+sudo apt install -y curl
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable"
 #should actually be like this when support for bionic arrives:
 #sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 sudo apt-get update
-apt-cache policy docker-ce
-#confirm here
-#sudo apt-get install -y docker-ce
-sudo apt-get install docker-ce
-
+sudo apt-get install -y docker-ce
 sudo docker swarm init
 sudo docker stack deploy -c docker-metrics-env/docker-compose.yml metrics
 fi
@@ -35,7 +31,7 @@ fi
 read -r -p "Install kafka? [Y/n]" getfkafka
 getfkafka=${getfkafka,,} # tolower
 if [[ $getfkafka =~ ^(yes|y| ) ]]; then
-sudo apt install curl default-jre
+sudo apt install -y curl default-jre
 curl -LO http://ftp.download-by.net/apache/kafka/1.1.0/kafka_2.11-1.1.0.tgz
 gunzip ./kafka_2.11-1.1.0.tgz
 tar xvf ./kafka_2.11-1.1.0.tar
@@ -44,7 +40,7 @@ fi
 read -r -p "Get and build EFU? [Y/n]" getefu
 getefu=${getefu,,} # tolower
 if [[ $getefu =~ ^(yes|y| ) ]]; then
-sudo apt install cmake libpcap-dev
+sudo apt install -y cmake libpcap-dev
 # could be (libpcap-devel on CentOS)
 git clone https://github.com/ess-dmsc/event-formation-unit.git
 mkdir ./event-formation-unit/build
@@ -58,7 +54,7 @@ fi
 read -r -p "Get and build Daquiri? [Y/n]" getdaquiri
 getdaquiri=${getdaquiri,,} # tolower
 if [[ $getdaquiri =~ ^(yes|y| ) ]]; then
-sudo apt install cmake qt5-default
+sudo apt install -y cmake qt5-default
 git clone https://github.com/ess-dmsc/daquiri.git
 pushd daquiri
 ./utils/first_build.sh
