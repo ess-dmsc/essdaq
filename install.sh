@@ -1,5 +1,7 @@
 #!/bin/bash
 
+kafkaversion="1.1.0"
+
 #ensure that we are in the script directory
 pushd $(dirname "${BASH_SOURCE[0]}")
 
@@ -53,12 +55,13 @@ fi
 read -r -p "Install kafka? [Y/n]" getfkafka
 getfkafka=${getfkafka,,} # tolower
 if [[ $getfkafka =~ ^(yes|y| ) ]]; then
+  kafkafile="kafka_2.11-$kafkaversion"
   sudo apt install -y curl default-jre
-  curl -LO http://ftp.download-by.net/apache/kafka/1.1.0/kafka_2.11-1.1.0.tgz
+  curl -LO http://ftp.download-by.net/apache/kafka/$kafkaversion/$kafkafile.tgz
   #TODO: ensure download is successful
-  gunzip ./kafka_2.11-1.1.0.tgz
-  tar xvf ./kafka_2.11-1.1.0.tar
-  rm -f ./kafka_2.11-1.1.0.tar
+  gunzip ./$kafkafile.tgz
+  tar xvf ./$kafkafile.tar
+  rm -f ./$kafkafile.tar
 fi
 
 read -r -p "Get and build EFU? [Y/n]" getefu
