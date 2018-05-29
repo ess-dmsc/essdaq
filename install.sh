@@ -10,11 +10,15 @@ if [ "$NUMCPUS" -lt "1" ]; then
 NUMCPUS=1
 fi
 
-read -r -p "Before we get started, it is rocommended that you update your system's packages. Shall we do this? [Y/n]" aptupdate
+read -r -p "Before we proceed, it is rocommended that you update your system's packages. Shall we do this? [Y/n]" aptupdate
 aptupdate=${aptupdate,,} # tolower
 if [[ $aptupdate =~ ^(yes|y| ) ]]; then
 sudo apt update
 fi
+
+read -r -p "Use ssh instead of http for cloning repos? [Y/n]" usessh
+usessh=${usessh,,} # tolower
+
 
 read -r -p "Install and setup conan? [Y/n]" getconan
 getconan=${getconan,,} # tolower
@@ -52,7 +56,7 @@ curl -LO http://ftp.download-by.net/apache/kafka/1.1.0/kafka_2.11-1.1.0.tgz
 #TODO: ensure download is successful
 gunzip ./kafka_2.11-1.1.0.tgz
 tar xvf ./kafka_2.11-1.1.0.tar
-#TODO: delete tar
+rm -f ./kafka_2.11-1.1.0.tar
 fi
 
 read -r -p "Get and build EFU? [Y/n]" getefu
@@ -60,12 +64,17 @@ getefu=${getefu,,} # tolower
 if [[ $getefu =~ ^(yes|y| ) ]]; then
 sudo apt install -y cmake libpcap-dev
 #TODO: could be libpcap-devel on CentOS
-git clone https://github.com/ess-dmsc/event-formation-unit.git
+if [[ $usessh =~ ^(yes|y| ) ]]; then
+  git clone git@github.com:ess-dmsc/event-formation-unit.git
+else
+  git clone https://github.com/ess-dmsc/event-formation-unit.git
+fi
 mkdir ./event-formation-unit/build
 pushd event-formation-unit/build
 cmake ..
 #(or -DCMAKE_BUILD_TYPE=Release -DBUILDSTR=speedtest ..)
-make -j$NUMCPUS
+make -j$NUMCPUS && make unit_tests -j$NUMCPUS
+make runtest && make runefu
 popd
 fi
 
@@ -73,7 +82,12 @@ read -r -p "Get and build Daquiri? [Y/n]" getdaquiri
 getdaquiri=${getdaquiri,,} # tolower
 if [[ $getdaquiri =~ ^(yes|y| ) ]]; then
 sudo apt install -y cmake qt5-default
-git clone https://github.com/ess-dmsc/daquiri.git
+if [[ $usessh =~ ^(yes|y| ) ]]; then
+  git clone git@github.com:ess-dmsc/daquiri.git
+else
+  git clone https://github.com/ess-dmsc/daquiri.git
+fi
 pushd daquiri
 ./utils/first_build.sh -j$NUMCPUS
+popd
 fi
