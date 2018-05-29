@@ -19,7 +19,9 @@ getgrafana=${getgrafana,,} # tolower
 if [[ $getgrafana =~ ^(yes|y| ) ]]; then
 sudo apt install curl
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable"
+#should actually be like this when support for bionic arrives:
+#sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 sudo apt-get update
 apt-cache policy docker-ce
 #confirm here
