@@ -1,6 +1,20 @@
 #!/bin/bash
 
-#TODO: ensure that we are in the script directory
+#ensure that we are in the script directory
+pushd $(dirname "${BASH_SOURCE[0]}")
+
+# build with 1 less than total number of CPUS, minimum 1
+NUMCPUS=$(cat /proc/cpuinfo | grep -c processor)
+let NUMCPUS-=1
+if [ "$NUMCPUS" -lt "1" ]; then
+NUMCPUS=1
+fi
+
+read -r -p "Before we get started, it is rocommended that you update your system's packages. Shall we do this? [Y/n]" aptupdate
+aptupdate=${aptupdate,,} # tolower
+if [[ $aptupdate =~ ^(yes|y| ) ]]; then
+sudo apt update
+fi
 
 read -r -p "Install and setup conan? [Y/n]" getconan
 getconan=${getconan,,} # tolower
@@ -51,7 +65,7 @@ mkdir ./event-formation-unit/build
 pushd event-formation-unit/build
 cmake ..
 #(or -DCMAKE_BUILD_TYPE=Release -DBUILDSTR=speedtest ..)
-make -j2
+make -j$NUMCPUS
 popd
 fi
 
@@ -61,5 +75,5 @@ if [[ $getdaquiri =~ ^(yes|y| ) ]]; then
 sudo apt install -y cmake qt5-default
 git clone https://github.com/ess-dmsc/daquiri.git
 pushd daquiri
-./utils/first_build.sh
+./utils/first_build.sh -j$NUMCPUS
 fi
