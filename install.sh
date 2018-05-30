@@ -64,9 +64,9 @@ if [[ $getfkafka =~ ^(yes|y| ) ]]; then
   rm -f ./$kafkafile.tar
 
   #patch the script for most recent java version
-  replace_with="JAVA_MAJOR_VERSION=\$(\$JAVA -version 2>&1 | sed -E -n 's/.* version \"([^.-]*).*\".*/\1/p')"
-  #awk_line='NR==4 {$0="$replace_with"} 1'
-  #awk 'NR==4 {$0="$replace_with"} 1' ./$kafkafile/bin/kafka-run-class.sh
+  mv ./$kafkafile/bin/kafka-run-class.sh ./$kafkafile/bin/old_kafka-run-class.sh
+  sed -e 's/\/\\1\/p/\.\*\/\\1\/p/' ./$kafkafile/bin/old_kafka-run-class.sh > ./$kafkafile/bin/kafka-run-class.sh
+  chmod +x ./$kafkafile/bin/kafka-run-class.sh
 fi
 
 read -r -p "Get and build EFU? [Y/n]" getefu
