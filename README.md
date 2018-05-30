@@ -1,4 +1,4 @@
-# ESS DAQ: Scripts and utilities for setup of the EFU-based data acquisition system
+# ESS DAQ: Simplified setup of the EFU-based data acquisition system
 
 ## What can it do?
 - install and configure `conan` to provide dependencies for ESS projects
