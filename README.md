@@ -1,5 +1,7 @@
 # ESS DAQ: Simplified setup of the EFU-based data acquisition system
 
+[![DOI](https://zenodo.org/badge/135150324.svg)](https://zenodo.org/badge/latestdoi/135150324)
+
 ## What can it do?
 - install and configure `conan` to provide dependencies for ESS projects
 - install docker and configure the `grafana` service for data stream statistics
