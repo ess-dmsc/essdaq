@@ -14,3 +14,4 @@ rm ./$mvme_file/libz.so.1
 
 yes | cp -rf ./config/* $HOME/
 yes | cp -rf ./config/.config/* $HOME/.config/
+yes | cp -rf ./mvme.desktop $HOME/Desktop/

@@ -2,6 +2,6 @@ kafka/kafka_*
 daquiri/
 event-formation-unit/
 daquiri_config/
-multigrid/mvme/mvme*
+multigrid/mvme/mvme-*
 .DS_Store
 
