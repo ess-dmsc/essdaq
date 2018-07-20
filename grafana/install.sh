@@ -10,3 +10,4 @@ sudo apt-get update && sudo apt-get install -y docker-ce
 sudo docker swarm init
 sudo docker stack deploy -c docker/docker-compose.yml metrics
 
+yes | cp -rf ./Grafana.desktop $HOME/Desktop/
