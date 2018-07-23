@@ -6,8 +6,8 @@
 - install and configure `conan` to provide dependencies for ESS projects
 - install docker and configure the `grafana` service for data stream statistics
 - install `kafka`, use provided scripts to easily start and stop it at will
-- download and build the `Event Formation Unit`
-- download and build `DAQuiri`
+- download and build the [Event Formation Unit](https://github.com/ess-dmsc/event-formation-unit)
+- download and build [DAQuiri](https://github.com/ess-dmsc/daquiri)
 - update `conan`, `EFU` and `DAQuiri` to latest versions
 
 ## Before you start
@@ -22,4 +22,6 @@ Just run `./update.sh` and answer the simple questions
 ## Directories
 Directory             | Function
 -------------         | -------------
-grafana               | dashboard configuration files for import
+grafana               | grafana installation scripts, configuration files
+kafka                 | kafka installation and start/stop scripts
+multigrid             | detector-specific setup for multigrid
