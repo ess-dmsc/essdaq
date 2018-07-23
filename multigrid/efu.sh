@@ -1,6 +1,6 @@
 #!/bin/bash
 
 pushd ../event-formation-unit/build
-./bin/efu -d modules/mgmesytec $@
+./bin/efu --read_config ~/essdaq/multigrid/config.ini $@
 
 

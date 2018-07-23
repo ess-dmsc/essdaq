@@ -1,7 +1,5 @@
 #!/bin/bash
 
-pushd ../daquiri/build
-source ./activate_run.sh
-./bin/daquiri -r
+../daquiri/utils/daquiri.sh -r
 
 
