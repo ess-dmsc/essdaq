@@ -12,9 +12,10 @@ tar xvf ./$mvme_file.tar
 rm -f ./$mvme_file.tar
 rm ./$mvme_file/libz.so.1
 
-sudo arp -s 10.0.0.5 00:00:56:15:30:2b
 #grep -q -F 'sudo arp -s 10.0.0.5 00:00:56:15:30:2b"' $HOME/.bashrc || echo 'sudo arp -s 10.0.0.5 00:00:56:15:30:2b' >> $HOME/.bashrc
 
-yes | cp -rf ./config/* $HOME/
-yes | cp -rf ./config/.config/* $HOME/.config/
+sudo ./arp.sh
+
 yes | cp -rf ./mvme.desktop $HOME/Desktop/
+
+./load_config.sh
