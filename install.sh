@@ -51,7 +51,7 @@ fi
 read -r -p "Get and build EFU? [Y/n]" getefu
 getefu=${getefu,,} # tolower
 if [[ $getefu =~ ^(yes|y| ) ]]; then
-  sudo apt install -y cmake libpcap-dev
+  sudo apt install -y cmake libpcap-dev ethtool
   #TODO: could be libpcap-devel on CentOS
   if [[ $usessh =~ ^(yes|y| ) ]]; then
     git clone git@github.com:ess-dmsc/event-formation-unit.git
