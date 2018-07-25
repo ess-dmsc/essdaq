@@ -23,7 +23,7 @@
                                 "enabled": true,
                                 "id": "{61fc75be-d06f-43b6-893b-c725dd2769de}",
                                 "name": "VME Interface Settings",
-                                "vme_script": "# Settings related to the readout loop\n# #####################################\n0x6010  1           # irq level\n0x6012  0           # irq vector\n\n# IRQ_source and thresholds\n#0x601C 1           # 1 -> specifies number of words\n#0x6018  100        # IRQ-FIFO threshold, words\n0x601C 0            # 0 -> the following register specifies the number of events\n0x601E 1            # IRQ-FIFO threshold, events\n\n# marking_type\n0x6038 0x1          # End Of Event marking\n                    # 0 -> event counter\n                    # 1 -> time stamp\n                    # 3 -> extended time stamp\n\n# multi event mode:\n0x6036  0x3         # 0x0 -> single event\n                    # 0x3 -> multi event, number of words\n                    # 0xb -> multievent, transmits number of events specified\n\n# max_transfer_data\n0x601A  1           # multi event mode == 0x3 -> Berr is emitted when more or equal the\n                    #   specified number of words have been sent and \"End Of Event\" is detected.\n                    # multi event mode == 0xb -> Berr is emitted when the specified number\n                    #   of events has been transmitted.\n\n# MCST - Multicast Setup\n# #####################################\n0x6020 0x80         # Enable multicast\n0x6024 0xBB         # Set 8 high bits of MCST address\n"
+                                "vme_script": "# Settings related to the readout loop\n# #####################################\n0x6010  1           # irq level\n0x6012  0           # irq vector\n\n# IRQ_source and thresholds\n#0x601C 1           # 1 -> specifies number of words\n#0x6018  100        # IRQ-FIFO threshold, words\n0x601C 0            # 0 -> the following register specifies the number of events\n0x601E 1            # IRQ-FIFO threshold, events\n\n# marking_type\n0x6038 0x3          # End Of Event marking\n                    # 0 -> event counter\n                    # 1 -> time stamp\n                    # 3 -> extended time stamp\n\n# multi event mode:\n0x6036  0x3         # 0x0 -> single event\n                    # 0x3 -> multi event, number of words\n                    # 0xb -> multievent, transmits number of events specified\n\n# max_transfer_data\n0x601A  1           # multi event mode == 0x3 -> Berr is emitted when more or equal the\n                    #   specified number of words have been sent and \"End Of Event\" is detected.\n                    # multi event mode == 0xb -> Berr is emitted when the specified number\n                    #   of events has been transmitted.\n\n# MCST - Multicast Setup\n# #####################################\n0x6020 0x80         # Enable multicast\n0x6024 0xBB         # Set 8 high bits of MCST address\n"
                             }
                         ],
                         "name": "vmmr",
@@ -87,7 +87,7 @@
                 "DebugRawBuffers": false,
                 "DisableBuffering": false,
                 "DisableWatchdog": false,
-                "JumboFrames": true,
+                "JumboFrames": false,
                 "UDP_Forwarding_Address": "10.0.0.32",
                 "UDP_Forwarding_Enable": true,
                 "UDP_Forwarding_Port": 9000,
