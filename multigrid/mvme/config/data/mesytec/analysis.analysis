@@ -1,0 +1,17 @@
+{
+    "AnalysisNG": {
+        "MVMEAnalysisVersion": 2,
+        "VMEObjectSettings": {
+        },
+        "connections": [
+        ],
+        "operators": [
+        ],
+        "properties": {
+            "ModuleProperties": [
+            ]
+        },
+        "sources": [
+        ]
+    }
+}
