@@ -1,7 +1,5 @@
 [Desktop Entry]  
 Version=1.0  
-Exec=/home/multigrid/essdaq/multigrid/mvme.sh
-Icon=/home/multigrid/essdaq/multigrid/mvme/mvme.ico
 Name=MVME Control
 GenericName=MVME Control
 Terminal=false

@@ -1,20 +1,12 @@
 #!/bin/bash
 
+THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+
 #ensure that we are in the script directory
-pushd $(dirname "${BASH_SOURCE[0]}")
+pushd $THISDIR
 
-# build with 1 less than total number of CPUS, minimum 1
-NUMCPUS=$(cat /proc/cpuinfo | grep -c processor)
-let NUMCPUS-=1
-if [ "$NUMCPUS" -lt "1" ]; then
-  NUMCPUS=1
-fi
-
-read -r -p "Before we proceed, it is rocommended that you update your system's packages. Shall we do this? [Y/n]" aptupdate
-aptupdate=${aptupdate,,} # tolower
-if [[ $aptupdate =~ ^(yes|y| ) ]]; then
-  sudo apt update
-fi
+#get config variables
+. ./config_variables.sh
 
 read -r -p "Update conan? [Y/n]" getconan
 getconan=${getconan,,} # tolower
@@ -27,13 +19,7 @@ fi
 read -r -p "Update EFU? [Y/n]" getefu
 getefu=${getefu,,} # tolower
 if [[ $getefu =~ ^(yes|y| ) ]]; then
-  pushd event-formation-unit/build
-  git pull
-  cmake ..
-  #(or -DCMAKE_BUILD_TYPE=Release -DBUILDSTR=speedtest ..)
-  make -j$NUMCPUS && make unit_tests -j$NUMCPUS
-  make runtest && make runefu
-  popd
+  ./efu/update.sh
 fi
 
 read -r -p "Update Daquiri? [Y/n]" getdaquiri

@@ -1,7 +1,12 @@
 kafka/kafka_*
+
+efu/event-formation-unit/
+efu/logfile
+
 daquiri/
-event-formation-unit/
 daquiri_config/
-multigrid/mvme/mvme-*
+
+detectors/multigrid/mvme/mvme-*
+
 .DS_Store
 

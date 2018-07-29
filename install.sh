@@ -1,25 +1,12 @@
 #!/bin/bash
 
+THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+
 #ensure that we are in the script directory
-pushd $(dirname "${BASH_SOURCE[0]}")
+pushd $THISDIR
 
-# build with 1 less than total number of CPUS, minimum 1
-NUMCPUS=$(cat /proc/cpuinfo | grep -c processor)
-let NUMCPUS-=1
-if [ "$NUMCPUS" -lt "1" ]; then
-  NUMCPUS=1
-fi
-
-read -r -p "Before we proceed, it is rocommended that you update your system's packages. Shall we do this? [Y/n]" aptupdate
-aptupdate=${aptupdate,,} # tolower
-if [[ $aptupdate =~ ^(yes|y| ) ]]; then
-  sudo apt update
-fi
-
-#TODO: should determine this automatically?
-read -r -p "Use ssh instead of http for cloning repos? [Y/n]" usessh
-usessh=${usessh,,} # tolower
-
+#get config variables
+. ./config_variables.sh
 
 read -r -p "Install and setup conan? [Y/n]" getconan
 getconan=${getconan,,} # tolower
@@ -51,20 +38,7 @@ fi
 read -r -p "Get and build EFU? [Y/n]" getefu
 getefu=${getefu,,} # tolower
 if [[ $getefu =~ ^(yes|y| ) ]]; then
-  sudo apt install -y cmake libpcap-dev ethtool
-  #TODO: could be libpcap-devel on CentOS
-  if [[ $usessh =~ ^(yes|y| ) ]]; then
-    git clone git@github.com:ess-dmsc/event-formation-unit.git
-  else
-    git clone https://github.com/ess-dmsc/event-formation-unit.git
-  fi
-  mkdir ./event-formation-unit/build
-  pushd event-formation-unit/build
-  cmake ..
-  #(or -DCMAKE_BUILD_TYPE=Release -DBUILDSTR=speedtest ..)
-  make -j$NUMCPUS && make unit_tests -j$NUMCPUS
-  make runtest && make runefu
-  popd
+  ./efu/install.sh
 fi
 
 read -r -p "Get and build Daquiri? [Y/n]" getdaquiri

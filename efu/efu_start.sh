@@ -6,7 +6,11 @@ THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 pushd $THISDIR
 
 #get config variables
-. ./config_variables.sh
+. ../config_variables.sh
 
-echo "EXIT" | nc $EFU_IP 8888
+pushd ./event-formation-unit/build
 
+./bin/efu --read_config $HOME/essdaq/detectors/$DETECTOR/config.ini $@ &> $THISDIR/logfile &
+
+popd
+popd

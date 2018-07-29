@@ -3,5 +3,3 @@ Encoding=UTF-8
 Name=Grafana
 Type=Link
 URL=http://localhost:3000
-Icon=/home/multigrid/essdaq/grafana/icon.png
-Comment=

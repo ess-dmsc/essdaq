@@ -1,9 +1,11 @@
 #!/bin/bash
 
-mvme_version="0.9.4.1"
+THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 #ensure that we are in the script directory
-pushd $(dirname "${BASH_SOURCE[0]}")
+pushd $THISDIR
+
+. ./version.sh
 
 mvme_file="mvme-$mvme_version-Linux-x64"
 curl -LO http://www.mesytec.com/downloads/mvme/$mvme_file.tar.bz2
@@ -17,5 +19,7 @@ rm ./$mvme_file/libz.so.1
 sudo ./arp.sh
 
 yes | cp -rf ./mvme.desktop $HOME/Desktop/
+echo "Exec=$THISDIR/mvme.sh" >> $HOME/Desktop/mvme.desktop
+echo "Icon=$THISDIR/mvme.ico" >> $HOME/Desktop/mvme.desktop
 
 ./load_config.sh

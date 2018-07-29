@@ -18,4 +18,5 @@ source**. In the *Add data source* screen, choose a name for the data source
 and select *Graphite* as the type. Set the URL to *http://graphite:80* and
 access to *proxy*. Click **Add** to finish.
 
-You can also load preconfigured dashboards propviede in the `dashboards` folder.
+You can also load preconfigured dashboards provided in the `dashboards` folder.
+

@@ -1,7 +1,9 @@
 #!/bin/bash
 
+THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+
 #ensure that we are in the script directory
-pushd $(dirname "${BASH_SOURCE[0]}")
+pushd $THISDIR
 
 sudo apt install -y curl
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -11,3 +13,5 @@ sudo docker swarm init
 sudo docker stack deploy -c docker/docker-compose.yml metrics
 
 yes | cp -rf ./Grafana.desktop $HOME/Desktop/
+echo "Icon=$THISDIR/icon.png" >> $HOME/Desktop/Grafana.desktop
+
