@@ -6,7 +6,9 @@ pushd $(dirname "${BASH_SOURCE[0]}")
 . version.sh
 
 kafkafile="kafka_2.11-$kafkaversion"
-sudo apt update && sudo apt install -y curl default-jre
+sudo apt update && sudo apt install -y curl default-jre python-pip
+sudo pip2 install kafka-python
+sudo pip2 install argparse
 curl -LO http://ftp.download-by.net/apache/kafka/$kafkaversion/$kafkafile.tgz
 #TODO: ensure download is successful
 gunzip ./$kafkafile.tgz
