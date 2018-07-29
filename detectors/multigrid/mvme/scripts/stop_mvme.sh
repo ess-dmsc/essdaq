@@ -1,3 +1,6 @@
 #!/bin/bash
 
-python mvmectrl.py -i 127.0.0.1 -p 13800 -c stopDaq
+#ensure that we are in the script directory
+pushd $(dirname "${BASH_SOURCE[0]}")
+
+python mvmectrl.py -p 13800 -c stopDaq -i $@
