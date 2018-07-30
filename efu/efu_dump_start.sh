@@ -1,5 +1,5 @@
 #!/bin/bash
 
-./efu.sh --dumptofile /data/efudump/$@
+./efu_start.sh --dumptofile $HOME/data/efu_dump/$@
 
 
