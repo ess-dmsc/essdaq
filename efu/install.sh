@@ -6,7 +6,10 @@ pushd $(dirname "${BASH_SOURCE[0]}")
 #get config variables
 . ../config_variables.sh
 
-sudo apt install -y cmake libpcap-dev ethtool glogg hdf5-tools
+sudo add-apt-repository ppa:wireshark-dev/stable
+sudo apt update
+
+sudo apt install -y cmake libpcap-dev ethtool glogg hdf5-tools wireshark
 #TODO: could be libpcap-devel on CentOS
 if [[ $usessh =~ ^(yes|y| ) ]]; then
   git clone git@github.com:ess-dmsc/event-formation-unit.git
