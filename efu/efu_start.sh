@@ -10,7 +10,7 @@ pushd $THISDIR
 
 pushd ./event-formation-unit/build
 
-./bin/efu --read_config $HOME/essdaq/detectors/$DETECTOR/config.ini $@ &>> $THISDIR/logfile &
+./bin/efu --read_config $HOME/essdaq/detectors/$DETECTOR/config.ini -b $KAFKA_IP -g $GRAFANA_IP $@ &>> $THISDIR/logfile &
 
 popd
 popd

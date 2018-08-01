@@ -1,3 +1,5 @@
+config_variables.sh
+
 kafka/kafka_*
 
 efu/event-formation-unit/
