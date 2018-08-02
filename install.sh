@@ -1,12 +1,7 @@
 #!/bin/bash
 
-THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
-
 #ensure that we are in the script directory
-pushd $THISDIR
-
-#get config variables
-. ./config_variables.sh
+pushd $(dirname "${BASH_SOURCE[0]}")
 
 read -r -p "Install and setup conan? [Y/n]" getconan
 getconan=${getconan,,} # tolower
@@ -40,6 +35,9 @@ getefu=${getefu,,} # tolower
 if [[ $getefu =~ ^(yes|y| ) ]]; then
   ./efu/install.sh
 fi
+
+. ./config/numcpus.sh
+. ./config/sshconfig.sh
 
 read -r -p "Get and build Daquiri? [Y/n]" getdaquiri
 getdaquiri=${getdaquiri,,} # tolower

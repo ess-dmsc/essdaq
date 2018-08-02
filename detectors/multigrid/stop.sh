@@ -4,7 +4,7 @@
 pushd $(dirname "${BASH_SOURCE[0]}")
 
 #get config variables
-. ../../config_variables.sh
+. ../config/system.sh
 
 mvme/scripts/stop_mvme.sh $MVME_IP
 sleep 3

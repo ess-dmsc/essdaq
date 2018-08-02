@@ -1,4 +1,4 @@
-config_variables.sh
+config/system.sh
 
 kafka/kafka_*
 

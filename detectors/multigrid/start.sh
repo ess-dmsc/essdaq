@@ -4,7 +4,7 @@
 pushd $(dirname "${BASH_SOURCE[0]}")
 
 #get config variables
-. ../../config_variables.sh
+. ../config/system.sh
 
 ../../efu/efu_dump_start.sh
 sleep 3

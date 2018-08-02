@@ -3,8 +3,8 @@
 #ensure that we are in the script directory
 pushd $(dirname "${BASH_SOURCE[0]}")
 
-#get config variables
-. ../config_variables.sh
+. ../config/numcpus.sh
+. ../config/sshconfig.sh
 
 sudo add-apt-repository ppa:wireshark-dev/stable
 sudo apt update

@@ -4,7 +4,7 @@
 pushd $(dirname "${BASH_SOURCE[0]}")
 
 #get config variables
-. ../config_variables.sh
+. ../config/system.sh
 
 echo "EXIT" | nc $EFU_IP 8888
 echo " "

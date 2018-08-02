@@ -6,7 +6,7 @@ THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 pushd $THISDIR
 
 #get config variables
-. ../config_variables.sh
+. ../config/system.sh
 
 pushd ./event-formation-unit/build
 

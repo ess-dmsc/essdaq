@@ -1,12 +1,7 @@
 #!/bin/bash
 
-THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
-
 #ensure that we are in the script directory
-pushd $THISDIR
-
-#get config variables
-. ./config_variables.sh
+pushd $(dirname "${BASH_SOURCE[0]}")
 
 read -r -p "Update conan? [Y/n]" getconan
 getconan=${getconan,,} # tolower
@@ -21,6 +16,8 @@ getefu=${getefu,,} # tolower
 if [[ $getefu =~ ^(yes|y| ) ]]; then
   ./efu/update.sh
 fi
+
+. ./config/numcpus.sh
 
 read -r -p "Update Daquiri? [Y/n]" getdaquiri
 getdaquiri=${getdaquiri,,} # tolower
