@@ -3,7 +3,7 @@ config/system.sh
 kafka/kafka_*
 
 efu/event-formation-unit/
-efu/logfile
+efu/logfile*
 
 daquiri/
 daquiri_config/
