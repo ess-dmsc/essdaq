@@ -1,7 +1,7 @@
 {
   "reduction_strategy" : "maximum",
 
-  "spoof_high_time" : true,
+  "spoof_high_time" : false,
 
   "geometry_mappings" :
   [

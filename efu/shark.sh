@@ -7,5 +7,5 @@ pushd $(dirname "${BASH_SOURCE[0]}")
 . ../config/system.sh
 
 pushd event-formation-unit/build
-./bin/udpgen_pcap -i $EFU_IP -t 100 -f $@
+./bin/udpgen_pcap -i $EFU_IP -t 5000 -f $@
 popd
