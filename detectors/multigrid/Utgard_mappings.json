@@ -1,5 +1,5 @@
 {
-  "reduction_strategy" : "maximum",
+  "reduction_strategy" : "prioritized",
 
   "spoof_high_time" : false,
 
@@ -16,10 +16,10 @@
           {"idx":26, "rescale":1.5},
           {"idx":28, "rescale":1.5},
           {"idx":29, "rescale":0.5},
-          {"idx":31, "rescale":5},
-          {"idx":32, "rescale":5},
-          {"idx":33, "rescale":5},
-          {"idx":34, "rescale":5}
+          {"idx":31, "rescale":1.5},
+          {"idx":32, "rescale":1.5},
+          {"idx":33, "rescale":1.5},
+          {"idx":34, "rescale":1.5}
         ]
       }
     },
