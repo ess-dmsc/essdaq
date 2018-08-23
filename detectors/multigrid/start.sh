@@ -8,6 +8,6 @@ pushd $THISDIR
 #get config variables
 . ../../config/system.sh
 
-../../efu/efu_start.sh --file $THISDIR/Utgard_mappings.json
+../../efu/efu_start.sh --file $THISDIR/Sequoia_mappings.json
 sleep 3
 mvme/scripts/start_mvme.sh $MVME_IP
