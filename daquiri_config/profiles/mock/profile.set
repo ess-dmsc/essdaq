@@ -1,0 +1,275 @@
+{
+ "branches": [
+  {
+   "id": "ProfileDescr",
+   "type": "text",
+   "value": "Mock producer"
+  },
+  {
+   "id": "DropPackets",
+   "type": "menu",
+   "value": 1
+  },
+  {
+   "id": "MaxPackets",
+   "type": "integer",
+   "value": 3
+  },
+  {
+   "branches": [
+    {
+     "id": "MockProducer/StreamID",
+     "type": "text",
+     "value": "xyze"
+    },
+    {
+     "id": "MockProducer/SpillInterval",
+     "type": "floating",
+     "value": 0.1
+    },
+    {
+     "id": "MockProducer/CountRate",
+     "type": "floating",
+     "value": 100000.0
+    },
+    {
+     "id": "MockProducer/DeadTime",
+     "type": "floating",
+     "value": 5.0
+    },
+    {
+     "id": "MockProducer/Lambda",
+     "type": "floating",
+     "value": 0.01
+    },
+    {
+     "id": "MockProducer/SpillLambda",
+     "type": "floating",
+     "value": 0.0
+    },
+    {
+     "id": "MockProducer/ValueCount",
+     "type": "integer",
+     "value": 4
+    },
+    {
+     "branches": [
+      {
+       "id": "TimeBase/multiplier",
+       "type": "integer",
+       "value": 1
+      },
+      {
+       "id": "TimeBase/divider",
+       "type": "integer",
+       "value": 1
+      }
+     ],
+     "id": "TimeBase",
+     "type": "stem"
+    },
+    {
+     "branches": [
+      {
+       "id": "Value/Name",
+       "indices": [
+        0
+       ],
+       "type": "text",
+       "value": "x"
+      },
+      {
+       "id": "Value/PeakCenter",
+       "indices": [
+        0
+       ],
+       "type": "floating",
+       "value": 10.0
+      },
+      {
+       "id": "Value/PeakSpread",
+       "indices": [
+        0
+       ],
+       "type": "floating",
+       "value": 1000.0
+      },
+      {
+       "id": "Value/TraceLength",
+       "indices": [
+        0
+       ],
+       "type": "integer",
+       "value": 100
+      },
+      {
+       "id": "Value/Resolution",
+       "indices": [
+        0
+       ],
+       "type": "integer",
+       "value": 16
+      }
+     ],
+     "id": "Value",
+     "indices": [
+      0
+     ],
+     "type": "stem"
+    },
+    {
+     "branches": [
+      {
+       "id": "Value/Name",
+       "indices": [
+        1
+       ],
+       "type": "text",
+       "value": "y"
+      },
+      {
+       "id": "Value/PeakCenter",
+       "indices": [
+        1
+       ],
+       "type": "floating",
+       "value": 40.0
+      },
+      {
+       "id": "Value/PeakSpread",
+       "indices": [
+        1
+       ],
+       "type": "floating",
+       "value": 3000.0
+      },
+      {
+       "id": "Value/TraceLength",
+       "indices": [
+        1
+       ],
+       "type": "integer",
+       "value": 100
+      },
+      {
+       "id": "Value/Resolution",
+       "indices": [
+        1
+       ],
+       "type": "integer",
+       "value": 16
+      }
+     ],
+     "id": "Value",
+     "indices": [
+      1
+     ],
+     "type": "stem"
+    },
+    {
+     "branches": [
+      {
+       "id": "Value/Name",
+       "indices": [
+        2
+       ],
+       "type": "text",
+       "value": "z"
+      },
+      {
+       "id": "Value/PeakCenter",
+       "indices": [
+        2
+       ],
+       "type": "floating",
+       "value": 10.0
+      },
+      {
+       "id": "Value/PeakSpread",
+       "indices": [
+        2
+       ],
+       "type": "floating",
+       "value": 3000.0
+      },
+      {
+       "id": "Value/TraceLength",
+       "indices": [
+        2
+       ],
+       "type": "integer",
+       "value": 100
+      },
+      {
+       "id": "Value/Resolution",
+       "indices": [
+        2
+       ],
+       "type": "integer",
+       "value": 16
+      }
+     ],
+     "id": "Value",
+     "indices": [
+      2
+     ],
+     "type": "stem"
+    },
+    {
+     "branches": [
+      {
+       "id": "Value/Name",
+       "indices": [
+        3
+       ],
+       "type": "text",
+       "value": "energy"
+      },
+      {
+       "id": "Value/PeakCenter",
+       "indices": [
+        3
+       ],
+       "type": "floating",
+       "value": 60.0
+      },
+      {
+       "id": "Value/PeakSpread",
+       "indices": [
+        3
+       ],
+       "type": "floating",
+       "value": 3000.0
+      },
+      {
+       "id": "Value/TraceLength",
+       "indices": [
+        3
+       ],
+       "type": "integer",
+       "value": 100
+      },
+      {
+       "id": "Value/Resolution",
+       "indices": [
+        3
+       ],
+       "type": "integer",
+       "value": 16
+      }
+     ],
+     "id": "Value",
+     "indices": [
+      3
+     ],
+     "type": "stem"
+    }
+   ],
+   "id": "MockProducer",
+   "reference": "producer1",
+   "type": "stem"
+  }
+ ],
+ "id": "Engine",
+ "type": "stem"
+}

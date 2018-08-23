@@ -1,12 +1,12 @@
 config/system.sh
 
 kafka/kafka_*
+kafka/logs/
 
 efu/event-formation-unit/
 efu/logfile*
 
 daquiri/
-daquiri_config/
 
 detectors/multigrid/mvme/mvme-*
 
