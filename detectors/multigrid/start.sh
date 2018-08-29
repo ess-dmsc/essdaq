@@ -8,6 +8,7 @@ pushd $THISDIR
 #get config variables
 . ../../config/system.sh
 
+echo "START_NEW" | nc $DAQUIRI_IP 12345 -w 1
 ../../efu/efu_start.sh --file $THISDIR/Sequoia_mappings.json
-sleep 3
+sleep 1
 mvme/scripts/start_mvme.sh $MVME_IP
