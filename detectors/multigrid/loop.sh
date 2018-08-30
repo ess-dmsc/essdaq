@@ -11,14 +11,15 @@ pushd $THISDIR
 PATH=$PATH:/home/mg/epics/base-3.16.1/bin/linux-x86_64
 export EPICS_CA_ADDR_LIST=128.219.165.154:5066 
 
-while true; do 
+run_status=$(caget -t BL17:CS:RunControl:State 2>&1)
 
-  run_status=$(caget -t BL17:CS:RunControl:State 2>&1)
+while true; do 
+  echo " "
 
   while [  $run_status -lt 8 ]; do
     run_status=$(caget -t BL17:CS:RunControl:State 2>&1)
     pcharge=$(caget -t BL17:Det:PCharge:C 2>&1)
-    echo "idle"
+    echo -ne "\e[0K\r $(date +%FT%T) IDLE"
     sleep 1
   done
 
@@ -26,6 +27,7 @@ while true; do
   energy=$(caget -t BL17:CS:Energy:Ei 2>&1)
   TCDelay=$(caget -t BL17:Det:TH:DlyDet:TCDelay 2>&1)
 
+  echo " "
   echo "Starting run"
   echo "RunNumber=$RunNumber Energy=$energy TCDelay=$TCDelay"
   prepend="${RunNumber}_${energy}meV_${TCDelay}us_"
@@ -36,13 +38,17 @@ while true; do
   play ./sounds/cow1.wav -q
   mvme/scripts/start_mvme.sh $MVME_IP
 
+  sleep 5
+  echo " "
+
   while [  $run_status -gt 7 ]; do
     run_status=$(caget -t BL17:CS:RunControl:State 2>&1)
     pcharge=$(caget -t BL17:Det:PCharge:C 2>&1)
-    echo "running pcharge=$pcharge"
+    echo -ne "\e[0K\r $(date +%FT%T) RUNNING pcharge=$pcharge"
     sleep 1
   done
 
+  echo " "
   echo "Stopping run"
 
   mvme/scripts/stop_mvme.sh $MVME_IP
