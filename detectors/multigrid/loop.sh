@@ -33,7 +33,7 @@ while true; do
 
   echo "START_NEW" | nc $DAQUIRI_IP 12345 -w 1
   ../../efu/efu_start.sh --file $THISDIR/Sequoia_mappings.json --dumptofile $HOME/data/efu_dump/$prepend
-  sleep 1
+  play ./sounds/cow1.wav -q
   mvme/scripts/start_mvme.sh $MVME_IP
 
   while [  $run_status -gt 7 ]; do
@@ -46,6 +46,7 @@ while true; do
   echo "Stopping run"
 
   mvme/scripts/stop_mvme.sh $MVME_IP
+  play ./sounds/cat_growl.wav -q
   sleep 3
   ../../efu/efu_stop.sh
   sleep 3
