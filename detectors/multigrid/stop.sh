@@ -7,7 +7,7 @@ pushd $(dirname "${BASH_SOURCE[0]}")
 . ../../config/system.sh
 
 mvme/scripts/stop_mvme.sh $MVME_IP
-sleep 5
+sleep 3
 ../../efu/efu_stop.sh
-sleep 10
+sleep 3
 echo "STOP" | nc $DAQUIRI_IP 12345 -w 2
