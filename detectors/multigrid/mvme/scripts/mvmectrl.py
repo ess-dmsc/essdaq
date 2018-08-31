@@ -3,6 +3,7 @@ import socket
 import argparse
 import time
 import sys
+import json
 
 svr_ip_addr = "127.0.0.1" # change with -i option
 svr_tcp_port = 50010      # change with -p option
@@ -35,6 +36,18 @@ class MvmeCtrl():
       self.send('{ "id": "1", "jsonrpc": "2.0", "method": "stopDAQ" }')
       rx = self.recv()
 
+   def getState(self):
+      self.send('{ "id": "1", "jsonrpc": "2.0", "method": "getDAQState" }')
+      rx = self.recv()
+      rxj = json.loads(rx)
+      return rxj['result']
+
+   def getVersion(self):
+      self.send('{ "id": "1", "jsonrpc": "2.0", "method": "getVersion" }')
+      rx = self.recv()
+      rxj = json.loads(rx)
+      return rxj['result']
+
 if __name__ == '__main__':
    parser = argparse.ArgumentParser()
    parser.add_argument("-i", metavar='ipaddr', help = "server ip address (default %s)" % (svr_ip_addr), type = str)
@@ -53,11 +66,13 @@ if __name__ == '__main__':
       ctrl = MvmeCtrl(svr_ip_addr, svr_tcp_port, args.v)
 
       if args.c == "startDaq":
-         print("Starting Readout")
          ctrl.startDaq()
       elif args.c == "stopDaq":
-         print("Stopping Readout")
          ctrl.stopDaq()
+      elif args.c == "getState":
+         print("%s" % (ctrl.getState()))
+      elif args.c == "getVersion":
+         print("%s" % (ctrl.getVersion()))
       else:
          print("Invalid command: %s" % (args.c))
    else:
