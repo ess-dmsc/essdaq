@@ -11,15 +11,14 @@ pushd $THISDIR
 PATH=$PATH:/home/mg/epics/base-3.16.1/bin/linux-x86_64
 export EPICS_CA_ADDR_LIST=128.219.165.154:5066 
 
-run_status=$(caget -t BL17:CS:RunControl:State 2>&1)
-
 while true; do 
+  run_status=$(caget -t BL17:CS:RunControl:State 2>&1)
   echo " "
 
   while [  $run_status -lt 8 ]; do
     run_status=$(caget -t BL17:CS:RunControl:State 2>&1)
     pcharge=$(caget -t BL17:Det:PCharge:C 2>&1)
-    echo -ne "\e[0K\r $(date +%FT%T) IDLE"
+    echo -ne "\e[0K\r $(date +%FT%T) IDLE run_status=$run_status"
     sleep 1
   done
 
@@ -44,7 +43,7 @@ while true; do
   while [  $run_status -gt 7 ]; do
     run_status=$(caget -t BL17:CS:RunControl:State 2>&1)
     pcharge=$(caget -t BL17:Det:PCharge:C 2>&1)
-    echo -ne "\e[0K\r $(date +%FT%T) RUNNING pcharge=$pcharge"
+    echo -ne "\e[0K\r $(date +%FT%T) RUNNING pcharge=$pcharge run_status=$run_status"
     sleep 1
   done
 
