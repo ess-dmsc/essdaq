@@ -38,6 +38,7 @@ while true; do
   mvme/scripts/start_mvme.sh $MVME_IP
 
   sleep 5
+  run_status=$(caget -t BL17:CS:RunControl:State 2>&1)
   echo " "
 
   while [  $run_status -gt 7 ]; do
