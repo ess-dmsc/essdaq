@@ -14,7 +14,7 @@ EPICS_IDLE=2
 EPICS_RUNNING=8
 
 start_essdaq() {
-  echo " "
+  echo ""
   echo "Starting ESSDAQ"
 
   RunNumber=$(caget -t BL17:CS:RunControl:LastRunNumber 2>&1)
@@ -30,22 +30,23 @@ start_essdaq() {
   mvme/scripts/start_mvme.sh $MVME_IP
 
   sleep 5
-  echo " "
+  echo ""
 }
 
 stop_essdaq() {
-  echo " "
+  echo ""
   echo "Stopping ESSDAQ"
   mvme/scripts/stop_mvme.sh $MVME_IP
   play ./sounds/cat_growl.wav -q
-  sleep 3
   ../../efu/efu_stop.sh
   sleep 3
   echo "STOP" | nc $DAQUIRI_IP 12345 -w 2
-  echo " "
+  echo ""
 }
 
-echo " "
+echo ""
+
+mvme_crashed=false
 
 while true; do 
   epics_run_status=$(caget -t BL17:CS:RunControl:State 2>&1)
@@ -53,34 +54,78 @@ while true; do
   (../../efu/event-formation-unit/utils/efushell/isefurunning.py -i $EFU_IP &> /dev/null)
   efu_status=$?
   efu_status_str="idle"
+  bus_glitches=0
   if [[ "$efu_status" -ne 1 ]]; then
     efu_status_str="running"
+    bus_glitches=$(../../efu/event-formation-unit/utils/efushell/getstat.py bus_glitches -i $EFU_IP)
   fi
   mvme_status=$(mvme/scripts/state.sh $MVME_IP 2>&1 | tail -n 1)
 
   if [[ "$epics_run_status" -eq $EPICS_IDLE ]]; then
-    echo -ne "\e[0K\r $(date +%F\ %T) IDLE efu_status=$efu_status_str mvme_state=$mvme_status epics_run_status=$epics_run_status"
+    echo -ne "\e[0K\r $(date +%F\ %T) IDLE efu_status=$efu_status_str mvme_state=$mvme_status bus_glitches=$bus_glitches epics_run_status=$epics_run_status"
   elif [[ "$epics_run_status" -eq $EPICS_RUNNING ]]; then
-    echo -ne "\e[0K\r $(date +%F\ %T) RUNNING efu_status=$efu_status_str mvme_state=$mvme_status epics_run_status=$epics_run_status pcharge=$pcharge"
+    echo -ne "\e[0K\r $(date +%F\ %T) RUNNING efu_status=$efu_status_str mvme_state=$mvme_status bus_glitches=$bus_glitches epics_run_status=$epics_run_status pcharge=$pcharge"
   else
-    echo " "
+    echo ""
     echo "$(date +%FT%T) ***WARNING*** UNDEFINED epics_run_status=$epics_run_status"
-    echo " "
+    echo ""
   fi
 
   if [[ "$mvme_status" != "Idle" && "$mvme_status" != "Running" && "$mvme_status" != "Paused" && "$mvme_status" != "Starting" && "$mvme_status" != "Stopping" ]]; then
-    echo " "
+    if [ "$mvme_crashed" = false ] ; then
+      mvme_crashed=true
+      echo ""
+      echo "bad mvme status = $mvme_status; restarting"
+      echo ""
+
+      echo "Please restart MVME on marked machine" | mail -s "BL17: ESS DAQ failure" instrument_hall_coordinators@ornl.gov
+      echo "MVME crashed" | mail -s "ESS DAQ status" martin.shetty@esss.se
+      echo "MVME crashed" | mail -s "ESS DAQ status" anton.khaplanov@esss.se
+
+      stop_essdaq
+    else
+      play ./sounds/cat_growl.wav -q      
+    fi
+    continue
+  fi
+
+  if [ "$mvme_crashed" = true ] ; then
+    echo ""
     echo "bad mvme status = $mvme_status; restarting"
-    #stop_essdaq
-    caput -t BL17:CS:Scan:Alarm 1
+    echo ""
+
+    echo "MVME recovered" | mail -s "ESS DAQ status" martin.shetty@esss.se
+    echo "MVME recovered" | mail -s "ESS DAQ status" anton.khaplanov@esss.se
+  fi
+
+  mvme_crashed=false
+  
+  if [[ "$epics_run_status" -eq $EPICS_RUNNING && "$bus_glitches" -ge 500 ]]; then
+    echo " "
+    echo "bus glitch detected bad_buffers = $bus_glitches; restarting"
+    stop_essdaq
   elif [[ "$epics_run_status" -eq $EPICS_RUNNING && "$efu_status_str" == "idle" && "$mvme_status" == "Idle" ]]; then
     start_essdaq
-  elif [[ "$epics_run_status" -eq $EPICS_RUNNING && ( "$efu_status_str" != "running" || "$mvme_status" != "Running" ) ]]; then
+  elif [[ "$epics_run_status" -eq $EPICS_RUNNING && "$efu_status_str" == "idle" ]]; then
+    echo ""
+    echo "ESS daq state does not reflect SNS state; restarting"
+    mvme/scripts/stop_mvme.sh $MVME_IP
+    echo "STOP" | nc $DAQUIRI_IP 12345 -w 2
+    play ./sounds/cat_growl.wav -q
+  elif [[ "$epics_run_status" -eq $EPICS_RUNNING && "$mvme_status" != "Running" ]]; then
     echo " "
     echo "ESS daq state does not reflect SNS state; restarting"
-    stop_essdaq
+    ../../efu/efu_stop.sh
+    play ./sounds/cat_growl.wav -q
+    sleep 3
+    echo "STOP" | nc $DAQUIRI_IP 12345 -w 2
   elif [[ "$epics_run_status" -eq $EPICS_IDLE && ( "$efu_status_str" != "idle" || "$mvme_status" != "Idle" ) ]]; then
     stop_essdaq
   fi
 
+  # Check for 'q' keypress *waiting very briefly*  and exit the loop, if found.
+  read -t 0.01 -rN 1 && [[ $REPLY == 'q' ]] && break
+
 done
+
+echo ""
