@@ -36,19 +36,8 @@ if [[ $getefu =~ ^(yes|y| ) ]]; then
   ./efu/install.sh
 fi
 
-. ./config/numcpus.sh
-. ./config/sshconfig.sh
-
 read -r -p "Get and build Daquiri? [Y/n]" getdaquiri
 getdaquiri=${getdaquiri,,} # tolower
 if [[ $getdaquiri =~ ^(yes|y| ) ]]; then
-  sudo apt install -y cmake qt5-default
-  if [[ $usessh =~ ^(yes|y| ) ]]; then
-    git clone git@github.com:ess-dmsc/daquiri.git
-  else
-    git clone https://github.com/ess-dmsc/daquiri.git
-  fi
-  pushd daquiri
-  ./utils/first_build.sh -j$NUMCPUS
-  popd
+  ./daquiri/install.sh
 fi

@@ -17,12 +17,8 @@ if [[ $getefu =~ ^(yes|y| ) ]]; then
   ./efu/update.sh
 fi
 
-. ./config/numcpus.sh
-
 read -r -p "Update Daquiri? [Y/n]" getdaquiri
 getdaquiri=${getdaquiri,,} # tolower
 if [[ $getdaquiri =~ ^(yes|y| ) ]]; then
-  pushd daquiri
-  ./utils/update_build.sh -j$NUMCPUS
-  popd
+  ./daquiri/update.sh
 fi

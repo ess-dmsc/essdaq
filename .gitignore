@@ -6,7 +6,7 @@ kafka/logs/
 efu/event-formation-unit/
 efu/logfile*
 
-daquiri/
+daquiri/daquiri/
 
 detectors/multigrid/mvme/mvme-*
 

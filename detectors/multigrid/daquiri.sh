@@ -1,5 +1,5 @@
 #!/bin/bash
 
-../../daquiri/utils/daquiri.sh -r
+../../daquiri/daquiri/utils/daquiri.sh -r
 
 
