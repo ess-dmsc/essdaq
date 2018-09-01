@@ -57,14 +57,13 @@ while true; do
   bus_glitches=0
   if [[ "$efu_status" -ne 1 ]]; then
     efu_status_str="running"
-    bus_glitches=$(../../efu/event-formation-unit/utils/efushell/getstat.py bus_glitches -i $EFU_IP)
   fi
   mvme_status=$(mvme/scripts/state.sh $MVME_IP 2>&1 | tail -n 1)
 
   if [[ "$epics_run_status" -eq $EPICS_IDLE ]]; then
-    echo -ne "\e[0K\r $(date +%F\ %T) IDLE efu_status=$efu_status_str mvme_state=$mvme_status bus_glitches=$bus_glitches epics_run_status=$epics_run_status"
+    echo -ne "\e[0K\r $(date +%F\ %T) IDLE efu_status=$efu_status_str mvme_state=$mvme_status epics_run_status=$epics_run_status"
   elif [[ "$epics_run_status" -eq $EPICS_RUNNING ]]; then
-    echo -ne "\e[0K\r $(date +%F\ %T) RUNNING efu_status=$efu_status_str mvme_state=$mvme_status bus_glitches=$bus_glitches epics_run_status=$epics_run_status pcharge=$pcharge"
+    echo -ne "\e[0K\r $(date +%F\ %T) RUNNING efu_status=$efu_status_str mvme_state=$mvme_status epics_run_status=$epics_run_status pcharge=$pcharge"
   else
     echo ""
     echo "$(date +%FT%T) ***WARNING*** UNDEFINED epics_run_status=$epics_run_status"
@@ -90,15 +89,15 @@ while true; do
   fi
 
   if [ "$mvme_crashed" = true ] ; then
-    echo ""
-    echo "bad mvme status = $mvme_status; restarting"
-    echo ""
-
     echo "MVME recovered" | mail -s "ESS DAQ status" martin.shetty@esss.se
     echo "MVME recovered" | mail -s "ESS DAQ status" anton.khaplanov@esss.se
   fi
 
   mvme_crashed=false
+
+  if [[ "$efu_status" -ne 1 ]]; then
+    bus_glitches=$(../../efu/event-formation-unit/utils/efushell/getstat.py bus_glitches -i $EFU_IP)
+  fi
   
   if [[ "$epics_run_status" -eq $EPICS_RUNNING && "$bus_glitches" -ge 500 ]]; then
     echo " "
