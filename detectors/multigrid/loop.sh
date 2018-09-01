@@ -109,6 +109,13 @@ while true; do
     echo ""
     echo "ESS daq state does not reflect SNS state; restarting"
     mvme/scripts/stop_mvme.sh $MVME_IP
+    efupid=$(pgrep efu)
+    if [ -n "$efupid" ]; then
+      echo "efu is actually still running"
+      kill $efupid
+    else
+      echo "efu is definitely not running"
+    fi
     echo "STOP" | nc $DAQUIRI_IP 12345 -w 2
     play ./sounds/cat_growl.wav -q
   elif [[ "$epics_run_status" -eq $EPICS_RUNNING && "$mvme_status" != "Running" ]]; then
