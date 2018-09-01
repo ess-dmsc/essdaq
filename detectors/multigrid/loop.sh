@@ -124,7 +124,7 @@ while true; do
   fi
 
   # Check for 'q' keypress *waiting very briefly*  and exit the loop, if found.
-  read -t 0.01 -rN 1 && [[ $REPLY == 'q' ]] && break
+  read -t 0.5 -rN 1 && [[ $REPLY == 'q' ]] && break
 
 done
 
