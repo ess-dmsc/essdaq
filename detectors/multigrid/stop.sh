@@ -11,3 +11,5 @@ sleep 3
 ../../efu/efu_stop.sh
 sleep 3
 echo "STOP" | nc $DAQUIRI_IP 12345 -w 2
+echo "SAVE" | nc $DAQUIRI_IP 12345 -w 2
+

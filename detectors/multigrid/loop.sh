@@ -24,7 +24,7 @@ start_essdaq() {
   echo "RunNumber=$RunNumber Energy=$energy TCDelay=$TCDelay"
   prepend="${RunNumber}_${energy}meV_${TCDelay}us_"
 
-  echo "START_NEW" | nc $DAQUIRI_IP 12345 -w 1
+  echo "START_NEW $prepend$(date +%F\ %T)" | nc $DAQUIRI_IP 12345 -w 1
   ../../efu/efu_start.sh --file $THISDIR/Sequoia_mappings.json --dumptofile $HOME/data/efu_dump/$prepend
   play ./sounds/cow1.wav -q
   mvme/scripts/start_mvme.sh $MVME_IP
@@ -41,6 +41,9 @@ stop_essdaq() {
   ../../efu/efu_stop.sh
   sleep 3
   echo "STOP" | nc $DAQUIRI_IP 12345 -w 2
+  echo "SAVE" | nc $DAQUIRI_IP 12345 -w 2
+  sleep 3
+  echo "CLOSE_OLDER 90" | nc $DAQUIRI_IP 12345 -w 2
   echo ""
 }
 
