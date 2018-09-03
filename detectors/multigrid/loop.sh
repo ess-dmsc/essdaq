@@ -39,7 +39,7 @@ start_essdaq() {
 
   echo -e "${BBlue}RunNumber=$RunNumber Energy=$energy TCDelay=$TCDelay${NC}\n"
   prepend="${RunNumber}_${energy}meV_${TCDelay}us_"
-  daquiri_name="${RunNumber}_${energy}meV"
+  daquiri_name="${RunNumber}_${energy}meV_$(date +%FT%H-%M-%S)"
 
   echo "START_NEW $daquiri_name" | nc $DAQUIRI_IP 12345 -w 1
   ../../efu/efu_start.sh --file $THISDIR/Sequoia_mappings.json --dumptofile $HOME/data/efu_dump/$prepend &> /dev/null
