@@ -8,14 +8,4 @@ pushd $THISDIR
 #get config variables
 . ../../config/colors.sh
 
-  echo -e "\n\n"
-  echo -e "${BIWhite}========================================${NC}"
-  echo -e "${BIWhite}============${BGreen}Starting ESSDAQ${BIWhite}=============${NC}"
-  echo -e "${BIWhite}========================================${NC}"
-  echo -e ""
-
-  echo -e "\n\n"
-  echo -e "${BIWhite}========================================${NC}"
-  echo -e "${BIWhite}============${BRed}Stopping ESSDAQ${BIWhite}=============${NC}"
-  echo -e "${BIWhite}========================================${NC}"
-  echo -e ""
+echo -e "$(date +%FT%T) $(date +%FT%H-%M-%S)"

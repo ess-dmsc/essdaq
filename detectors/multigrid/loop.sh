@@ -31,20 +31,20 @@ stop_daquiri() {
 start_essdaq() {
   echo -e "\n\n${BIWhite}========================================${NC}"
   echo -e "${BIWhite}============${BGreen}Starting ESSDAQ${BIWhite}=============${NC}"
-  echo -e "${BIWhite}========================================${NC}\n\n"
+  echo -e "${BIWhite}========================================${NC}"
 
   RunNumber=$(caget -t BL17:CS:RunControl:LastRunNumber 2>&1)
   energy=$(caget -t BL17:CS:Energy:Ei 2>&1)
   TCDelay=$(caget -t BL17:Det:TH:DlyDet:TCDelay 2>&1)
 
-  echo -e "${BBlue}RunNumber=$RunNumber Energy=$energy TCDelay=$TCDelay${NC}"
+  echo -e "${BBlue}RunNumber=$RunNumber Energy=$energy TCDelay=$TCDelay${NC}\n"
   prepend="${RunNumber}_${energy}meV_${TCDelay}us_"
-  daquiri_name="${RunNumber}_${energy}meV_${TCDelay}us_$(date +%FT%T)"
+  daquiri_name="${RunNumber}_${energy}meV"
 
   echo "START_NEW $daquiri_name" | nc $DAQUIRI_IP 12345 -w 1
-  ../../efu/efu_start.sh --file $THISDIR/Sequoia_mappings.json --dumptofile $HOME/data/efu_dump/$prepend
+  ../../efu/efu_start.sh --file $THISDIR/Sequoia_mappings.json --dumptofile $HOME/data/efu_dump/$prepend &> /dev/null
   sound_start
-  mvme/scripts/start_mvme.sh $MVME_IP
+  mvme/scripts/start_mvme.sh $MVME_IP &> /dev/null
 
   sleep 5
   echo ""
@@ -53,11 +53,11 @@ start_essdaq() {
 stop_essdaq() {
   echo -e "\n\n${BIWhite}========================================${NC}"
   echo -e "${BIWhite}============${BRed}Stopping ESSDAQ${BIWhite}=============${NC}"
-  echo -e "${BIWhite}========================================${NC}\n\n"
+  echo -e "${BIWhite}========================================${NC}"
 
-  mvme/scripts/stop_mvme.sh $MVME_IP
+  mvme/scripts/stop_mvme.sh $MVME_IP &> /dev/null
   sound_stop
-  ../../efu/efu_stop.sh
+  ../../efu/efu_stop.sh &> /dev/null
   sleep 3
   stop_daquiri
   echo ""
@@ -70,8 +70,8 @@ mvme_crashed=false
 while true; do 
   epics_run_status=$(caget -t BL17:CS:RunControl:State 2>&1)
   pcharge=$(caget -t BL17:Det:PCharge:C 2>&1)
-  (../../efu/event-formation-unit/utils/efushell/isefurunning.py -i $EFU_IP &> /dev/null)
 
+  (../../efu/event-formation-unit/utils/efushell/isefurunning.py -i $EFU_IP &> /dev/null)
   efu_status=$?
   efu_status_str="Idle"
   bus_glitches=0
@@ -92,7 +92,7 @@ while true; do
   fi
 
   if [[ "$epics_run_status" -eq $EPICS_IDLE ]]; then
-    echo -ne "\e[0K\r$(date +%F\ %T) SNS:${Red}Idle${NC} EFU:$efu_col MVME:$mvme_col"
+    echo -ne "\e[0K\r$(date +%F\ %T) SNS:${Red}Idle${NC} EFU:$efu_col MVME:$mvme_col                      "
   elif [[ "$epics_run_status" -eq $EPICS_RUNNING ]]; then
     echo -ne "\e[0K\r$(date +%F\ %T) SNS:${Green}Running${NC} EFU:$efu_col MVME:$mvme_col pcharge=$pcharge"
   else
@@ -102,11 +102,10 @@ while true; do
   if [[ "$mvme_status" != "Idle" && "$mvme_status" != "Running" && "$mvme_status" != "Paused" && "$mvme_status" != "Starting" && "$mvme_status" != "Stopping" ]]; then
     if [ "$mvme_crashed" = false ] ; then
       mvme_crashed=true
-      echo -e "\n${BRed}MVME crash detected${NC}; status = $mvme_status; restarting\n"
+      echo -e "\n***${BRed}MVME crash detected${NC}; status = $mvme_status; restarting\n"
 
       echo "Please restart MVME on marked machine" | mail -s "BL17: ESS DAQ failure" instrument_hall_coordinators@ornl.gov
-      echo "MVME crashed" | mail -s "ESS DAQ status" martin.shetty@esss.se
-      echo "MVME crashed" | mail -s "ESS DAQ status" anton.khaplanov@esss.se
+      echo "MVME crashed" | mail -s "ESS DAQ status" martin.shetty@esss.se anton.khaplanov@esss.se
 
       stop_essdaq
     else
@@ -116,8 +115,7 @@ while true; do
   fi
 
   if [ "$mvme_crashed" = true ] ; then
-    echo "MVME recovered" | mail -s "ESS DAQ status" martin.shetty@esss.se
-    echo "MVME recovered" | mail -s "ESS DAQ status" anton.khaplanov@esss.se
+    echo "MVME recovered" | mail -s "ESS DAQ status" martin.shetty@esss.se anton.khaplanov@esss.se
   fi
 
   mvme_crashed=false
@@ -127,12 +125,12 @@ while true; do
   fi
   
   if [[ "$epics_run_status" -eq $EPICS_RUNNING && "$bus_glitches" -ge 500 ]]; then
-    echo -e "\n${BRed}Bus glitch detected${NC}"
+    echo -ne "\n\n***${BRed}Bus glitch detected${NC}"
     stop_essdaq
   elif [[ "$epics_run_status" -eq $EPICS_RUNNING && "$efu_status_str" == "Idle" && "$mvme_status" == "Idle" ]]; then
     start_essdaq
   elif [[ "$epics_run_status" -eq $EPICS_RUNNING && "$efu_status_str" == "Idle" ]]; then
-    echo -e "\n${BRed}ESS daq state does not reflect SNS state${NC}"
+    echo -e "\n***${BRed}ESS daq state does not reflect SNS state${NC}"
     mvme/scripts/stop_mvme.sh $MVME_IP
     efupid=$(pgrep efu)
     if [ -n "$efupid" ]; then
@@ -142,7 +140,7 @@ while true; do
     sound_stop
     stop_daquiri
   elif [[ "$epics_run_status" -eq $EPICS_RUNNING && "$mvme_status" != "Running" ]]; then
-    echo -e "\n${BRed}ESS daq state does not reflect SNS state${NC}"
+    echo -e "\n***${BRed}ESS daq state does not reflect SNS state${NC}"
     ../../efu/efu_stop.sh
     sound_stop
     stop_daquiri
