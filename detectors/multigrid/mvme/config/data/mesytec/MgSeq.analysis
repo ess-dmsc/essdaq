@@ -138,20 +138,6 @@
                 "srcIndex": 0
             },
             {
-                "dstId": "{abacdac8-4386-4e43-b686-07782c3f97f1}",
-                "dstIndex": 0,
-                "dstParamIndex": -1,
-                "srcId": "{b19513fb-7c8a-4205-b081-2a8a29165af0}",
-                "srcIndex": 0
-            },
-            {
-                "dstId": "{b6a1c514-2d80-4117-bad6-7ecacf1aa03c}",
-                "dstIndex": 0,
-                "dstParamIndex": -1,
-                "srcId": "{5dd1a491-d4e7-4b25-9a4e-02440856a609}",
-                "srcIndex": 0
-            },
-            {
                 "dstId": "{e2f4ac00-fa8f-447f-bc97-77cd7c1141fd}",
                 "dstIndex": 0,
                 "dstParamIndex": 0,
@@ -163,20 +149,6 @@
                 "dstIndex": 1,
                 "dstParamIndex": 0,
                 "srcId": "{c529db09-4782-4e01-ba8d-8d00fb9c81f5}",
-                "srcIndex": 4
-            },
-            {
-                "dstId": "{bcac5dba-6f14-4f0c-aab3-121f468ccf5d}",
-                "dstIndex": 0,
-                "dstParamIndex": 0,
-                "srcId": "{cbf5873a-b6fb-4dee-aa5b-5385baa10b1d}",
-                "srcIndex": 3
-            },
-            {
-                "dstId": "{bcac5dba-6f14-4f0c-aab3-121f468ccf5d}",
-                "dstIndex": 1,
-                "dstParamIndex": 0,
-                "srcId": "{cbf5873a-b6fb-4dee-aa5b-5385baa10b1d}",
                 "srcIndex": 4
             },
             {
@@ -206,26 +178,38 @@
                 "dstParamIndex": 0,
                 "srcId": "{6a0878a7-4828-4387-af5f-a69d2469d257}",
                 "srcIndex": 4
+            },
+            {
+                "dstId": "{bcac5dba-6f14-4f0c-aab3-121f468ccf5d}",
+                "dstIndex": 0,
+                "dstParamIndex": 0,
+                "srcId": "{cbf5873a-b6fb-4dee-aa5b-5385baa10b1d}",
+                "srcIndex": 3
+            },
+            {
+                "dstId": "{bcac5dba-6f14-4f0c-aab3-121f468ccf5d}",
+                "dstIndex": 1,
+                "dstParamIndex": 0,
+                "srcId": "{cbf5873a-b6fb-4dee-aa5b-5385baa10b1d}",
+                "srcIndex": 4
+            },
+            {
+                "dstId": "{abacdac8-4386-4e43-b686-07782c3f97f1}",
+                "dstIndex": 0,
+                "dstParamIndex": -1,
+                "srcId": "{b19513fb-7c8a-4205-b081-2a8a29165af0}",
+                "srcIndex": 0
+            },
+            {
+                "dstId": "{b6a1c514-2d80-4117-bad6-7ecacf1aa03c}",
+                "dstIndex": 0,
+                "dstParamIndex": -1,
+                "srcId": "{5dd1a491-d4e7-4b25-9a4e-02440856a609}",
+                "srcIndex": 0
             }
         ],
         "operators": [
             {
-                "class": "analysis::CalibrationMinMax",
-                "data": {
-                    "calibrations": [
-                        {
-                            "unitMax": 67108864,
-                            "unitMin": 0
-                        }
-                    ],
-                    "unitLabel": "us"
-                },
-                "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
-                "id": "{b19513fb-7c8a-4205-b081-2a8a29165af0}",
-                "name": "event_time_stamp",
-                "userLevel": 1
-            },
-            {
                 "class": "analysis::Histo1DSink",
                 "data": {
                     "nBins": 4096,
@@ -235,36 +219,24 @@
                 },
                 "enabled": true,
                 "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
-                "id": "{b98ff4ff-7e80-42b6-8f5a-f542ab05e215}",
-                "name": "amplitude_bus0_raw",
+                "id": "{1250d315-fe2a-4d80-860a-6251fdaaf9c2}",
+                "name": "amplitude_bus3_raw",
                 "userLevel": 0
             },
             {
-                "class": "analysis::Histo1DSink",
+                "class": "analysis::RateMonitorSink",
                 "data": {
-                    "nBins": 64,
-                    "xAxisTitle": "",
-                    "xLimitMax": 64,
-                    "xLimitMin": 0
+                    "calibrationFactor": 1,
+                    "calibrationOffset": 0,
+                    "capacity": 86400,
+                    "samplingInterval": 1,
+                    "type": "FlowRate",
+                    "unitLabel": ""
                 },
                 "enabled": true,
                 "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
-                "id": "{036399fc-214d-49dc-9b55-df6b4514036a}",
-                "name": "Event Length_raw",
-                "userLevel": 0
-            },
-            {
-                "class": "analysis::Histo1DSink",
-                "data": {
-                    "nBins": 65536,
-                    "xAxisTitle": "bus_time",
-                    "xLimitMax": null,
-                    "xLimitMin": null
-                },
-                "enabled": true,
-                "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
-                "id": "{08fee643-58f7-4489-b1df-60a8a0ca18ac}",
-                "name": "vmmr.bus_time_raw",
+                "id": "{ed0d8c5b-f1a9-46da-98a8-ab13e5353149}",
+                "name": "vmmr.bus_time.flowRate",
                 "userLevel": 0
             },
             {
@@ -277,8 +249,22 @@
                 },
                 "enabled": true,
                 "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
-                "id": "{2ea26606-bf1d-4dd0-be9d-c639e79e8e05}",
-                "name": "amplitude_bus6_raw",
+                "id": "{5e3dfa2d-8eda-4e70-8798-328eaadf1ca5}",
+                "name": "amplitude_bus1_raw",
+                "userLevel": 0
+            },
+            {
+                "class": "analysis::Histo1DSink",
+                "data": {
+                    "nBins": 4096,
+                    "xAxisTitle": "",
+                    "xLimitMax": null,
+                    "xLimitMin": null
+                },
+                "enabled": true,
+                "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
+                "id": "{9a0facad-30b4-4c01-ae69-4557999a7c07}",
+                "name": "amplitude_bus8_raw",
                 "userLevel": 0
             },
             {
@@ -305,8 +291,153 @@
                 },
                 "enabled": true,
                 "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
-                "id": "{1250d315-fe2a-4d80-860a-6251fdaaf9c2}",
-                "name": "amplitude_bus3_raw",
+                "id": "{b98ff4ff-7e80-42b6-8f5a-f542ab05e215}",
+                "name": "amplitude_bus0_raw",
+                "userLevel": 0
+            },
+            {
+                "class": "analysis::ExpressionOperator",
+                "data": {
+                    "exprBegin": "# Use the \"Help\" button above the code editor for information about scripting\n# syntax, functions and capabilities.\n\n# Output Definition Script\n# ==============================================================================\n# The purpose of this script is to define the number and properties of the\n# output arrays the expression operator should have. This Output Defintion\n# Script is only executed once at analysis startup time! Its output is used to\n# fully construct the expression operators outputs.\n#\n# The operators inputs need to be connected and properly named before this\n# script will work.\n#\n# The script has to return a sequence of tuples with the following form and\n# data types:\n#\n#  out_name, out_unit, out_size, out_lower_limit, out_upper_limit\n#  String,   String,   Scalar,   Scalar/Array,    Scalar/Array\n#\n# One of these tuples defines one output array. out_name has to be a valid\n# exprtk identifier. This is the variable name for the output in the \"Step\n# Expression\" script. out_unit may be an empty string (use '' in that case) and\n# out_size must be a positive integer value.\n# The limits can either be specified using two scalars, which will set the same\n# limit for each of the output parameters, or two arrays - each having out_size\n# elements - can be used if individual limits for each parameter are needed.\n#\n# The script has access to all currently defined and connected inputs. For each\n# input if the input is connected to an array the following variables are\n# defined:\n#\n#   input_name.unit, input_name.size, input_name.lower_limits, input_name.upper_limits\n#\n# If the input is connected to a single parameter the variables are:\n#\n#   input_name.unit, input_name.lower_limit, input_name.upper_limit\n#\n# The example code below creates one output named 'output0' having the same\n# properties as the input array 'input0' (\"pass through\").\n#\n# return [\n#     'output0', input0.unit, input0.size, input0.lower_limits, input0.upper_limits\n# ];\n#\n# Multiple outputs with the second output using double values instead of arrays\n# for the limit specification\n#\n# return [\n#     'output0', input0.unit, input0.size, input0.lower_limits, input0.upper_limits,\n#     'output1', 'MeV',       8,           0.0,                 100.0\n# ];\n\n# Syntax example:\n# var x := 42;\n# var y := 3*x - 23;\n# var a0[5] := { 0, 1, 2, 3, 4 };\n# var a1[10];\n# var a0_len := a0[]; // array length\n#\n# for (var i := 0; i < a1[]; i += 1) {\n#     if (i = 0) { // '==' works too for comparison\n#         a1[i] := is_valid(y) ? y^2 : 3.14;\n#     } else {\n#         a1[i] := i;\n#     }\n# }\n\n\nreturn [\n    'Anodes', input0.unit, 80, input0.lower_limits[0], input0.upper_limits[0],\n\t\t'Cathodes', input0.unit, 40, input0.lower_limits[0], input0.upper_limits[0],\n\t  'Anode_Position_Z', '',4,0,20,\n\t\t'Anode_Position_X', '',1,0,4,\n\t\t'Cathode_Position_Y', '',1,0,40\n\n];",
+                    "exprStep": "# Use the \"Help\" button above the code editor for information about scripting\n# syntax, functions and capabilities.\n\n# Step Expression\n# ==============================================================================\n# This script is the main part of the expression operator. It is executed each\n# time data is available to consume.\n#\n# The script has access to all defined input and output arrays. For data access\n# the plain variable name is used, e.g. 'input1' or 'output0'. Other properties\n# are accessible in the same way as in the \"Output Definition Script\":\n#\n#   var_name.unit, var_name.size, var_name.lower_limits, var_name.upper_limits\n#\n# Basic \"passthrough\" example\n# ------------------------------------------------------------------------------\n# The line below simply copies input0 to output0 (assignment of arrays performs\n# the copy internally).\n#\n#   output0 := input0;\n#\n# Doing the same manually using a loop:\n#\n#   for (var i := 0; i < input0.size; i += 1)\n#   {\n#       output0[i] := input0[i];\n#   }\n\n# Syntax example:\n# var x := 42;\n# var y := 3*x - 23;\n# var a0[5] := { 0, 1, 2, 3, 4 };\n# var a1[10];\n# var a0_len := a0[]; // array length\n#\n# for (var i := 0; i < a1[]; i += 1) {\n#     if (i = 0) { // '==' works too for comparison\n#         a1[i] := is_valid(y) ? y^2 : 3.14;\n#     } else {\n#         a1[i] := i;\n#     }\n# }\n\nvar sum1[4];\nvar mom1[4];\n\nvar k;\n\nsum1 := 0;\nmom1 := 0;\n\nfor (var i := 0; i < 80; i += 1)\n   {\n       Anodes[i] := input0[i];\n   }\n\nfor (var i := 80; i < 120; i += 1)\n   {\n       Cathodes[i-80] := input0[i];\n   }\n\n# Anode position Z\nk:=0;\n\nfor (var j := 0; j < 80; j += 20)\n{\n\t\n\tfor (var i := 0; i < 20; i += 1)\n   {\n      if(is_valid(Anodes[j+i])){\n\t\t\tsum1[k] := sum1[k] +  Anodes[j+i];\n\t\t\tmom1[k] := mom1[k] + Anodes[j+i] * i;\n\t\t\t}\n   }\n\tk += 1;\n}\n\nfor( var i := 0; i < 3; i += 1)\n{\n\tif(sum1[i] == 0) \n\t\tAnode_Position_Z[i] := make_invalid();\n\telse Anode_Position_Z[i] := mom1/sum1;\n}\n# Anode position X\nvar xsum;\nvar xmom;\nfor (k := 0; k < 4; k += 1)\n{\n    if(is_valid(sum1[k]))\n\t\t{\n\t\t\txsum := xsum + sum1[k];\n\t\t\txmom := xmom + sum1[k] * k;\n\t\t}\n}\n\nif(xsum == 0)\n\t\t Anode_Position_X := make_invalid();\nelse Anode_Position_X := xmom/xsum;\n\n# Cathode_position_Y\nsum1 := 0;\nmom1 := 0;\nfor (var i := 0; i < 40; i += 1)\n   {\n      if(is_valid(Cathodes[i])) {\n\t\t\tsum1 := sum1 +  Cathodes[i];\n\t\t\tmom1 := mom1 + Cathodes[i] * i;\n\t\t\t}\n   }\nif(sum1 == 0) \n\tCathode_Position_Y := make_invalid();\nelse \n\tCathode_Position_Y := mom1/sum1;",
+                    "inputPrefixes": [
+                        "input0"
+                    ],
+                    "lastOutputCount": 5
+                },
+                "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
+                "id": "{c529db09-4782-4e01-ba8d-8d00fb9c81f5}",
+                "name": "expr1",
+                "userLevel": 1
+            },
+            {
+                "class": "analysis::ExpressionOperator",
+                "data": {
+                    "exprBegin": "# Use the \"Help\" button above the code editor for information about scripting\n# syntax, functions and capabilities.\n\n# Output Definition script\n# ==============================================================================\n# The purpose of this script is to define the number and properties of the\n# output arrays the expression operator should have.\n#\n# Note: this Output Defintion Script is only executed once at analysis startup\n# time! Its output is used to fully construct the expression operator.\n#\n# The operators inputs need to be connected and properly named before this\n# script will work.\n#\n# This script has to return a sequence of tuples with the following form and\n# data types:\n#\n#  out_name, out_unit, out_size, out_lower_limit, out_upper_limit\n#  String,   String,   Scalar,   Scalar/Array,    Scalar/Array\n#\n# One of these tuples defines one output array. out_name has to be a valid\n# exprtk identifier. This is the variable name for this output in the \"Step\n# Expression\" script. out_unit may be an empty string (use '' in that case) and\n# out_size must be a positive integer value.\n# The limits can either be specified using two scalars, which will set the same\n# limit for each of the output parameters, or two arrays, each having out_size\n# elements, can be used if individual limits for each parameter are needed.\n#\n# The script has access to all currently defined and connected inputs. For each\n# input if the input is connected to an array the following variables are\n# defined:\n#\n#   input_name.unit, input_name.size, input_name.lower_limits, input_name.upper_limits\n#\n# If the input is connected to a single parameter the variables are:\n#\n#   input_name.unit, input_name.lower_limit, input_name.upper_limit\n#\n# The example code below creates one output named 'output0' having the same\n# properties as the input array 'input0' (\"pass through\").\n#\n# return [\n#     'output0', input0.unit, input0.size, input0.lower_limits, input0.upper_limits\n# ];\n#\n# Multiple outputs:\n#\n# return [\n#     'output0', input0.unit, input0.size, input0.lower_limits, input0.upper_limits,\n#     'output1', 'MeV',       8,           0.0,                 100.0\n# ];\n\n\nreturn [\n    'Anodes', input0.unit, 80, input0.lower_limits[0], input0.upper_limits[0],\n\t\t'Cathodes', input0.unit, 40, input0.lower_limits[0], input0.upper_limits[0],\n\t  'Anode_Position_Z', '',4,0,20,\n\t\t'Anode_Position_X', '',1,0,4,\n\t\t'Cathode_Position_Y', '',1,0,40\n\n];\n",
+                    "exprStep": "# Use the \"Help\" button above the code editor for information about scripting\n# syntax, functions and capabilities.\n\n# Step Expression\n# ==============================================================================\n# This script is the main part of the expression operator. It is executed each\n# time data is available to consume.\n#\n# The script has access to all defined input and output arrays. For data access\n# the plain variable name is used, e.g. 'input1' or 'output0'. Other properties\n# are accessible in the same way as in the \"Output Definition Script\":\n#\n#   var_name.unit, var_name.size, var_name.lower_limits, var_name.upper_limits\n#\n# Parameter values and validity\n# ------------------------------------------------------------------------------\n# As described in the mvme manual Analysis Parameter Arrays can carry invalid\n# values. An invalid value is not uncommon and will be generated by the\n# analysis data extractors if no match is found for a certain array index. This\n# happens if for example not all channels of an ADC module respond.\n#\n# Inside the analysis system invalid values are encoded as (quiet) NaNs with a\n# special payload bit set to distinguish them from NaNs generated by arithmetic\n# operations or through other means.\n#\n# A consequence of this is that the following code to sum up the values of an\n# array will yield a NaN in case any of the array members are invalid:\n#\n#   var sum:=0;\n#   for (var i:=0; i<my_array[]; i+=1) { sum += my_array[i]; }\n#\n# To detect and generate invalid parameters the following functions have been\n# defined for use inside scripts:\n#\n# is_valid(), is_invalid(), is_nan() and make_invalid()\n#\n# The first three test a single scalar value. make_invalid() is used to\n# explicitly create an invalid parameter.\n# A corrected version of the above loop:\n#\n#   var sum:=0;\n#   for (var i:=0; i<my_array[]; i+=1) {\n#      sum += is_valid(my_array[i]) ? my_array[i] : 0.0;\n#   }\n#\n#\n# Basic \"passthrough\" examples\n# ------------------------------------------------------------------------------\n# The line below simply copies input0 to output0 (assignment of arrays performs\n# the copy internally).\n#\n#   output0 := input0;\n#\n# Doing the same manually using a loop:\n#\n#   for (var i := 0; i < input0.size; i += 1)\n#   {\n#       output0[i] := input0[i];\n#   }\nvar sum1[4];\nvar mom1[4];\n\nvar k;\n\nsum1 := 0;\nmom1 := 0;\n\nfor (var i := 0; i < 80; i += 1)\n   {\n       Anodes[i] := input0[i];\n   }\n\nfor (var i := 80; i < 120; i += 1)\n   {\n       Cathodes[i-80] := input0[i];\n   }\n\n# Anode position Z\nk:=0;\n\nfor (var j := 0; j < 80; j += 20)\n{\n\t\n\tfor (var i := 0; i < 20; i += 1)\n   {\n      if(is_valid(Anodes[j+i])){\n\t\t\tsum1[k] := sum1[k] +  Anodes[j+i];\n\t\t\tmom1[k] := mom1[k] + Anodes[j+i] * i;\n\t\t\t}\n   }\n\tk += 1;\n}\n\nfor( var i := 0; i < 3; i += 1)\n{\n\tif(sum1[i] == 0) \n\t\tAnode_Position_Z[i] := make_invalid();\n\telse Anode_Position_Z[i] := mom1/sum1;\n}\n# Anode position X\nvar xsum;\nvar xmom;\nfor (k := 0; k < 4; k += 1)\n{\n    if(is_valid(sum1[k]))\n\t\t{\n\t\t\txsum := xsum + sum1[k];\n\t\t\txmom := xmom + sum1[k] * k;\n\t\t}\n}\n\nif(xsum == 0)\n\t\t Anode_Position_X := make_invalid();\nelse Anode_Position_X := xmom/xsum;\n\n# Cathode_position_Y\nsum1 := 0;\nmom1 := 0;\nfor (var i := 0; i < 40; i += 1)\n   {\n      if(is_valid(Cathodes[i])) {\n\t\t\tsum1 := sum1 +  Cathodes[i];\n\t\t\tmom1 := mom1 + Cathodes[i] * i;\n\t\t\t}\n   }\nif(sum1 == 0) \n\tCathode_Position_Y := make_invalid();\nelse \n\tCathode_Position_Y := mom1/sum1;",
+                    "inputPrefixes": [
+                        "input0"
+                    ],
+                    "lastOutputCount": 5
+                },
+                "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
+                "id": "{6a0878a7-4828-4387-af5f-a69d2469d257}",
+                "name": "expr0",
+                "userLevel": 1
+            },
+            {
+                "class": "analysis::ExpressionOperator",
+                "data": {
+                    "exprBegin": "# Use the \"Help\" button above the code editor for information about scripting\n# syntax, functions and capabilities.\n\n# Output Definition Script\n# ==============================================================================\n# The purpose of this script is to define the number and properties of the\n# output arrays the expression operator should have. This Output Defintion\n# Script is only executed once at analysis startup time! Its output is used to\n# fully construct the expression operators outputs.\n#\n# The operators inputs need to be connected and properly named before this\n# script will work.\n#\n# The script has to return a sequence of tuples with the following form and\n# data types:\n#\n#  out_name, out_unit, out_size, out_lower_limit, out_upper_limit\n#  String,   String,   Scalar,   Scalar/Array,    Scalar/Array\n#\n# One of these tuples defines one output array. out_name has to be a valid\n# exprtk identifier. This is the variable name for the output in the \"Step\n# Expression\" script. out_unit may be an empty string (use '' in that case) and\n# out_size must be a positive integer value.\n# The limits can either be specified using two scalars, which will set the same\n# limit for each of the output parameters, or two arrays - each having out_size\n# elements - can be used if individual limits for each parameter are needed.\n#\n# The script has access to all currently defined and connected inputs. For each\n# input if the input is connected to an array the following variables are\n# defined:\n#\n#   input_name.unit, input_name.size, input_name.lower_limits, input_name.upper_limits\n#\n# If the input is connected to a single parameter the variables are:\n#\n#   input_name.unit, input_name.lower_limit, input_name.upper_limit\n#\n# The example code below creates one output named 'output0' having the same\n# properties as the input array 'input0' (\"pass through\").\n#\n# return [\n#     'output0', input0.unit, input0.size, input0.lower_limits, input0.upper_limits\n# ];\n#\n# Multiple outputs with the second output using double values instead of arrays\n# for the limit specification\n#\n# return [\n#     'output0', input0.unit, input0.size, input0.lower_limits, input0.upper_limits,\n#     'output1', 'MeV',       8,           0.0,                 100.0\n# ];\nreturn [\n    'Anodes', input0.unit, 80, input0.lower_limits[0], input0.upper_limits[0],\n\t\t'Cathodes', input0.unit, 40, input0.lower_limits[0], input0.upper_limits[0],\n\t  'Anode_Position_Z', '',4,0,20,\n\t\t'Anode_Position_X', '',1,0,4,\n\t\t'Cathode_Position_Y', '',1,0,40\n\n];\n",
+                    "exprStep": "# Use the \"Help\" button above the code editor for information about scripting\n# syntax, functions and capabilities.\n\n# Step Expression\n# ==============================================================================\n# This script is the main part of the expression operator. It is executed each\n# time data is available to consume.\n#\n# The script has access to all defined input and output arrays. For data access\n# the plain variable name is used, e.g. 'input1' or 'output0'. Other properties\n# are accessible in the same way as in the \"Output Definition Script\":\n#\n#   var_name.unit, var_name.size, var_name.lower_limits, var_name.upper_limits\n#\n# Basic \"passthrough\" example\n# ------------------------------------------------------------------------------\n# The line below simply copies input0 to output0 (assignment of arrays performs\n# the copy internally).\n#\n#   output0 := input0;\n#\n# Doing the same manually using a loop:\n#\n#   for (var i := 0; i < input0.size; i += 1)\n#   {\n#       output0[i] := input0[i];\n#   }\n\n\n# Syntax example:\n# var x := 42;\n# var y := 3*x - 23;\n# var a0[5] := { 0, 1, 2, 3, 4 };\n# var a1[10];\n# var a0_len := a0[]; // array length\n#\n# for (var i := 0; i < a1[]; i += 1) {\n#     if (i = 0) { // '==' works too for comparison\n#         a1[i] := is_valid(y) ? y^2 : 3.14;\n#     } else {\n#         a1[i] := i;\n#     }\n# }\nvar sum1[4];\nvar mom1[4];\n\nvar k;\n\nsum1 := 0;\nmom1 := 0;\n\nfor (var i := 0; i < 80; i += 1)\n   {\n       Anodes[i] := input0[i];\n   }\n\nfor (var i := 80; i < 120; i += 1)\n   {\n       Cathodes[i-80] := input0[i];\n   }\n\n# Anode position Z\nk:=0;\n\nfor (var j := 0; j < 80; j += 20)\n{\n\t\n\tfor (var i := 0; i < 20; i += 1)\n   {\n      if(is_valid(Anodes[j+i])){\n\t\t\tsum1[k] := sum1[k] +  Anodes[j+i];\n\t\t\tmom1[k] := mom1[k] + Anodes[j+i] * i;\n\t\t\t}\n   }\n\tk += 1;\n}\n\nfor( var i := 0; i < 3; i += 1)\n{\n\tif(sum1[i] == 0) \n\t\tAnode_Position_Z[i] := make_invalid();\n\telse Anode_Position_Z[i] := mom1/sum1;\n}\n# Anode position X\nvar xsum;\nvar xmom;\nfor (k := 0; k < 4; k += 1)\n{\n    if(is_valid(sum1[k]))\n\t\t{\n\t\t\txsum := xsum + sum1[k];\n\t\t\txmom := xmom + sum1[k] * k;\n\t\t}\n}\n\nif(xsum == 0)\n\t\t Anode_Position_X := make_invalid();\nelse Anode_Position_X := xmom/xsum;\n\n# Cathode_position_Y\nsum1 := 0;\nmom1 := 0;\nfor (var i := 0; i < 40; i += 1)\n   {\n      if(is_valid(Cathodes[i])) {\n\t\t\tsum1 := sum1 +  Cathodes[i];\n\t\t\tmom1 := mom1 + Cathodes[i] * i;\n\t\t\t}\n   }\nif(sum1 == 0) \n\tCathode_Position_Y := make_invalid();\nelse \n\tCathode_Position_Y := mom1/sum1;",
+                    "inputPrefixes": [
+                        "input0"
+                    ],
+                    "lastOutputCount": 5
+                },
+                "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
+                "id": "{cbf5873a-b6fb-4dee-aa5b-5385baa10b1d}",
+                "name": "expr2",
+                "userLevel": 1
+            },
+            {
+                "class": "analysis::Histo1DSink",
+                "data": {
+                    "nBins": 1024,
+                    "xAxisTitle": "amplitude",
+                    "xLimitMax": null,
+                    "xLimitMin": null
+                },
+                "enabled": true,
+                "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
+                "id": "{982221b8-dc94-4c2d-b464-d330b70c57d0}",
+                "name": "all_amplitudes",
+                "userLevel": 0
+            },
+            {
+                "class": "analysis::Histo1DSink",
+                "data": {
+                    "nBins": 65536,
+                    "xAxisTitle": "bus_time",
+                    "xLimitMax": null,
+                    "xLimitMin": null
+                },
+                "enabled": true,
+                "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
+                "id": "{08fee643-58f7-4489-b1df-60a8a0ca18ac}",
+                "name": "vmmr.bus_time_raw",
+                "userLevel": 0
+            },
+            {
+                "class": "analysis::Histo1DSink",
+                "data": {
+                    "nBins": 64,
+                    "xAxisTitle": "",
+                    "xLimitMax": 64,
+                    "xLimitMin": 0
+                },
+                "enabled": true,
+                "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
+                "id": "{036399fc-214d-49dc-9b55-df6b4514036a}",
+                "name": "Event Length_raw",
+                "userLevel": 0
+            },
+            {
+                "class": "analysis::CalibrationMinMax",
+                "data": {
+                    "calibrations": [
+                        {
+                            "unitMax": 67108864,
+                            "unitMin": 0
+                        }
+                    ],
+                    "unitLabel": "us"
+                },
+                "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
+                "id": "{b19513fb-7c8a-4205-b081-2a8a29165af0}",
+                "name": "event_time_stamp",
+                "userLevel": 1
+            },
+            {
+                "class": "analysis::Histo1DSink",
+                "data": {
+                    "nBins": 4096,
+                    "xAxisTitle": "",
+                    "xLimitMax": null,
+                    "xLimitMin": null
+                },
+                "enabled": true,
+                "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
+                "id": "{2ea26606-bf1d-4dd0-be9d-c639e79e8e05}",
+                "name": "amplitude_bus6_raw",
+                "userLevel": 0
+            },
+            {
+                "class": "analysis::Histo1DSink",
+                "data": {
+                    "nBins": 2048,
+                    "xAxisTitle": "event_time_stamp",
+                    "xLimitMax": null,
+                    "xLimitMin": null
+                },
+                "enabled": true,
+                "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
+                "id": "{75fb8689-c834-46fe-9dbe-dc09a9925b9c}",
+                "name": "event_time_stamp",
+                "userLevel": 0
+            },
+            {
+                "class": "analysis::Histo1DSink",
+                "data": {
+                    "nBins": 4096,
+                    "xAxisTitle": "",
+                    "xLimitMax": null,
+                    "xLimitMin": null
+                },
+                "enabled": true,
+                "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
+                "id": "{73cbfa32-ab43-4a65-97bd-d89045544363}",
+                "name": "amplitude_bus2_raw",
                 "userLevel": 0
             },
             {
@@ -386,78 +517,6 @@
                 "userLevel": 1
             },
             {
-                "class": "analysis::ExpressionOperator",
-                "data": {
-                    "exprBegin": "# Use the \"Help\" button above the code editor for information about scripting\n# syntax, functions and capabilities.\n\n# Output Definition Script\n# ==============================================================================\n# The purpose of this script is to define the number and properties of the\n# output arrays the expression operator should have. This Output Defintion\n# Script is only executed once at analysis startup time! Its output is used to\n# fully construct the expression operators outputs.\n#\n# The operators inputs need to be connected and properly named before this\n# script will work.\n#\n# The script has to return a sequence of tuples with the following form and\n# data types:\n#\n#  out_name, out_unit, out_size, out_lower_limit, out_upper_limit\n#  String,   String,   Scalar,   Scalar/Array,    Scalar/Array\n#\n# One of these tuples defines one output array. out_name has to be a valid\n# exprtk identifier. This is the variable name for the output in the \"Step\n# Expression\" script. out_unit may be an empty string (use '' in that case) and\n# out_size must be a positive integer value.\n# The limits can either be specified using two scalars, which will set the same\n# limit for each of the output parameters, or two arrays - each having out_size\n# elements - can be used if individual limits for each parameter are needed.\n#\n# The script has access to all currently defined and connected inputs. For each\n# input if the input is connected to an array the following variables are\n# defined:\n#\n#   input_name.unit, input_name.size, input_name.lower_limits, input_name.upper_limits\n#\n# If the input is connected to a single parameter the variables are:\n#\n#   input_name.unit, input_name.lower_limit, input_name.upper_limit\n#\n# The example code below creates one output named 'output0' having the same\n# properties as the input array 'input0' (\"pass through\").\n#\n# return [\n#     'output0', input0.unit, input0.size, input0.lower_limits, input0.upper_limits\n# ];\n#\n# Multiple outputs with the second output using double values instead of arrays\n# for the limit specification\n#\n# return [\n#     'output0', input0.unit, input0.size, input0.lower_limits, input0.upper_limits,\n#     'output1', 'MeV',       8,           0.0,                 100.0\n# ];\n\n# Syntax example:\n# var x := 42;\n# var y := 3*x - 23;\n# var a0[5] := { 0, 1, 2, 3, 4 };\n# var a1[10];\n# var a0_len := a0[]; // array length\n#\n# for (var i := 0; i < a1[]; i += 1) {\n#     if (i = 0) { // '==' works too for comparison\n#         a1[i] := is_valid(y) ? y^2 : 3.14;\n#     } else {\n#         a1[i] := i;\n#     }\n# }\n\n\nreturn [\n    'Anodes', input0.unit, 80, input0.lower_limits[0], input0.upper_limits[0],\n\t\t'Cathodes', input0.unit, 40, input0.lower_limits[0], input0.upper_limits[0],\n\t  'Anode_Position_Z', '',4,0,20,\n\t\t'Anode_Position_X', '',1,0,4,\n\t\t'Cathode_Position_Y', '',1,0,40\n\n];",
-                    "exprStep": "# Use the \"Help\" button above the code editor for information about scripting\n# syntax, functions and capabilities.\n\n# Step Expression\n# ==============================================================================\n# This script is the main part of the expression operator. It is executed each\n# time data is available to consume.\n#\n# The script has access to all defined input and output arrays. For data access\n# the plain variable name is used, e.g. 'input1' or 'output0'. Other properties\n# are accessible in the same way as in the \"Output Definition Script\":\n#\n#   var_name.unit, var_name.size, var_name.lower_limits, var_name.upper_limits\n#\n# Basic \"passthrough\" example\n# ------------------------------------------------------------------------------\n# The line below simply copies input0 to output0 (assignment of arrays performs\n# the copy internally).\n#\n#   output0 := input0;\n#\n# Doing the same manually using a loop:\n#\n#   for (var i := 0; i < input0.size; i += 1)\n#   {\n#       output0[i] := input0[i];\n#   }\n\n# Syntax example:\n# var x := 42;\n# var y := 3*x - 23;\n# var a0[5] := { 0, 1, 2, 3, 4 };\n# var a1[10];\n# var a0_len := a0[]; // array length\n#\n# for (var i := 0; i < a1[]; i += 1) {\n#     if (i = 0) { // '==' works too for comparison\n#         a1[i] := is_valid(y) ? y^2 : 3.14;\n#     } else {\n#         a1[i] := i;\n#     }\n# }\n\nvar sum1[4];\nvar mom1[4];\n\nvar k;\n\nsum1 := 0;\nmom1 := 0;\n\nfor (var i := 0; i < 80; i += 1)\n   {\n       Anodes[i] := input0[i];\n   }\n\nfor (var i := 80; i < 120; i += 1)\n   {\n       Cathodes[i-80] := input0[i];\n   }\n\n# Anode position Z\nk:=0;\n\nfor (var j := 0; j < 80; j += 20)\n{\n\t\n\tfor (var i := 0; i < 20; i += 1)\n   {\n      if(is_valid(Anodes[j+i])){\n\t\t\tsum1[k] := sum1[k] +  Anodes[j+i];\n\t\t\tmom1[k] := mom1[k] + Anodes[j+i] * i;\n\t\t\t}\n   }\n\tk += 1;\n}\n\nfor( var i := 0; i < 3; i += 1)\n{\n\tif(sum1[i] == 0) \n\t\tAnode_Position_Z[i] := make_invalid();\n\telse Anode_Position_Z[i] := mom1/sum1;\n}\n# Anode position X\nvar xsum;\nvar xmom;\nfor (k := 0; k < 4; k += 1)\n{\n    if(is_valid(sum1[k]))\n\t\t{\n\t\t\txsum := xsum + sum1[k];\n\t\t\txmom := xmom + sum1[k] * k;\n\t\t}\n}\n\nif(xsum == 0)\n\t\t Anode_Position_X := make_invalid();\nelse Anode_Position_X := xmom/xsum;\n\n# Cathode_position_Y\nsum1 := 0;\nmom1 := 0;\nfor (var i := 0; i < 40; i += 1)\n   {\n      if(is_valid(Cathodes[i])) {\n\t\t\tsum1 := sum1 +  Cathodes[i];\n\t\t\tmom1 := mom1 + Cathodes[i] * i;\n\t\t\t}\n   }\nif(sum1 == 0) \n\tCathode_Position_Y := make_invalid();\nelse \n\tCathode_Position_Y := mom1/sum1;",
-                    "inputPrefixes": [
-                        "input0"
-                    ],
-                    "lastOutputCount": 5
-                },
-                "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
-                "id": "{c529db09-4782-4e01-ba8d-8d00fb9c81f5}",
-                "name": "expr1",
-                "userLevel": 1
-            },
-            {
-                "class": "analysis::ExpressionOperator",
-                "data": {
-                    "exprBegin": "# Use the \"Help\" button above the code editor for information about scripting\n# syntax, functions and capabilities.\n\n# Output Definition Script\n# ==============================================================================\n# The purpose of this script is to define the number and properties of the\n# output arrays the expression operator should have. This Output Defintion\n# Script is only executed once at analysis startup time! Its output is used to\n# fully construct the expression operators outputs.\n#\n# The operators inputs need to be connected and properly named before this\n# script will work.\n#\n# The script has to return a sequence of tuples with the following form and\n# data types:\n#\n#  out_name, out_unit, out_size, out_lower_limit, out_upper_limit\n#  String,   String,   Scalar,   Scalar/Array,    Scalar/Array\n#\n# One of these tuples defines one output array. out_name has to be a valid\n# exprtk identifier. This is the variable name for the output in the \"Step\n# Expression\" script. out_unit may be an empty string (use '' in that case) and\n# out_size must be a positive integer value.\n# The limits can either be specified using two scalars, which will set the same\n# limit for each of the output parameters, or two arrays - each having out_size\n# elements - can be used if individual limits for each parameter are needed.\n#\n# The script has access to all currently defined and connected inputs. For each\n# input if the input is connected to an array the following variables are\n# defined:\n#\n#   input_name.unit, input_name.size, input_name.lower_limits, input_name.upper_limits\n#\n# If the input is connected to a single parameter the variables are:\n#\n#   input_name.unit, input_name.lower_limit, input_name.upper_limit\n#\n# The example code below creates one output named 'output0' having the same\n# properties as the input array 'input0' (\"pass through\").\n#\n# return [\n#     'output0', input0.unit, input0.size, input0.lower_limits, input0.upper_limits\n# ];\n#\n# Multiple outputs with the second output using double values instead of arrays\n# for the limit specification\n#\n# return [\n#     'output0', input0.unit, input0.size, input0.lower_limits, input0.upper_limits,\n#     'output1', 'MeV',       8,           0.0,                 100.0\n# ];\nreturn [\n    'Anodes', input0.unit, 80, input0.lower_limits[0], input0.upper_limits[0],\n\t\t'Cathodes', input0.unit, 40, input0.lower_limits[0], input0.upper_limits[0],\n\t  'Anode_Position_Z', '',4,0,20,\n\t\t'Anode_Position_X', '',1,0,4,\n\t\t'Cathode_Position_Y', '',1,0,40\n\n];\n",
-                    "exprStep": "# Use the \"Help\" button above the code editor for information about scripting\n# syntax, functions and capabilities.\n\n# Step Expression\n# ==============================================================================\n# This script is the main part of the expression operator. It is executed each\n# time data is available to consume.\n#\n# The script has access to all defined input and output arrays. For data access\n# the plain variable name is used, e.g. 'input1' or 'output0'. Other properties\n# are accessible in the same way as in the \"Output Definition Script\":\n#\n#   var_name.unit, var_name.size, var_name.lower_limits, var_name.upper_limits\n#\n# Basic \"passthrough\" example\n# ------------------------------------------------------------------------------\n# The line below simply copies input0 to output0 (assignment of arrays performs\n# the copy internally).\n#\n#   output0 := input0;\n#\n# Doing the same manually using a loop:\n#\n#   for (var i := 0; i < input0.size; i += 1)\n#   {\n#       output0[i] := input0[i];\n#   }\n\n\n# Syntax example:\n# var x := 42;\n# var y := 3*x - 23;\n# var a0[5] := { 0, 1, 2, 3, 4 };\n# var a1[10];\n# var a0_len := a0[]; // array length\n#\n# for (var i := 0; i < a1[]; i += 1) {\n#     if (i = 0) { // '==' works too for comparison\n#         a1[i] := is_valid(y) ? y^2 : 3.14;\n#     } else {\n#         a1[i] := i;\n#     }\n# }\nvar sum1[4];\nvar mom1[4];\n\nvar k;\n\nsum1 := 0;\nmom1 := 0;\n\nfor (var i := 0; i < 80; i += 1)\n   {\n       Anodes[i] := input0[i];\n   }\n\nfor (var i := 80; i < 120; i += 1)\n   {\n       Cathodes[i-80] := input0[i];\n   }\n\n# Anode position Z\nk:=0;\n\nfor (var j := 0; j < 80; j += 20)\n{\n\t\n\tfor (var i := 0; i < 20; i += 1)\n   {\n      if(is_valid(Anodes[j+i])){\n\t\t\tsum1[k] := sum1[k] +  Anodes[j+i];\n\t\t\tmom1[k] := mom1[k] + Anodes[j+i] * i;\n\t\t\t}\n   }\n\tk += 1;\n}\n\nfor( var i := 0; i < 3; i += 1)\n{\n\tif(sum1[i] == 0) \n\t\tAnode_Position_Z[i] := make_invalid();\n\telse Anode_Position_Z[i] := mom1/sum1;\n}\n# Anode position X\nvar xsum;\nvar xmom;\nfor (k := 0; k < 4; k += 1)\n{\n    if(is_valid(sum1[k]))\n\t\t{\n\t\t\txsum := xsum + sum1[k];\n\t\t\txmom := xmom + sum1[k] * k;\n\t\t}\n}\n\nif(xsum == 0)\n\t\t Anode_Position_X := make_invalid();\nelse Anode_Position_X := xmom/xsum;\n\n# Cathode_position_Y\nsum1 := 0;\nmom1 := 0;\nfor (var i := 0; i < 40; i += 1)\n   {\n      if(is_valid(Cathodes[i])) {\n\t\t\tsum1 := sum1 +  Cathodes[i];\n\t\t\tmom1 := mom1 + Cathodes[i] * i;\n\t\t\t}\n   }\nif(sum1 == 0) \n\tCathode_Position_Y := make_invalid();\nelse \n\tCathode_Position_Y := mom1/sum1;",
-                    "inputPrefixes": [
-                        "input0"
-                    ],
-                    "lastOutputCount": 5
-                },
-                "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
-                "id": "{cbf5873a-b6fb-4dee-aa5b-5385baa10b1d}",
-                "name": "expr2",
-                "userLevel": 1
-            },
-            {
-                "class": "analysis::Histo1DSink",
-                "data": {
-                    "nBins": 4096,
-                    "xAxisTitle": "",
-                    "xLimitMax": null,
-                    "xLimitMin": null
-                },
-                "enabled": true,
-                "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
-                "id": "{5e3dfa2d-8eda-4e70-8798-328eaadf1ca5}",
-                "name": "amplitude_bus1_raw",
-                "userLevel": 0
-            },
-            {
-                "class": "analysis::Histo1DSink",
-                "data": {
-                    "nBins": 4096,
-                    "xAxisTitle": "",
-                    "xLimitMax": null,
-                    "xLimitMin": null
-                },
-                "enabled": true,
-                "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
-                "id": "{9a0facad-30b4-4c01-ae69-4557999a7c07}",
-                "name": "amplitude_bus8_raw",
-                "userLevel": 0
-            },
-            {
-                "class": "analysis::Histo1DSink",
-                "data": {
-                    "nBins": 4096,
-                    "xAxisTitle": "",
-                    "xLimitMax": null,
-                    "xLimitMin": null
-                },
-                "enabled": true,
-                "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
-                "id": "{73cbfa32-ab43-4a65-97bd-d89045544363}",
-                "name": "amplitude_bus2_raw",
-                "userLevel": 0
-            },
-            {
                 "class": "analysis::Histo1DSink",
                 "data": {
                     "nBins": 4096,
@@ -470,51 +529,6 @@
                 "id": "{a8dd2531-b323-4420-9a6d-802b01c45204}",
                 "name": "amplitude_bus4_raw",
                 "userLevel": 0
-            },
-            {
-                "class": "analysis::RateMonitorSink",
-                "data": {
-                    "calibrationFactor": 1,
-                    "calibrationOffset": 0,
-                    "capacity": 86400,
-                    "samplingInterval": 1,
-                    "type": "FlowRate",
-                    "unitLabel": ""
-                },
-                "enabled": true,
-                "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
-                "id": "{ed0d8c5b-f1a9-46da-98a8-ab13e5353149}",
-                "name": "vmmr.bus_time.flowRate",
-                "userLevel": 0
-            },
-            {
-                "class": "analysis::Histo1DSink",
-                "data": {
-                    "nBins": 2048,
-                    "xAxisTitle": "event_time_stamp",
-                    "xLimitMax": null,
-                    "xLimitMin": null
-                },
-                "enabled": true,
-                "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
-                "id": "{75fb8689-c834-46fe-9dbe-dc09a9925b9c}",
-                "name": "event_time_stamp",
-                "userLevel": 0
-            },
-            {
-                "class": "analysis::ExpressionOperator",
-                "data": {
-                    "exprBegin": "# Use the \"Help\" button above the code editor for information about scripting\n# syntax, functions and capabilities.\n\n# Output Definition script\n# ==============================================================================\n# The purpose of this script is to define the number and properties of the\n# output arrays the expression operator should have.\n#\n# Note: this Output Defintion Script is only executed once at analysis startup\n# time! Its output is used to fully construct the expression operator.\n#\n# The operators inputs need to be connected and properly named before this\n# script will work.\n#\n# This script has to return a sequence of tuples with the following form and\n# data types:\n#\n#  out_name, out_unit, out_size, out_lower_limit, out_upper_limit\n#  String,   String,   Scalar,   Scalar/Array,    Scalar/Array\n#\n# One of these tuples defines one output array. out_name has to be a valid\n# exprtk identifier. This is the variable name for this output in the \"Step\n# Expression\" script. out_unit may be an empty string (use '' in that case) and\n# out_size must be a positive integer value.\n# The limits can either be specified using two scalars, which will set the same\n# limit for each of the output parameters, or two arrays, each having out_size\n# elements, can be used if individual limits for each parameter are needed.\n#\n# The script has access to all currently defined and connected inputs. For each\n# input if the input is connected to an array the following variables are\n# defined:\n#\n#   input_name.unit, input_name.size, input_name.lower_limits, input_name.upper_limits\n#\n# If the input is connected to a single parameter the variables are:\n#\n#   input_name.unit, input_name.lower_limit, input_name.upper_limit\n#\n# The example code below creates one output named 'output0' having the same\n# properties as the input array 'input0' (\"pass through\").\n#\n# return [\n#     'output0', input0.unit, input0.size, input0.lower_limits, input0.upper_limits\n# ];\n#\n# Multiple outputs:\n#\n# return [\n#     'output0', input0.unit, input0.size, input0.lower_limits, input0.upper_limits,\n#     'output1', 'MeV',       8,           0.0,                 100.0\n# ];\n\n\nreturn [\n    'Anodes', input0.unit, 80, input0.lower_limits[0], input0.upper_limits[0],\n\t\t'Cathodes', input0.unit, 40, input0.lower_limits[0], input0.upper_limits[0],\n\t  'Anode_Position_Z', '',4,0,20,\n\t\t'Anode_Position_X', '',1,0,4,\n\t\t'Cathode_Position_Y', '',1,0,40\n\n];\n",
-                    "exprStep": "# Use the \"Help\" button above the code editor for information about scripting\n# syntax, functions and capabilities.\n\n# Step Expression\n# ==============================================================================\n# This script is the main part of the expression operator. It is executed each\n# time data is available to consume.\n#\n# The script has access to all defined input and output arrays. For data access\n# the plain variable name is used, e.g. 'input1' or 'output0'. Other properties\n# are accessible in the same way as in the \"Output Definition Script\":\n#\n#   var_name.unit, var_name.size, var_name.lower_limits, var_name.upper_limits\n#\n# Parameter values and validity\n# ------------------------------------------------------------------------------\n# As described in the mvme manual Analysis Parameter Arrays can carry invalid\n# values. An invalid value is not uncommon and will be generated by the\n# analysis data extractors if no match is found for a certain array index. This\n# happens if for example not all channels of an ADC module respond.\n#\n# Inside the analysis system invalid values are encoded as (quiet) NaNs with a\n# special payload bit set to distinguish them from NaNs generated by arithmetic\n# operations or through other means.\n#\n# A consequence of this is that the following code to sum up the values of an\n# array will yield a NaN in case any of the array members are invalid:\n#\n#   var sum:=0;\n#   for (var i:=0; i<my_array[]; i+=1) { sum += my_array[i]; }\n#\n# To detect and generate invalid parameters the following functions have been\n# defined for use inside scripts:\n#\n# is_valid(), is_invalid(), is_nan() and make_invalid()\n#\n# The first three test a single scalar value. make_invalid() is used to\n# explicitly create an invalid parameter.\n# A corrected version of the above loop:\n#\n#   var sum:=0;\n#   for (var i:=0; i<my_array[]; i+=1) {\n#      sum += is_valid(my_array[i]) ? my_array[i] : 0.0;\n#   }\n#\n#\n# Basic \"passthrough\" examples\n# ------------------------------------------------------------------------------\n# The line below simply copies input0 to output0 (assignment of arrays performs\n# the copy internally).\n#\n#   output0 := input0;\n#\n# Doing the same manually using a loop:\n#\n#   for (var i := 0; i < input0.size; i += 1)\n#   {\n#       output0[i] := input0[i];\n#   }\nvar sum1[4];\nvar mom1[4];\n\nvar k;\n\nsum1 := 0;\nmom1 := 0;\n\nfor (var i := 0; i < 80; i += 1)\n   {\n       Anodes[i] := input0[i];\n   }\n\nfor (var i := 80; i < 120; i += 1)\n   {\n       Cathodes[i-80] := input0[i];\n   }\n\n# Anode position Z\nk:=0;\n\nfor (var j := 0; j < 80; j += 20)\n{\n\t\n\tfor (var i := 0; i < 20; i += 1)\n   {\n      if(is_valid(Anodes[j+i])){\n\t\t\tsum1[k] := sum1[k] +  Anodes[j+i];\n\t\t\tmom1[k] := mom1[k] + Anodes[j+i] * i;\n\t\t\t}\n   }\n\tk += 1;\n}\n\nfor( var i := 0; i < 3; i += 1)\n{\n\tif(sum1[i] == 0) \n\t\tAnode_Position_Z[i] := make_invalid();\n\telse Anode_Position_Z[i] := mom1/sum1;\n}\n# Anode position X\nvar xsum;\nvar xmom;\nfor (k := 0; k < 4; k += 1)\n{\n    if(is_valid(sum1[k]))\n\t\t{\n\t\t\txsum := xsum + sum1[k];\n\t\t\txmom := xmom + sum1[k] * k;\n\t\t}\n}\n\nif(xsum == 0)\n\t\t Anode_Position_X := make_invalid();\nelse Anode_Position_X := xmom/xsum;\n\n# Cathode_position_Y\nsum1 := 0;\nmom1 := 0;\nfor (var i := 0; i < 40; i += 1)\n   {\n      if(is_valid(Cathodes[i])) {\n\t\t\tsum1 := sum1 +  Cathodes[i];\n\t\t\tmom1 := mom1 + Cathodes[i] * i;\n\t\t\t}\n   }\nif(sum1 == 0) \n\tCathode_Position_Y := make_invalid();\nelse \n\tCathode_Position_Y := mom1/sum1;",
-                    "inputPrefixes": [
-                        "input0"
-                    ],
-                    "lastOutputCount": 5
-                },
-                "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
-                "id": "{6a0878a7-4828-4387-af5f-a69d2469d257}",
-                "name": "expr0",
-                "userLevel": 1
             },
             {
                 "class": "analysis::Histo1DSink",
@@ -533,16 +547,30 @@
             {
                 "class": "analysis::Histo1DSink",
                 "data": {
-                    "nBins": 1024,
-                    "xAxisTitle": "amplitude",
+                    "nBins": 65536,
+                    "xAxisTitle": "bus_time",
                     "xLimitMax": null,
                     "xLimitMin": null
                 },
                 "enabled": true,
                 "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
-                "id": "{982221b8-dc94-4c2d-b464-d330b70c57d0}",
-                "name": "all_amplitudes",
-                "userLevel": 0
+                "id": "{b6a1c514-2d80-4117-bad6-7ecacf1aa03c}",
+                "name": "vmmr.bus_time",
+                "userLevel": 1
+            },
+            {
+                "class": "analysis::Histo1DSink",
+                "data": {
+                    "nBins": 2048,
+                    "xAxisTitle": "time stamp",
+                    "xLimitMax": 10000.51,
+                    "xLimitMin": 0
+                },
+                "enabled": true,
+                "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
+                "id": "{abacdac8-4386-4e43-b686-07782c3f97f1}",
+                "name": "event_time_stamp",
+                "userLevel": 1
             },
             {
                 "class": "analysis::Histo2DSink",
@@ -563,17 +591,21 @@
                 "userLevel": 1
             },
             {
-                "class": "analysis::Histo1DSink",
+                "class": "analysis::Histo2DSink",
                 "data": {
-                    "nBins": 65536,
-                    "xAxisTitle": "bus_time",
-                    "xLimitMax": null,
-                    "xLimitMin": null
+                    "xAxisTitle": "X",
+                    "xBins": 4,
+                    "xLimitMax": 4,
+                    "xLimitMin": 0,
+                    "yAxisTitle": "X",
+                    "yBins": 256,
+                    "yLimitMax": 64,
+                    "yLimitMin": 0
                 },
                 "enabled": true,
                 "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
-                "id": "{b6a1c514-2d80-4117-bad6-7ecacf1aa03c}",
-                "name": "vmmr.bus_time",
+                "id": "{bcac5dba-6f14-4f0c-aab3-121f468ccf5d}",
+                "name": "2_X_vs_Y",
                 "userLevel": 1
             },
             {
@@ -609,24 +641,6 @@
                 "userLevel": 1
             },
             {
-                "class": "analysis::Histo2DSink",
-                "data": {
-                    "xAxisTitle": "X",
-                    "xBins": 4,
-                    "xLimitMax": 4,
-                    "xLimitMin": 0,
-                    "yAxisTitle": "X",
-                    "yBins": 256,
-                    "yLimitMax": 64,
-                    "yLimitMin": 0
-                },
-                "enabled": true,
-                "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
-                "id": "{bcac5dba-6f14-4f0c-aab3-121f468ccf5d}",
-                "name": "2_X_vs_Y",
-                "userLevel": 1
-            },
-            {
                 "class": "analysis::Histo1DSink",
                 "data": {
                     "nBins": 2048,
@@ -638,20 +652,6 @@
                 "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
                 "id": "{d341ddc8-2810-4ef3-bfc4-1494ed074448}",
                 "name": "Anodes0",
-                "userLevel": 1
-            },
-            {
-                "class": "analysis::Histo1DSink",
-                "data": {
-                    "nBins": 2048,
-                    "xAxisTitle": "time stamp",
-                    "xLimitMax": 10000.51,
-                    "xLimitMin": 0
-                },
-                "enabled": true,
-                "eventId": "{10d750c0-9756-44f0-a607-4eb07189baaf}",
-                "id": "{abacdac8-4386-4e43-b686-07782c3f97f1}",
-                "name": "event_time_stamp",
                 "userLevel": 1
             }
         ],
