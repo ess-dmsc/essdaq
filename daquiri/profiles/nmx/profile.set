@@ -86,7 +86,7 @@
         {
          "id": "ev42_events/Heartbeat",
          "type": "boolean",
-         "value": false
+         "value": true
         },
         {
          "id": "ev42_events/FilterSourceName",
@@ -108,12 +108,12 @@
           {
            "id": "ESSGeometry/extent_x",
            "type": "integer",
-           "value": 256
+           "value": 384
           },
           {
            "id": "ESSGeometry/extent_y",
            "type": "integer",
-           "value": 256
+           "value": 384
           },
           {
            "id": "ESSGeometry/extent_z",

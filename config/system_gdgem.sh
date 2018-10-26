@@ -1,0 +1,11 @@
+#!/bin/bash
+
+EFU_IP=127.0.0.1
+KAFKA_IP=127.0.0.1
+GRAFANA_IP=127.0.0.1
+DAQUIRI_IP=127.0.0.1
+
+UDP_ETH=ens5
+
+DETECTOR=gdgem
+
