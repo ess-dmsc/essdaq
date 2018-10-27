@@ -9,3 +9,4 @@ UDP_ETH=ens5
 
 DETECTOR=gdgem
 
+DUMP_PATH=/home/daq
