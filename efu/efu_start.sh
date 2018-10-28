@@ -8,9 +8,13 @@ pushd $THISDIR
 #get config variables
 . ../config/system.sh
 
+UDPARG=""
+if [[ $EFU_UDP != "" ]]; then
+  UDPARG="-p $EFU_UDP"
+fi
+
 pushd ./event-formation-unit/build
-
-./bin/efu --read_config $HOME/essdaq/detectors/$DETECTOR/config.ini -b $KAFKA_IP -g $GRAFANA_IP $@ &>> $THISDIR/logfile.txt &
-
+./bin/efu --read_config $HOME/essdaq/detectors/$DETECTOR/config.ini $UDPARG -b $KAFKA_IP -g $GRAFANA_IP $@ &>> $THISDIR/logfile.txt &
 popd
+
 popd

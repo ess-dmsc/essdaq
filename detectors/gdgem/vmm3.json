@@ -57,7 +57,7 @@
   },
 
   "hit_histograms" : true,
-  "cluster_adc_downshift" : 1,
+  "cluster_adc_downshift" : 6,
   "send_tracks" : true,
   "track_sample_minhits" : 1,
 
