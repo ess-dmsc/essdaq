@@ -13,8 +13,13 @@ if [[ $EFU_UDP != "" ]]; then
   UDPARG="-p $EFU_UDP"
 fi
 
+MTUARG=""
+if [[ $EFU_MTU != "" ]]; then
+  MTUARG="-u $EFU_MTU"
+fi
+
 pushd ./event-formation-unit/build
-./bin/efu --read_config $HOME/essdaq/detectors/$DETECTOR/config.ini $UDPARG -b $KAFKA_IP -g $GRAFANA_IP $@ &>> $THISDIR/logfile.txt &
+./bin/efu --read_config $HOME/essdaq/detectors/$DETECTOR/config.ini $UDPARG $MTUARG -b $KAFKA_IP -g $GRAFANA_IP $@ &>> $THISDIR/logfile.txt &
 popd
 
 popd
