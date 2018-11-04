@@ -1,22 +1,29 @@
 #!/bin/bash
 
-dumpdir=$1
+THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+
+#ensure that we are in the script directory
+pushd $THISDIR
+
+#get config variables
+. ../../config/system.sh
+
+subdir=$1
 splittime=$2
 fileprefix=$3
-basepath=/home/multigrid/data
 
 if [[ $1 == "" ]]; then
     echo Usage: dump_start.sh subdir split_time file_prefix
-    echo subdir will be created under $basepath
+    echo subdir will be created under $DUMP_PATH
     exit 0
 fi
 
-if [ ! -d $basepath ]; then
-    echo Directory $dumpdir does not exist, exiting 
+if [ ! -d $DUMP_PATH ]; then
+    echo Directory $DUMP_PATH does not exist, exiting 
     exit 0
 fi
 
-fullpath=$basepath/$dumpdir
+fullpath=$DUMP_PATH/$subdir
 
 if [ ! -d $fullpath ]; then
     echo "$fullpath --> Folder does not exist --> It will be created"
@@ -30,14 +37,6 @@ if [[ $splittime == "0" ]]; then
 else
     echo Split files every $splittime seconds
 fi
-
-THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
-
-#ensure that we are in the script directory
-pushd $THISDIR
-
-#get config variables
-. ../../config/system.sh
 
 prepend=$fileprefix
 
