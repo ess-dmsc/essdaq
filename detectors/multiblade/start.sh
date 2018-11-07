@@ -9,6 +9,6 @@ pushd $THISDIR
 . ../../config/system.sh
 
 echo "START_NEW" | nc $DAQUIRI_IP 12345 -w 1
-../../efu/efu_start.sh --file $THISDIR/MB16.json
+../../efu/efu_start.sh --file $THISDIR/MB18Estia.json
 #sleep 1
 #mvme/scripts/start_mvme.sh $MVME_IP
