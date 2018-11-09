@@ -147,7 +147,7 @@
         },
         {
           "cacheTimeout": null,
-          "colorBackground": false,
+          "colorBackground": true,
           "colorValue": false,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -206,7 +206,7 @@
               "textEditor": false
             }
           ],
-          "thresholds": "",
+          "thresholds": "1,50",
           "title": "Packets/s",
           "type": "singlestat",
           "valueFontSize": "80%",
@@ -229,7 +229,7 @@
             "rgba(50, 172, 45, 0.97)"
           ],
           "datasource": "${DS_DMG-GRAPHITE}",
-          "decimals": 2,
+          "decimals": 0,
           "format": "none",
           "gauge": {
             "maxValue": 100,
@@ -369,7 +369,7 @@
         },
         {
           "cacheTimeout": null,
-          "colorBackground": false,
+          "colorBackground": true,
           "colorValue": false,
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -783,6 +783,81 @@
             "rgba(50, 172, 45, 0.97)"
           ],
           "datasource": "${DS_DMG-GRAPHITE}",
+          "decimals": null,
+          "format": "none",
+          "gauge": {
+            "maxValue": 100,
+            "minValue": 0,
+            "show": false,
+            "thresholdLabels": false,
+            "thresholdMarkers": true
+          },
+          "id": 40,
+          "interval": null,
+          "links": [],
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
+          "maxDataPoints": 100,
+          "nullPointMode": "connected",
+          "nullText": null,
+          "postfix": "",
+          "postfixFontSize": "50%",
+          "prefix": "",
+          "prefixFontSize": "50%",
+          "rangeMaps": [
+            {
+              "from": "null",
+              "text": "N/A",
+              "to": "null"
+            }
+          ],
+          "span": 2,
+          "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "show": false
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "target": "efu.mbcaen.readouts.seq_errors",
+              "textEditor": false
+            }
+          ],
+          "thresholds": "",
+          "title": "Sequence",
+          "type": "singlestat",
+          "valueFontSize": "80%",
+          "valueMaps": [
+            {
+              "op": "=",
+              "text": "N/A",
+              "value": "null"
+            }
+          ],
+          "valueName": "current"
+        },
+        {
+          "cacheTimeout": null,
+          "colorBackground": true,
+          "colorValue": false,
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "datasource": "${DS_DMG-GRAPHITE}",
+          "decimals": 0,
           "format": "none",
           "gauge": {
             "maxValue": 100,
@@ -833,7 +908,7 @@
               "textEditor": false
             }
           ],
-          "thresholds": "",
+          "thresholds": "2,5",
           "title": "Sequence errors/s",
           "type": "singlestat",
           "valueFontSize": "80%",
@@ -1432,7 +1507,7 @@
         },
         {
           "cacheTimeout": null,
-          "colorBackground": false,
+          "colorBackground": true,
           "colorValue": false,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -1491,7 +1566,7 @@
               "textEditor": false
             }
           ],
-          "thresholds": "",
+          "thresholds": "1,100",
           "title": "Events/s",
           "type": "singlestat",
           "valueFontSize": "80%",
@@ -1506,12 +1581,12 @@
         },
         {
           "cacheTimeout": null,
-          "colorBackground": false,
+          "colorBackground": true,
           "colorValue": false,
           "colors": [
-            "rgba(245, 54, 54, 0.9)",
+            "rgba(50, 172, 45, 0.97)",
             "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
+            "rgba(245, 54, 54, 0.9)"
           ],
           "datasource": "${DS_DMG-GRAPHITE}",
           "format": "none",
@@ -1564,7 +1639,7 @@
               "textEditor": false
             }
           ],
-          "thresholds": "",
+          "thresholds": "1,5",
           "title": "Geom. Err/s",
           "type": "singlestat",
           "valueFontSize": "80%",
@@ -1937,5 +2012,5 @@
   },
   "timezone": "browser",
   "title": "MBCAEN Single Stats",
-  "version": 7
+  "version": 10
 }
