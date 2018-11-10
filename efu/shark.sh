@@ -12,7 +12,7 @@ if [[ $EFU_UDP != "" ]]; then
 fi
 
 pushd event-formation-unit/build
-./bin/udpgen_pcap $UDPARG -i $EFU_IP -t 5000 -f $@
+./bin/udpgen_pcap $UDPARG -i $EFU_IP -f $@
 popd
 
 popd
