@@ -3,7 +3,7 @@
   {
    "id": "ProfileDescr",
    "type": "text",
-   "value": "Multi-Blade Caen"
+   "value": "Multi-Blade Freia"
   },
   {
    "id": "DropPackets",
@@ -22,7 +22,7 @@
       {
        "id": "KafkaConfig/KafkaBroker",
        "type": "text",
-       "value": "10.10.10.2:9092"
+       "value": "129.129.138.94:9092"
       },
       {
        "id": "KafkaConfig/KafkaTimeout",
@@ -50,7 +50,7 @@
         {
          "id": "KafkaTopicConfig/KafkaTopic",
          "type": "text",
-         "value": "ESTIA_detector"
+         "value": "FREIA_detector"
         },
         {
          "id": "KafkaTopicConfig/KafkaFF",
@@ -108,12 +108,12 @@
           {
            "id": "ESSGeometry/extent_x",
            "type": "integer",
-           "value": 192
+           "value": 32
           },
           {
            "id": "ESSGeometry/extent_y",
            "type": "integer",
-           "value": 32
+           "value": 192
           },
           {
            "id": "ESSGeometry/extent_z",
@@ -160,7 +160,7 @@
         {
          "id": "KafkaTopicConfig/KafkaTopic",
          "type": "text",
-         "value": "ESTIA_monitor"
+         "value": "FREIA_monitor"
         },
         {
          "id": "KafkaTopicConfig/KafkaFF",

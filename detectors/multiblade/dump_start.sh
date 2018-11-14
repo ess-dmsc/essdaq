@@ -48,5 +48,5 @@ fi
 prepend=$fileprefix
 
 echo "START_NEW" | nc $DAQUIRI_IP 12345 -w 1
-../../efu/efu_start.sh --file $THISDIR/MB18Estia.json --dumptofile $fullpath/$prepend --h5filesplit $splittime
+../../efu/efu_start.sh --file $THISDIR/MB18Freia.json --dumptofile $fullpath/$prepend --h5filesplit $splittime
 
