@@ -1,0 +1,14 @@
+#!/bin/bash
+
+EFU_IP=127.0.0.1
+KAFKA_IP=172.17.5.38
+GRAFANA_IP=172.17.12.31
+DAQUIRI_IP=172.17.0.242
+
+#EFU_UDP=6006
+EFU_MTU=1500
+UDP_ETH=enp1s0
+
+DETECTOR=multiblade
+
+DUMP_PATH=/home/martinshetty/data/efu_dump

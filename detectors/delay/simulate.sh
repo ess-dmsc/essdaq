@@ -12,6 +12,6 @@ echo "RUNNING ADC SIMULATOR"
 pushd $THISDIR
 
 pushd ../../efu/event-formation-unit/build &> /dev/null || errexit "directory ./event-formation-unit/build does not exist"
-  prototype2/adc_readout/integration_test/AdcSimulator
+  bin/AdcSimulator --mode=delay_line_amp --event_rate=1000 --noise_rate=0.25
 popd
 
