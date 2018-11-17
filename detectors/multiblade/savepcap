@@ -1,0 +1,10 @@
+#!/bin/bash
+
+ofile=$1
+
+if [[ $ofile == "" ]]; then
+    echo usage: savepcap filename 
+    exit 0
+fi
+
+sudo tcpdump -i eno1 -w $ofile udp port 9000

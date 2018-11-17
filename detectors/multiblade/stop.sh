@@ -12,6 +12,6 @@ pushd $(dirname "${BASH_SOURCE[0]}")
 sleep 3
 echo "STOP" | nc $DAQUIRI_IP 12345 -w 2
 #echo "SAVE" | nc $DAQUIRI_IP 12345 -w 2
-echo "CLOSE_OLDER 90" | nc $DAQUIRI_IP 12345 -w 1
+echo "CLOSE_OLDER 20" | nc $DAQUIRI_IP 12345 -w 1
 
 

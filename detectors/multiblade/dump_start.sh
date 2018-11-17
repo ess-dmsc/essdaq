@@ -45,7 +45,11 @@ else
     echo Split files every $splittime seconds
 fi
 
-prepend=$fileprefix
+RUNID=$(./getrunid)
+
+
+echo "Runid from Amor: $RUNID"
+prepend=$RUNID-$fileprefix
 
 echo "START_NEW" | nc $DAQUIRI_IP 12345 -w 1
 ../../efu/efu_start.sh --file $THISDIR/MB18Freia.json --dumptofile $fullpath/$prepend --h5filesplit $splittime

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+ssh amorlnsg@amor head -n 1 /home/amor/data/2018/DataNumber
