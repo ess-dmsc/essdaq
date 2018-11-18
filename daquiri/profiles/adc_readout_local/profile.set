@@ -74,9 +74,9 @@
       {
        "branches": [
         {
-         "id": "SenvParser/EventsStream",
+         "id": "SenvParser/StreamBase",
          "type": "text",
-         "value": "TAC"
+         "value": "Senv"
         },
         {
          "branches": [
