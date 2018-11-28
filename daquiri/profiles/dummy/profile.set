@@ -87,12 +87,12 @@
       {
        "id": "DummyDevice/DummySettings/Time",
        "type": "time",
-       "value": "1987-12-19T00:21:00.035000000"
+       "value": "1987-12-19T00:21:00.035000"
       },
       {
        "id": "DummyDevice/DummySettings/Duration",
        "type": "duration",
-       "value": "26:03:04.150000000"
+       "value": "26:03:04.000000"
       },
       {
        "id": "DummyDevice/DummySettings/Pattern",

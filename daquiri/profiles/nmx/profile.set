@@ -170,7 +170,7 @@
         {
          "id": "KafkaTopicConfig/KafkaMaxBacklog",
          "type": "integer",
-         "value": 1
+         "value": 2
         }
        ],
        "id": "KafkaTopicConfig",
