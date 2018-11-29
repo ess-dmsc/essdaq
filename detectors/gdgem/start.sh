@@ -11,6 +11,6 @@ pushd $THISDIR
 . ../../config/system.sh
 
 echo "START_NEW" | nc $DAQUIRI_IP 12345 -w 1
-../../efu/efu_start.sh --file $THISDIR/vmm3.json
+../../efu/efu_start.sh --file $THISDIR/vmm3.json $@
 #sleep 1
 
