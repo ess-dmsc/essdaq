@@ -81,7 +81,7 @@
         {
          "id": "ev42_events/SpoofClock",
          "type": "menu",
-         "value": 2
+         "value": 0
         },
         {
          "id": "ev42_events/Heartbeat",
