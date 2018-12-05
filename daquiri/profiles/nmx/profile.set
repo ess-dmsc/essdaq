@@ -22,7 +22,7 @@
       {
        "id": "KafkaConfig/KafkaBroker",
        "type": "text",
-       "value": "10.0.19.240:9092"
+       "value": "10.0.0.24:9092"
       },
       {
        "id": "KafkaConfig/KafkaTimeout",
@@ -41,7 +41,7 @@
     {
      "id": "ESSStream/TopicCount",
      "type": "integer",
-     "value": 2
+     "value": 3
     },
     {
      "branches": [
@@ -202,6 +202,80 @@
          "id": "mo01_nmx/HitsStream",
          "type": "text",
          "value": "hits"
+        },
+        {
+         "branches": [
+          {
+           "id": "TimeBase/multiplier",
+           "type": "integer",
+           "value": 1
+          },
+          {
+           "id": "TimeBase/divider",
+           "type": "integer",
+           "value": 1
+          }
+         ],
+         "id": "TimeBase",
+         "type": "stem"
+        }
+       ],
+       "id": "mo01_nmx",
+       "type": "stem"
+      }
+     ],
+     "id": "ESSStream/Topic",
+     "type": "stem"
+    },
+    {
+     "branches": [
+      {
+       "branches": [
+        {
+         "id": "KafkaTopicConfig/KafkaTopic",
+         "type": "text",
+         "value": "NMX_hits"
+        },
+        {
+         "id": "KafkaTopicConfig/KafkaFF",
+         "type": "boolean",
+         "value": false
+        },
+        {
+         "id": "KafkaTopicConfig/KafkaMaxBacklog",
+         "type": "integer",
+         "value": 3
+        }
+       ],
+       "id": "KafkaTopicConfig",
+       "type": "stem"
+      },
+      {
+       "id": "ESSStream/Parser",
+       "type": "menu",
+       "value": 2
+      },
+      {
+       "branches": [
+        {
+         "id": "mo01_nmx/HistsStream",
+         "type": "text",
+         "value": ""
+        },
+        {
+         "id": "mo01_nmx/XStream",
+         "type": "text",
+         "value": "x_raw"
+        },
+        {
+         "id": "mo01_nmx/YStream",
+         "type": "text",
+         "value": "y_raw"
+        },
+        {
+         "id": "mo01_nmx/HitsStream",
+         "type": "text",
+         "value": ""
         },
         {
          "branches": [
