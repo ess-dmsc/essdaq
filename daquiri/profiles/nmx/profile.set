@@ -22,7 +22,7 @@
       {
        "id": "KafkaConfig/KafkaBroker",
        "type": "text",
-       "value": "localhost:9092"
+       "value": "10.0.19.240:9092"
       },
       {
        "id": "KafkaConfig/KafkaTimeout",
