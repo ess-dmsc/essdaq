@@ -33,7 +33,7 @@ pushd $THISDIR  &>/dev/null || errexit "directory $THISDIR does not exist"
 
   pushd ./event-formation-unit/build &> /dev/null || errexit "directory ./event-formation-unit/build does not exist"
     #./bin/efu --read_config $CONFIG_FILE $UDPARG $MTUARG -b $KAFKA_IP -g $GRAFANA_IP $@ &>> $THISDIR/logfile.txt &
-    ./bin/efu --read_config $CONFIG_FILE $UDPARG $MTUARG -b $KAFKA_IP -g $GRAFANA_IP --log_file $THISDIR/logfile.txt $@ &>> /dev/null &
+    ./bin/efu --read_config $CONFIG_FILE $UDPARG $MTUARG -b $KAFKA_IP:9092 -g $GRAFANA_IP --log_file $THISDIR/logfile.txt $@ &>> /dev/null &
   popd
 
 popd

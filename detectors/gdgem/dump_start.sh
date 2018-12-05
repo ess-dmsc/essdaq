@@ -23,5 +23,5 @@ fi
 
 prepend=$fileprefix
 
-./start.sh --dumptofile $basepath/$prepend $2
+./start.sh --dumptofile $basepath/$prepend $2 $3
 
