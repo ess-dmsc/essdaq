@@ -8,16 +8,15 @@ function errexit {
 THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 #ensure that we are in the script directory
-pushd $THISDIR
+pushd $THISDIR &>/dev/null || errexit "unable to cd into directory $THISDIR"
 
 #get config variables
-. ../../config/system.sh || errexit "invalid config file"
+. ../../config/system.sh || errexit "invalid system script"
 
-./hwcheck.sh $UDP_ETH || errexit "hw check failed"
-
-./hwcheck.sh $UDP_ETH || errexit "hw check failed"
+. ../../config/scripts/hwcheck.sh $UDP_ETH
 
 echo "START_NEW" | nc $DAQUIRI_IP 12345 -w 1
 ../../efu/efu_start.sh --file $THISDIR/MB18Freia.json
+
 #sleep 1
 #mvme/scripts/start_mvme.sh $MVME_IP

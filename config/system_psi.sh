@@ -11,6 +11,4 @@ UDP_ETH=eno1
 
 DETECTOR=multiblade
 
-JADAQ_DATA_DIR="/data/test22MB18"
-
 DUMP_PATH=/home/multigrid/data
