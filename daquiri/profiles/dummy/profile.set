@@ -92,7 +92,7 @@
       {
        "id": "DummyDevice/DummySettings/Duration",
        "type": "duration",
-       "value": "26:03:04.000000"
+       "value": "26:02:03.456788"
       },
       {
        "id": "DummyDevice/DummySettings/Pattern",
@@ -104,7 +104,7 @@
          1,
          0,
          1,
-         0
+         1
         ],
         "threshold": 2
        }
@@ -127,12 +127,12 @@
       {
        "id": "DummyDevice/DummySettings/File",
        "type": "text",
-       "value": "/home/martin/essdaq/daquiri/build/activate_run.sh"
+       "value": "/home/martin/essdaq/daquiri/update.sh"
       },
       {
        "id": "DummyDevice/DummySettings/Directory",
        "type": "text",
-       "value": "/home/martin/essdaq/daquiri/build/tests"
+       "value": "/home/martin/essdaq"
       },
       {
        "id": "DummyDevice/DummySettings/Detector",
@@ -142,7 +142,7 @@
       {
        "id": "DummyDevice/DummySettings/Menu",
        "type": "menu",
-       "value": 0
+       "value": 1
       },
       {
        "id": "DummyDevice/DummySettings/Binary",
@@ -152,12 +152,12 @@
       {
        "id": "DummyDevice/DummySettings/Indicator",
        "type": "indicator",
-       "value": 0
+       "value": 1
       },
       {
        "id": "DummyDevice/DummySettings/Gradient",
        "type": "text",
-       "value": "Night"
+       "value": "Cold"
       }
      ],
      "id": "DummyDevice/DummySettings",
