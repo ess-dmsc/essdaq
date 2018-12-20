@@ -2,15 +2,18 @@
 
 echo "START AdcReadout"
 
-THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+# change to directory of script
+cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null
+export DETECTORDIR=$(pwd)
 
-#ensure that we are in the script directory
-pushd $THISDIR
+source ../../config/scripts/base.sh
 
-#get config variables
-. ../../config/system.sh
+systemChecks
 
-echo "START_NEW" | nc $DAQUIRI_IP 12345 -w 1
-../../efu/efu_start.sh
+#
+# #
+#
+
+startDaquiri
+../../efu/efu_start.sh $@
 #sleep 1
-
