@@ -8,6 +8,4 @@ DAQUIRI_IP=127.0.0.1
 EFU_UDP=6006
 UDP_ETH=ens5
 
-DETECTOR=gdgem
-
 DUMP_PATH=/home/daq

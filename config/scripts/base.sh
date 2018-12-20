@@ -1,10 +1,14 @@
 #!/bin/bash
 
-DETECTORDIR=$1
+if [ ! -d "$DETECTORDIR" ]; then
+  echo "Error: required variable DETECTORDIR not set"
+  exit 1
+fi
 
 #
 ###
 #
+
 function errexit {
     echo Error: $1
     echo exiting ...
@@ -36,10 +40,14 @@ function closeDaquiri()
 
 function systemChecks()
 {
-. ../../config/scripts/hwcheck.sh $UDP_ETH
-. ../../config/scripts/nwcheck.sh
+. $DETECTORDIR/../../config/scripts/hwcheck.sh $UDP_ETH
+. $DETECTORDIR/../../config/scripts/nwcheck.sh
 }
 
-#get config variables
-. ./localconfig.sh || errexit "no local configuration"
-. ../../config/system.sh || errexit "invalid system script"
+#
+# #
+#
+
+# get config variables
+. $DETECTORDIR/localconfig.sh || errexit "no local configuration"
+. $DETECTORDIR/../../config/system.sh || errexit "invalid system script"

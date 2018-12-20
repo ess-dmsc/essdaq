@@ -2,7 +2,7 @@
 
 export DETECTOR=gdgem
 
-echo "gsgem - applying local configuration"
+echo "Gd-GEM - applying local configuration"
 
 EFU_CONFIG=utgard
 EFU_CALIB=utgard
