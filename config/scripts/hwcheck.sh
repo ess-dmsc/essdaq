@@ -9,13 +9,6 @@ backlogsize=5000
 ###
 #
 
-function errexit()
-{
-   echo Error: $1
-   echo HW check failed
-   exit 1
-}
-
 function setbuffersizes()
 {
   echo "Setting buffersizes temporary. Consider doing this permanently"
@@ -32,9 +25,9 @@ if [[ $ETHIF == "" ]]; then
    errexit "No Ethernet interface specified"
 fi
 
-ifconfig $ETHIF || errexit "ethernet interface [$ETHIF] does not exist"
+ifconfig $ETHIF &>/dev/null || errexit "ethernet interface [$ETHIF] does not exist"
 
-ifconfig $ETHIF | grep $ETHIF | grep "mtu 9000" || errexit "ethif [$ETHIF] - MTU is not 9000 bytes"
+ifconfig $ETHIF | grep $ETHIF | grep "mtu 9000" &>/dev/null || errexit "ethif [$ETHIF] - MTU is not 9000 bytes"
 
 
 if [[ $MYOS != "Darwin" ]] ;

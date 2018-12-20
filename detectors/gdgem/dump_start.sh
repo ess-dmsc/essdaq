@@ -1,12 +1,17 @@
 #!/bin/bash
 
-THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+echo "START GDGEM - DUMPING TO FILE"
 
-#ensure that we are in the script directory
-pushd $THISDIR
+# change to directory of script
+$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null)
 
-#get config variables
-. ../../config/system.sh
+source ../../config/scripts/base.sh
+
+systemChecks
+
+#
+# #
+#
 
 fileprefix=$1
 basepath=$DUMP_PATH
@@ -17,11 +22,10 @@ if [[ $1 == "" ]]; then
 fi
 
 if [ ! -d $basepath ]; then
-    echo Directory $basepath does not exist, exiting 
+    echo Directory $basepath does not exist, exiting
     exit 0
 fi
 
 prepend=$fileprefix
 
-./start.sh --dumptofile $basepath/$prepend $2 $3
-
+./start.sh --dumptofile $basepath/$prepend
