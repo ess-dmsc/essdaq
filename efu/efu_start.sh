@@ -8,6 +8,9 @@ source ../../config/scripts/base.sh
 # #
 #
 
+# don't start if EFU is running
+ps aux | grep -v grep | grep efu && errexit "EFU is already running on this machine"
+
 UDPARG=""
 if [[ $EFU_UDP != "" ]]; then
   UDPARG="-p $EFU_UDP"
