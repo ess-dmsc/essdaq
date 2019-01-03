@@ -1,0 +1,5 @@
+#!/bin/bash
+
+pushd $(dirname ${BASH_SOURCE[0]})
+
+wireshark -X lua_script:lua/sis3153.lua $1
