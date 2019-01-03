@@ -9,6 +9,3 @@ MVME_IP=10.0.0.24
 
 
 UDP_ETH=enp4s0
-
-DETECTOR=multigrid
-

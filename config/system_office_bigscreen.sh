@@ -9,6 +9,4 @@ DAQUIRI_IP=172.17.0.242
 EFU_MTU=1500
 UDP_ETH=enp1s0
 
-DETECTOR=multiblade
-
 DUMP_PATH=/home/martinshetty/data/efu_dump

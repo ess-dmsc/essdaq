@@ -1,17 +1,20 @@
 #!/bin/bash
 
-#ensure that we are in the script directory
-pushd $(dirname "${BASH_SOURCE[0]}")
+echo "STOP Delay-Line"
 
-#get config variables
-. ../../config/system.sh
+# change to directory of script
+cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null
+export DETECTORDIR=$(pwd)
 
-#mvme/scripts/stop_mvme.sh $MVME_IP
-#sleep 3
+source ../../config/scripts/base.sh
+
+#
+# #
+#
+
 ../../efu/efu_stop.sh
 sleep 3
-echo "STOP" | nc $DAQUIRI_IP 12345 -w 2
-#echo "SAVE" | nc $DAQUIRI_IP 12345 -w 2
-#echo "CLOSE_OLDER 90" | nc $DAQUIRI_IP 12345 -w 1
 
-
+stopDaquiri
+#saveDaquiri
+#closeDaquiri 90

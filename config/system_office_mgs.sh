@@ -9,6 +9,4 @@ DAQUIRI_IP=127.0.0.1
 EFU_MTU=1500
 UDP_ETH=enp1s0
 
-DETECTOR=delay
-
 DUMP_PATH=/home/daq

@@ -1,14 +1,29 @@
 #!/bin/bash
 
-THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+echo "START MULTIGRID"
 
-#ensure that we are in the script directory
-pushd $THISDIR
+# change to directory of script
+cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null
+export DETECTORDIR=$(pwd)
 
-#get config variables
-. ../../config/system.sh
+source ../../config/scripts/base.sh
 
-echo "START_NEW" | nc $DAQUIRI_IP 12345 -w 1
-../../efu/efu_start.sh --file $THISDIR/Sequoia_mappings.json
+systemChecks
+
+#
+# #
+#
+
+CONFIGARG=""
+if [[ $EFU_CONFIG != "" ]]; then
+  CONFIGARG="--file $(pwd)/${EFU_CONFIG}.json"
+fi
+
+startDaquiri
+
+../../efu/efu_start.sh $CONFIGARG $@
 sleep 1
-mvme/scripts/start_mvme.sh $MVME_IP
+
+if [[ $MVME_IP != "" ]]; then
+  mvme/scripts/start_mvme.sh $MVME_IP
+fi
