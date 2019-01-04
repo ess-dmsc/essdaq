@@ -8,8 +8,9 @@ source ../../config/scripts/base.sh
 # #
 #
 
+# This is no good, cannot differentiate other processes that may have "efu" somewhere in the string
 # don't start if EFU is running
-ps aux | grep -v grep | grep efu && errexit "EFU is already running on this machine"
+#ps aux | grep -v grep | grep efu && errexit "EFU is already running on this machine"
 
 UDPARG=""
 if [[ $EFU_UDP != "" ]]; then
@@ -24,10 +25,15 @@ else
   CONFIG_FILE=$HOME/essdaq/detectors/$DETECTOR/config.ini
 fi
 
+NOHWARG=""
+if [[ $NOHW != "" ]]; then
+  NOHWARG="--nohwcheck"
+fi
+
 test -f $CONFIG_FILE || errexit "No config file: $CONFIG_FILE"
 
 echo "Extra EFU args: $@"
 
 pushd ../../efu/event-formation-unit/build &> /dev/null || errexit "directory ./event-formation-unit/build does not exist"
-  ./bin/efu --read_config $CONFIG_FILE $UDPARG -b $KAFKA_IP:9092 -g $GRAFANA_IP --log_file $THISDIR/logfile.txt $@ 2>&1 > /dev/null &
+  ./bin/efu --read_config $CONFIG_FILE $UDPARG $NOHWARG -b $KAFKA_IP:9092 -g $GRAFANA_IP --log_file ../../logfile.txt $@ 2>&1 > /dev/null &
 popd
