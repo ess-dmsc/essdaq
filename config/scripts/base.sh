@@ -40,8 +40,10 @@ function closeDaquiri()
 
 function systemChecks()
 {
-. $DETECTORDIR/../../config/scripts/hwcheck.sh $UDP_ETH
-. $DETECTORDIR/../../config/scripts/nwcheck.sh
+  if [[ $NOHW == "" ]]; then
+    . $DETECTORDIR/../../config/scripts/hwcheck.sh $UDP_ETH
+    . $DETECTORDIR/../../config/scripts/nwcheck.sh
+  fi
 }
 
 #
