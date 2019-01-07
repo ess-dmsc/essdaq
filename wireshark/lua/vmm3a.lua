@@ -1,15 +1,10 @@
 
--- Copyright (C) 2016, 2017 European Spallation Source ERIC
+-- Copyright (C) 2016, 2017, 2018 European Spallation Source ERIC
 -- Wireshark plugin for dissecting VMM3/SRS readout data
 
 -- helper variable and functions
 
---OLD FORMAT
 
---data 1 (32 bit):
--- 	adc: 0-7, 14-15: 10 bit
--- 	tdc: 8-13, 22-23: 8 bit
--- 	bcid: 16-21, 26-31: 12 bit
 local t0=0
 local fc0=0
 local firstMarker = 0
@@ -44,13 +39,8 @@ end -- value=2^53 or even less, so better use a.l value
 function i64_toString(a)
   local s1=string.format("%x",a.l);
   local s2=string.format("%x",a.h);
-  -- reduced to 44 bit
-  --local s3="00000000000";
-  --s3=string.sub(s3,1,16-string.len(s1))..s1;
-  --s3=string.sub(s3,1,8-string.len(s2))..s2..string.sub(s3,9);
   return "0x"..string.upper(s2)..string.upper(s1);
 end
-
 
 function gray2bin32(ival)
   ival = bit.bxor(ival, bit.rshift(ival, 16))
@@ -72,7 +62,10 @@ function srsvmm_proto.dissector(buffer,pinfo,tree)
 	local protolen = buffer():len()
 	local srshdr = tree:add(srsvmm_proto,buffer(),"SRS Header")
 	local fc = buffer(0,4):uint()
-
+    local last_timestamp1 = 0
+    local timestamp1 = 0
+    local last_timestamp2 = 0
+    local timestamp2 = 0
 	if (fc0 == 0) and (fc ~= 0xfafafafa) then
 		fc0 = fc
 	end
@@ -96,27 +89,17 @@ function srsvmm_proto.dissector(buffer,pinfo,tree)
 			srshdr:add(buffer(8,4),"UDP Timestamp: " .. time .. " (" .. (time - t0) .. ")")
 			srshdr:add(buffer(12,4),"Offset overflow last frame: " .. overflow)
 
-
-
 			if protolen >= 16 then
 				local hits = (protolen-16)/data_length_byte
 				local hit_id = 0
 				local marker_id = 0
 				for i=1,hits do
-		 
+
 					local d1 = buffer(16 + (i-1)*data_length_byte, 4)
 					local d2 = buffer(20 + (i-1)*data_length_byte, 2)
 					-- data marker
-					local flag = bit.band(bit.rshift(d2:uint(), 15), 0x01) 
-					local timestamp1 = d1:uint() 
-					local timestamp2 = bit.lshift(d2:uint(), 22) 
-					local temp = i64_ax(timestamp1,timestamp2)
-					local timestamp = i64_rshift(temp,22)
-					if firstMarker == 0 then
-						firstMarker = i64_toInt(timestamp)
-					end
+					local flag = bit.band(bit.rshift(d2:uint(), 15), 0x01)
 
-					--if flag == 0 and math.fmod(i64_toInt(timestamp)-101,4096) == 0 then
 					if flag == 0 then
 					-- marker
 						--data 2 (16 bit):
@@ -126,21 +109,30 @@ function srsvmm_proto.dissector(buffer,pinfo,tree)
 
 						--data 1 (32 bit):
 						--	timestamp: 0-31: 32 bit
-	
+						last_timestamp1 = timestamp1
+						last_timestamp2 = timestamp2
+						timestamp1 = d1:uint()
+						timestamp2 = bit.lshift(d2:uint(), 22)
+						local temp = i64_ax(timestamp1,timestamp2)
+
+						local timestamp = i64_rshift(temp,22)
+						if firstMarker == 0 then
+							firstMarker = i64_toInt(timestamp)
+						end
 						marker_id = marker_id + 1
-						local vmmid =  bit.band(bit.rshift(d2:uint(), 10), 0x1F) 
-						
+						local vmmid =  bit.band(bit.rshift(d2:uint(), 10), 0x1F)
+
 						local hit = srshdr:add(buffer(16 + (i-1)*data_length_byte, data_length_byte),
 							string.format("Marker: %3d, SRS timestamp: %d, vmmid: %d",
 							marker_id, i64_toInt(timestamp), vmmid))
 
 						local d1handle = hit:add(d1, "Data1 " .. d1)
 						d1handle:add(d1, "timestamp: " .. i64_toString(timestamp))
-						
+
 						local d2handle = hit:add(d2, "Data2 " .. d2)
 						d2handle:add(d2, "flag: " .. flag)
 						d2handle:add(d2, "vmmid: " .. vmmid)
-						
+
 					else
 					-- hit
 						hit_id = hit_id + 1
@@ -155,22 +147,17 @@ function srsvmm_proto.dissector(buffer,pinfo,tree)
 						-- 	vmmid: 5-9: 5 bit
 						-- 	adc: 10-19: 10 bit
 						-- 	bcid: 20-31: 12 bit
-									
-						
-						local othr = bit.band(bit.rshift(d2:uint(), 14), 0x01) 
-						local chno = bit.band(bit.rshift(d2:uint(), 8), 0x3f) 
-						local tdc  = bit.band(d2:uint(), 0xff) 
 
-					
-						local offset = bit.band(bit.rshift(d1:uint(), 27), 0x1f) 
-						local vmmid = bit.band(bit.rshift(d1:uint(), 22), 0x1f) 
-						local adc   = bit.band(bit.rshift(d1:uint(), 12), 0x03FF) 
-						local gbcid   = bit.band(d1:uint(), 0x0FFF) 
+						local othr = bit.band(bit.rshift(d2:uint(), 14), 0x01)
+						local chno = bit.band(bit.rshift(d2:uint(), 8), 0x3f)
+						local tdc  = bit.band(d2:uint(), 0xff)
+
+						local offset = bit.band(bit.rshift(d1:uint(), 27), 0x1f)
+						local vmmid = bit.band(bit.rshift(d1:uint(), 22), 0x1f)
+						local adc   = bit.band(bit.rshift(d1:uint(), 12), 0x03FF)
+						local gbcid   = bit.band(d1:uint(), 0x0FFF)
 
 						local bcid  = gray2bin32(gbcid)
-					
-					
-					
 
 						local hit = srshdr:add(buffer(16 + (i-1)*data_length_byte, data_length_byte),
 							string.format("Hit: %3d, offset: %d, vmmID: %2d, ch: %2d, bcid: %4d, tdc: %4d, adc: %4d, over thr: %d",
@@ -182,15 +169,12 @@ function srsvmm_proto.dissector(buffer,pinfo,tree)
 						d1handle:add(d1, "adc: " .. adc)
 						d1handle:add(d1, "bcid(gray): " .. gbcid)
 						d1handle:add(d1, "bcid: " .. bcid)
-						
-						
 
 						local d2handle = hit:add(d2, "Data2 " .. d2)
 						d2handle:add(d2, "flag: " .. flag)
 						d2handle:add(d2, "ovr thresh: " .. othr)
 						d2handle:add(d2, "chno: " .. chno)
 						d2handle:add(d2, "tdc: " .. tdc)
-						
 					end
 				end
 		  		pinfo.cols.info = string.format("FEC: %d, Hits: %3d, Markers: %3d", fecid, hit_id, marker_id)
