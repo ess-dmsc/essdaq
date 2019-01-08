@@ -9,8 +9,4 @@ EFU_UDP=6006
 UDP_ETH=enp4s0
 EFU_MTU=1500
 
-DETECTOR=gdgem
-EFU_CONFIG=utgard
-EFU_CALIB=utgard
-
 DUMP_PATH=/home/mg/data/efu_dump

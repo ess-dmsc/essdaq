@@ -2,20 +2,28 @@
 
 echo "START GDGEM"
 
-THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+# change to directory of script
+cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null
+export DETECTORDIR=$(pwd)
 
-#ensure that we are in the script directory
-pushd $THISDIR
+source ../../config/scripts/base.sh
 
-#get config variables
-. ../../config/system.sh
+systemChecks
+
+#
+# #
+#
 
 CALIBARG=""
 if [[ $EFU_CALIB != "" ]]; then
-  CALIBARG="--calibration $THISDIR/${EFU_CONFIG}_calib.json"
+  CALIBARG="--calibration $(pwd)/${EFU_CONFIG}_calib.json"
 fi
 
-echo "START_NEW" | nc $DAQUIRI_IP 12345 -w 1
-../../efu/efu_start.sh --file $THISDIR/${EFU_CONFIG}_config.json $CALIBARG $@
-#sleep 1
+CONFIGARG=""
+if [[ $EFU_CONFIG != "" ]]; then
+  CONFIGARG="--file $(pwd)/${EFU_CONFIG}_config.json"
+fi
 
+startDaquiri
+
+../../efu/efu_start.sh  $CONFIGARG $CALIBARG $@

@@ -1,19 +1,16 @@
 #!/bin/bash
 
-function errexit {
-    echo Error: $1
-    exit 1
-}
+echo "START Multi-Blade - DUMPING TO FILE"
 
-THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+# change to directory of script
+cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null
+export DETECTORDIR=$(pwd)
 
-#ensure that we are in the script directory
-pushd $THISDIR
+source ../../config/scripts/base.sh
 
-#get config variables
-. ../../config/system.sh || errexit "invalid config file"
-
-./hwcheck.sh $UDP_ETH || errexit "hw check failed"
+#
+# #
+#
 
 subdir=$1
 splittime=$2
@@ -26,7 +23,7 @@ if [[ $1 == "" ]]; then
 fi
 
 if [ ! -d $DUMP_PATH ]; then
-    echo Directory $DUMP_PATH does not exist, exiting 
+    echo Directory $DUMP_PATH does not exist, exiting
     exit 0
 fi
 
@@ -34,7 +31,7 @@ fullpath=$DUMP_PATH/$subdir
 
 if [ ! -d $fullpath ]; then
     echo "$fullpath --> Folder does not exist --> It will be created"
-    mkdir -p $fullpath
+    mkdir -p $fullpath &>/dev/null || errexit "unable to create directory $fullpath"
 fi
 
 echo dumping files to directory: $fullpath
@@ -46,11 +43,8 @@ else
 fi
 
 RUNID=$(./getrunid)
-
-
 echo "Runid from Amor: $RUNID"
+
 prepend=$RUNID-$fileprefix
 
-echo "START_NEW" | nc $DAQUIRI_IP 12345 -w 1
-../../efu/efu_start.sh --file $THISDIR/MB18Freia.json --dumptofile $fullpath/$prepend --h5filesplit $splittime
-
+./start.sh --dumptofile $fullpath/$prepend --h5filesplit $splittime

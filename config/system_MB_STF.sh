@@ -1,15 +1,10 @@
 #!/bin/bash
 
-JADAQ_IP=10.10.10.3
 EFU_IP=10.10.10.2
 KAFKA_IP=10.10.10.2
 DAQUIRI_IP=10.10.10.2
 GRAFANA_IP=10.10.10.2
 
 UDP_ETH=eno1
-
-DETECTOR=multiblade
-
-JADAQ_DATA_DIR="/data/test22MB18"
 
 DUMP_PATH=/home/multigrid/data

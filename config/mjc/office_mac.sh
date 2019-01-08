@@ -1,0 +1,14 @@
+#!/bin/bash
+
+ESSDAQROOT=$HOME/essproj
+
+. $ESSDAQROOT/essdaq/config/mjc/common.sh
+
+EFU_IP=$MJCMAC
+KAFKA_IP=$MJCWS_I
+DAQUIRI_IP=$MJCWS_II
+GRAFANA_IP=$ECDC_GRAFANA
+
+UDP_ETH=en7
+
+DUMP_PATH=/tmp/essdaq

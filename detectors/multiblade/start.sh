@@ -1,23 +1,23 @@
 #!/bin/bash
 
-function errexit {
-    echo Error: $1
-    exit 1
-}
+echo "START MULTIBLADE"
 
-THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+# change to directory of script
+cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null
+export DETECTORDIR=$(pwd)
 
-#ensure that we are in the script directory
-pushd $THISDIR
+source ../../config/scripts/base.sh
 
-#get config variables
-. ../../config/system.sh || errexit "invalid config file"
+systemChecks
 
-./hwcheck.sh $UDP_ETH || errexit "hw check failed"
+#
+# #
+#
 
-./hwcheck.sh $UDP_ETH || errexit "hw check failed"
+CONFIGARG=""
+if [[ $EFU_CONFIG != "" ]]; then
+  CONFIGARG="--file $(pwd)/${EFU_CONFIG}.json"
+fi
 
-echo "START_NEW" | nc $DAQUIRI_IP 12345 -w 1
-../../efu/efu_start.sh --file $THISDIR/MB18Freia.json
-#sleep 1
-#mvme/scripts/start_mvme.sh $MVME_IP
+startDaquiri
+../../efu/efu_start.sh $CONFIGARG $@

@@ -1,9 +1,5 @@
 {
-  "reduction_strategy" : "prioritized",
-
-  "spoof_high_time" : false,
-
-  "geometry_mappings" :
+  "mappings" :
   [
     {"max_channel":120, "max_wire":80, "max_z":20, "swap_wires":false, "swap_grids":false, "flipped_x":false, "flipped_z":false},
     {"max_channel":120, "max_wire":80, "max_z":20, "swap_wires":false, "swap_grids":false, "flipped_x":false, "flipped_z":false},
@@ -14,7 +10,14 @@
     {"max_channel":120, "max_wire":80, "max_z":20, "swap_wires":true, "swap_grids":false, "flipped_x":false, "flipped_z":false},
 
     {"max_channel":120, "max_wire":80, "max_z":20, "swap_wires":true, "swap_grids":false, "flipped_x":false, "flipped_z":false},
-    {"max_channel":120, "max_wire":80, "max_z":20, "swap_wires":true, "swap_grids":false, "flipped_x":false, "flipped_z":false},
+    {"max_channel":120, "max_wire":80, "max_z":20, "swap_wires":true, "swap_grids":false, "flipped_x":false, "flipped_z":false,
+      "wire_filters":{
+        "blanket":{"min":100, "max":65535, "rescale":1.0}
+      },
+      "grid_filters":{
+        "blanket":{"min":100, "max":65535, "rescale":1.0}
+      }
+    },
     {"max_channel":120, "max_wire":80, "max_z":20, "swap_wires":true, "swap_grids":false, "flipped_x":false, "flipped_z":false,
       "grid_filters":{
         "blanket":{"min":0, "max":65535, "rescale":1.0},
@@ -25,6 +28,13 @@
         ]
       }
     }
-  ]
-  
+  ],
+
+  "builder": {
+    "type": "readouts"
+  },
+
+  "max_wire_hits" : 1,
+  "max_grid_hits" : 5,
+  "weighted" : true
 }
