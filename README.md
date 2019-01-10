@@ -58,4 +58,4 @@ See the list of contributors [on Github](https://github.com/ess-dmsc/essdaq/grap
 
 ## License
 
-This project is licensed under the BSD-2 License - see the [LICENSE.md](LICENSE.md) file for details.
+This project is licensed under the BSD-2 License - see the [LICENSE](LICENSE) file for details.
