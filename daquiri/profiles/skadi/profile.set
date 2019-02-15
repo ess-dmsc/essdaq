@@ -22,7 +22,7 @@
       {
        "id": "KafkaConfig/KafkaBroker",
        "type": "text",
-       "value": "dmsc-parallel:9092"
+       "value": "172.17.5.38:9092"
       },
       {
        "id": "KafkaConfig/KafkaTimeout",
@@ -156,6 +156,113 @@
    ],
    "id": "ESSStream",
    "reference": "SKADI",
+   "type": "stem"
+  },
+  {
+   "branches": [
+    {
+     "branches": [
+      {
+       "id": "KafkaConfig/KafkaBroker",
+       "type": "text",
+       "value": "172.17.5.38:9092"
+      },
+      {
+       "id": "KafkaConfig/KafkaTimeout",
+       "type": "integer",
+       "value": 1000
+      },
+      {
+       "id": "KafkaConfig/KafkaDecomission",
+       "type": "integer",
+       "value": 5000
+      }
+     ],
+     "id": "KafkaConfig",
+     "type": "stem"
+    },
+    {
+     "id": "ESSStream/TopicCount",
+     "type": "integer",
+     "value": 1
+    },
+    {
+     "branches": [
+      {
+       "branches": [
+        {
+         "id": "KafkaTopicConfig/KafkaTopic",
+         "type": "text",
+         "value": "SKADI_monitor"
+        },
+        {
+         "id": "KafkaTopicConfig/KafkaFF",
+         "type": "boolean",
+         "value": true
+        },
+        {
+         "id": "KafkaTopicConfig/KafkaMaxBacklog",
+         "type": "integer",
+         "value": 3
+        }
+       ],
+       "id": "KafkaTopicConfig",
+       "type": "stem"
+      },
+      {
+       "id": "ESSStream/Parser",
+       "type": "menu",
+       "value": 2
+      },
+      {
+       "branches": [
+        {
+         "id": "mo01_nmx/HistsStream",
+         "type": "text",
+         "value": "daqstr_hists"
+        },
+        {
+         "id": "mo01_nmx/XStream",
+         "type": "text",
+         "value": "notused"
+        },
+        {
+         "id": "mo01_nmx/YStream",
+         "type": "text",
+         "value": "notused2"
+        },
+        {
+         "id": "mo01_nmx/HitsStream",
+         "type": "text",
+         "value": "notused3"
+        },
+        {
+         "branches": [
+          {
+           "id": "TimeBase/multiplier",
+           "type": "integer",
+           "value": 1
+          },
+          {
+           "id": "TimeBase/divider",
+           "type": "integer",
+           "value": 1
+          }
+         ],
+         "id": "TimeBase",
+         "type": "stem"
+        }
+       ],
+       "id": "mo01_nmx",
+       "type": "stem"
+      }
+     ],
+     "id": "ESSStream/Topic",
+     "type": "stem"
+    }
+   ],
+   "id": "ESSStream",
+   "reference": "hists",
    "type": "stem"
   }
  ],
