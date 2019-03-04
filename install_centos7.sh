@@ -16,7 +16,7 @@ if [[ $getconan =~ ^(yes|y| ) ]]; then
   conan remote add conan-transit https://api.bintray.com/conan/conan/conan-transit
   conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
   conan remote add ess-dmsc https://api.bintray.com/conan/ess-dmsc/conan
-  scl enable devtoolset-7 -- conan profile new --detect default
+  scl enable devtoolset-6 -- conan profile new --detect default
   #TODO: only Linux-machines w/ native gcc>=5 (forces new ABI); DO NOT USE ON CENTOS7
   #conan profile update settings.compiler.libcxx=libstdc++11 default
 fi

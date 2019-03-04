@@ -17,9 +17,9 @@ mkdir -p $HOME/data
 mkdir -p $HOME/data/efu_dump
 mkdir ./event-formation-unit/build
 pushd event-formation-unit/build
-scl enable devtoolset-7 -- cmake3 ..
+scl enable devtoolset-6 -- cmake3 ..
 #(or -DCMAKE_BUILD_TYPE=Release -DBUILDSTR=speedtest ..)
-scl enable devtoolset-7 -- make -j$NUMCPUS && make unit_tests -j$NUMCPUS
-scl enable devtoolset-7 -- make runtest && make runefu
+scl enable devtoolset-6 -- make -j$NUMCPUS && make unit_tests -j$NUMCPUS
+scl enable devtoolset-6 -- make runtest && make runefu
 popd
 
