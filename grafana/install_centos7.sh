@@ -17,8 +17,11 @@ sudo systemctl start docker
 sudo docker swarm init
 sudo docker stack deploy -c docker/docker-compose.yml metrics
 
-yes | cp -rf ./Grafana.desktop $HOME/Desktop/
-echo "Icon=$THISDIR/icon.png" >> $HOME/Desktop/Grafana.desktop
+if test -d $HOME/Desktop; then
+  echo Adding desktop icons
+  cp -rf ./Grafana.desktop $HOME/Desktop/
+  echo "Icon=$THISDIR/icon.png" >> $HOME/Desktop/Grafana.desktop
+fi
 
 echo "Grafana installed! Please proceed with (manual) configuration steps:"
 cat README.md
