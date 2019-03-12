@@ -11,7 +11,7 @@ function errexit()
 function detectos()
 {
     cat /etc/centos-release 2>/dev/null | grep CentOS &>/dev/null && SYSTEM=centos
-    uname -a | grep Ubuntu &>/dev/null && SYSTEM=ubuntu
+    cat /etc/lsb-release 2>/dev/null    | grep Ubuntu &>/dev/null && SYSTEM=ubuntu
     uname -a | grep Darwin &>/dev/null && SYSTEM=macos
 }
 
