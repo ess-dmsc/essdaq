@@ -1,11 +1,11 @@
 #!/bin/bash
 
+INSTALLMODE=${1:-manual}
+
 #ensure that we are in the script directory
 pushd $(dirname "${BASH_SOURCE[0]}")
 
-read -r -p "Install and setup conan? [Y/n]" getconan
-getconan=${getconan,,} # tolower
-if [[ $getconan =~ ^(yes|y| ) ]]; then
+function install_conan() {
   #TODO: do we use python3 instead?
   sudo apt install -y python-pip
   sudo pip2 install conan
@@ -16,6 +16,27 @@ if [[ $getconan =~ ^(yes|y| ) ]]; then
   conan profile new --detect default
   #TODO: only ubuntu
   conan profile update settings.compiler.libcxx=libstdc++11 default
+}
+
+#
+#
+#
+
+if [[ $INSTALLMODE == "auto" ]]; then
+  echo "AUTOMATIC INSTALL"
+  install_conan
+  grafana/install.sh
+  kafka/install.sh
+  efu/install.sh
+  daquiri/install.sh
+  exit 0
+fi
+
+echo "INTERACTIVE INSTALL"
+read -r -p "Install and setup conan? [Y/n]" getconan
+getconan=${getconan,,} # tolower
+if [[ $getconan =~ ^(yes|y| ) ]]; then
+  install_conan
 fi
 
 read -r -p "Install docker and start up grafana? [Y/n]" getgrafana

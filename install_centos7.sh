@@ -21,16 +21,21 @@ function install_conan() {
   #conan profile update settings.compiler.libcxx=libstdc++11 default
 }
 
+#
+#
+#
+
 if [[ $INSTALLMODE == "auto" ]]; then
   echo "AUTOMATIC INSTALL"
   install_conan
-  #grafana/install_centos7.sh
-  #./kafka/install_centos7.sh
-  ./efu/install_centos7.sh
-  #./daquiri/install.sh
+  grafana/install_centos7.sh
+  kafka/install_centos7.sh
+  efu/install_centos7.sh
+  #daquiri/install.sh
   exit 0
 fi
 
+echo "INTERACTIVE INSTALL"
 read -r -p "Install and setup conan? [Y/n]" getconan
 getconan=${getconan,,} # tolower
 if [[ $getconan =~ ^(yes|y| ) ]]; then
