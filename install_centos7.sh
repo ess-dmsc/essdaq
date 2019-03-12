@@ -1,11 +1,11 @@
 #!/bin/bash
 
+INSTALLMODE=${1:-manual}
+
 #ensure that we are in the script directory
 pushd $(dirname "${BASH_SOURCE[0]}")
 
-read -r -p "Install and setup conan? [Y/n]" getconan
-getconan=${getconan,,} # tolower
-if [[ $getconan =~ ^(yes|y| ) ]]; then
+function install_conan() {
   #TODO: do we use python3 instead? (issues on CentOS7 w/ 3.4 and 3.6!)
   sudo yum install -y python-pip
   sudo pip2 install --upgrade pip # installs pip > 19.0.3
@@ -19,6 +19,22 @@ if [[ $getconan =~ ^(yes|y| ) ]]; then
   scl enable devtoolset-6 -- conan profile new --detect default
   #TODO: only Linux-machines w/ native gcc>=5 (forces new ABI); DO NOT USE ON CENTOS7
   #conan profile update settings.compiler.libcxx=libstdc++11 default
+}
+
+if [[ $INSTALLMODE == "auto" ]]; then
+  echo "AUTOMATIC INSTALL"
+  install_conan
+  #grafana/install_centos7.sh
+  #./kafka/install_centos7.sh
+  ./efu/install_centos7.sh
+  #./daquiri/install.sh
+  exit 0
+fi
+
+read -r -p "Install and setup conan? [Y/n]" getconan
+getconan=${getconan,,} # tolower
+if [[ $getconan =~ ^(yes|y| ) ]]; then
+  install_conan
 fi
 
 read -r -p "Install docker and start up grafana? [Y/n]" getgrafana
