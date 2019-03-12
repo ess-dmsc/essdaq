@@ -19,6 +19,7 @@ mkdir -p $HOME/data/efu_dump
 mkdir ./event-formation-unit/build
 
 pushd event-formation-unit/build
+  scl enable devtoolset-6 -- conan install --build=boost_filesystem --options boost_filesystem:shared=True --options boost_system:shared=True boost_filesystem/1.69.0@bincrafters/stable
   scl enable devtoolset-6 -- conan install --build=outdated ..
 
   scl enable devtoolset-6 -- cmake3 -DCONAN=MANUAL ..
