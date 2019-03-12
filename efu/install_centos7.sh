@@ -13,14 +13,19 @@ if [[ $usessh =~ ^(yes|y| ) ]]; then
 else
   git clone https://github.com/ess-dmsc/event-formation-unit.git
 fi
+
 mkdir -p $HOME/data
 mkdir -p $HOME/data/efu_dump
 mkdir ./event-formation-unit/build
+
 pushd event-formation-unit/build
-scl enable devtoolset-6 -- conan install --build ..
-scl enable devtoolset-6 -- cmake3 -DCONAN=MANUAL ..
-#(or -DCMAKE_BUILD_TYPE=Release -DBUILDSTR=speedtest ..)
-scl enable devtoolset-6 -- make -j$NUMCPUS && make unit_tests -j$NUMCPUS
-scl enable devtoolset-6 -- make runtest && make runefu
+  scl enable devtoolset-6 -- conan install --build=outdated ..
+
+  scl enable devtoolset-6 -- cmake3 -DCONAN=MANUAL ..
+  #(or -DCMAKE_BUILD_TYPE=Release -DBUILDSTR=speedtest ..)
+
+  scl enable devtoolset-6 -- make -j$NUMCPUS && make unit_tests -j$NUMCPUS
+
+  scl enable devtoolset-6 -- make runtest && make runefu
 popd
 
