@@ -13,5 +13,5 @@ else
   git clone https://github.com/ess-dmsc/daquiri.git
 fi
 pushd daquiri
-./utils/first_build.sh -j$NUMCPUS
+  ./utils/first_build.sh -j$NUMCPUS
 popd
