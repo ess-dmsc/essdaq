@@ -11,7 +11,7 @@ This repository contains a set of scripts and config files for getting a neutron
 - Download and build [DAQuiri](https://github.com/ess-dmsc/daquiri).
 - Update `conan`, `EFU` and `DAQuiri` to latest versions.
 
-A description of the contents of each directory in the root of the repository can be found in [documentation/directories.md].
+A description of the contents of each directory in the root of the repository can be found in [documentation/directories.md](documentation/directories.md).
 
 
 ## Getting started
