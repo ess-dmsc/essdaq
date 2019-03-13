@@ -11,15 +11,8 @@ This repository contains a set of scripts and config files for getting a neutron
 - Download and build [DAQuiri](https://github.com/ess-dmsc/daquiri).
 - Update `conan`, `EFU` and `DAQuiri` to latest versions.
 
-The directories of this repository are as follows:
+A description of the contents of each directory in the root of the repository can be found in documentation/directories.md.
 
-Directory             | Function
--------------         | -------------
-config                | configurations directory; modify `system.sh` to your liking
-efu                   | event formation unit & scripts for installing/starting/stopping
-grafana               | grafana installation scripts, configuration files
-kafka                 | kafka installation and start/stop scripts
-detectors             | detector-specific setups
 
 ## Getting started
 
@@ -33,7 +26,8 @@ detectors             | detector-specific setups
 ```
 git clone https://github.com/ess-dmsc/essdaq.git
 cd essdaq
-./install.sh
+./install.sh          # for Ubuntu
+./install)centos7.sh  # for CentOS 
 ```
 
 The script *install.sh* will ask you a few questions during the installation process.
@@ -43,7 +37,7 @@ to run `efu/netstats.sh`.
 
 ### Updating the software
 
-Just run `./update.sh` and answer the simple questions
+Just run `./update.sh` and answer the simple questions (currently only for Ubuntu)
 
 ## Contributing
 
