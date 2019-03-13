@@ -63,5 +63,5 @@ fi
 read -r -p "Get and build Daquiri? [Y/n]" getdaquiri
 getdaquiri=${getdaquiri,,} # tolower
 if [[ $getdaquiri =~ ^(yes|y| ) ]]; then
-  ./daquiri/install.sh
+  ./daquiri/install_centos7.sh
 fi
