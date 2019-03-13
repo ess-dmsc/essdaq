@@ -31,7 +31,8 @@ if [[ $INSTALLMODE == "auto" ]]; then
   grafana/install_centos7.sh
   kafka/install_centos7.sh
   efu/install_centos7.sh
-  #daquiri/install.sh
+  echo NOT INSTALLING DAQUIRI YET
+  #daquiri/install_centos7.sh
   exit 0
 fi
 
