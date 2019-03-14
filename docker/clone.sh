@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BRANCH=centos7_stf
+BRANCH=master
 
 function errexit()
 {

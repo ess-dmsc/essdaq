@@ -31,9 +31,6 @@ cd essdaq
 ```
 
 The script *install.sh* and *install_centos7.sh* will ask you a few questions during the installation process.
-In the `/config` directory, rename one of the `system_*.sh` files to `system.sh` and modify to your liking. The default one for everything running
-on `localhost` is a good start for a single-machine configuration. You may need to specify the name of the network interface to be able
-to run `efu/netstats.sh`.
 
 #### Automatic mode
 
@@ -43,6 +40,34 @@ cd essdaq
 ./autoinstall.sh          # detect os and install
 ```
 If Ubuntu is detected the install.sh script is run, if CentOS, then install_centos7.sh. Both scripts are given the 'auto' argument.
+
+### Post-install configuration
+In order to run correctly the essdaq scripts need to know the following about your system:
+
+* IP address of the servers running Daquiri, Kafka, EFU and Grafana
+* Location to write data files
+* Name of the ethernet adaptor in use (to be able to run `config/scripts/hwcheck.sh` and `efu/netstats.sh`)
+
+This is specified in a system config file. In the `/config` directory, copy one of the `system_*.sh` files
+to `system_mysystem.sh`  and modify it to your liking. The default one for everything running
+on `localhost` is a good start for a single-machine configuration.
+
+    > cat config/system_mysystem.sh
+    #!/bin/bash
+
+    EFU_IP=10.10.10.2
+    KAFKA_IP=129.129.138.94
+    DAQUIRI_IP=172.17.5.242
+    GRAFANA_IP=172.17.12.31
+
+    UDP_ETH=eno1
+
+    DUMP_PATH=/tmp/data
+
+Create a symbolic link to the configuration file named `system.sh`.
+
+    > ln -s config/system_mysystem.sh config/system.sh
+
 
 ### Updating the software
 
