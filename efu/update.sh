@@ -3,7 +3,7 @@
 #ensure that we are in the script directory
 pushd $(dirname "${BASH_SOURCE[0]}")
 
-. ../config/numcpus.sh
+. ../config/scripts/numcpus.sh
 
 pushd event-formation-unit/build
 git pull
