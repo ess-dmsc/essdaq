@@ -3,8 +3,8 @@
 #ensure that we are in the script directory
 pushd $(dirname "${BASH_SOURCE[0]}")
 
-. ../config/numcpus.sh
-. ../config/sshconfig.sh
+. ../config/scripts/numcpus.sh
+. ../config/scripts/sshconfig.sh
 
 sudo add-apt-repository ppa:wireshark-dev/stable
 sudo apt update
@@ -25,4 +25,3 @@ cmake ..
 make -j$NUMCPUS && make unit_tests -j$NUMCPUS
 make runtest && make runefu
 popd
-

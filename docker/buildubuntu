@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cp -f Dockerfile_ubuntu Dockerfile
+docker ps -a
+docker build . -t essdaq || exit 
+docker rm $(docker ps -a -q)
+docker run -i -t -l essdaqtry essdaq
