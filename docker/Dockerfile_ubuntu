@@ -4,7 +4,7 @@ FROM ubuntu:18.04
 
 # install our own prerequisites
 RUN apt-get update 
-RUN apt-get install -y git cmake sudo python3
+RUN apt-get install -y vim git cmake sudo python3
 #cmake3 python36 python36-devel python36-pip
 
 # add sudo user
@@ -14,10 +14,12 @@ RUN echo "essdaq ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 RUN useradd -p $1$GDleMP1C$Gk4BMmk/tu9AxXgi/dBcX. -ms /bin/bash essdaq
 COPY clone.sh /home/essdaq
 RUN chmod 755 /home/essdaq/clone.sh
+RUN chown essdaq:essdaq /home/essdaq/clone.sh
 
 # avoid having to type (yes)
 COPY known_hosts /home/essdaq/.ssh/
 RUN chmod 644 /home/essdaq/.ssh/known_hosts
+RUN chown -R essdaq:essdaq /home/essdaq/.ssh
 
 USER essdaq
 WORKDIR /home/essdaq
