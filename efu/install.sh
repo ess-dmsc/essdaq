@@ -3,8 +3,8 @@
 #ensure that we are in the script directory
 pushd $(dirname "${BASH_SOURCE[0]}")
 
-. ../config/scripts/numcpus.sh || exit 1
-. ../config/scripts/sshconfig.sh || exit 1
+. ../config/scripts/numcpus.sh
+. ../config/scripts/sshconfig.sh
 
 #sudo add-apt-repository ppa:wireshark-dev/stable
 sudo apt update
@@ -20,8 +20,9 @@ fi
 mkdir -p $HOME/data/efu_dump
 mkdir ./event-formation-unit/build
 pushd event-formation-unit/build
-  cmake .. || exit 1
-  #(or -DCMAKE_BUILD_TYPE=Release -DBUILDSTR=speedtest ..)
+  conan install --build=outdated .. || exit 1
+  cmake -DCONAN=MANUAL .. || exit 1
+
   make -j$NUMCPUS || exit 1
   make unit_tests -j$NUMCPUS || exit 1
   make runtest  || exit 1
