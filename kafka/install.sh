@@ -6,7 +6,7 @@ pushd $(dirname "${BASH_SOURCE[0]}")
 . version.sh
 
 kafkafile="kafka_2.11-$kafkaversion"
-sudo apt update && sudo apt-get install -y --no-install-recommends curl default-jre python3-pip
+sudo apt update && sudo apt-get install -y curl default-jre python3-pip
 sudo pip3 install kafka-python
 sudo pip3 install argparse
 curl -LO http://ftp.download-by.net/apache/kafka/$kafkaversion/$kafkafile.tgz
@@ -21,4 +21,4 @@ rm -f ./$kafkafile.tar
 #sed -e 's/\/\\1\/p/\.\*\/\\1\/p/' ./$kafkafile/bin/old_kafka-run-class.sh > ./$kafkafile/bin/kafka-run-class.sh
 #chmod +x ./$kafkafile/bin/kafka-run-class.sh
 
-echo "Kafka install finished" >> ~/install.log
+echo "Kafka install finished" >> $LOGFILE

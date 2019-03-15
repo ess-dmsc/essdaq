@@ -2,6 +2,9 @@
 
 INSTALLMODE=${1:-manual}
 
+mkdir -p /tmp/results
+export LOGFILE=~/tmp/results/install.log
+
 #ensure that we are in the script directory
 pushd $(dirname "${BASH_SOURCE[0]}")
 
@@ -23,14 +26,14 @@ function install_conan() {
   #TODO: only ubuntu
   conan profile update settings.compiler.libcxx=libstdc++11 default
 
-  echo "Conan install finished" >> ~/install.log
+  echo "Conan install finished" >> $LOGFILE
 }
 
 #
 #
 #
 
-rm -rf ~/install.log
+rm -rf $LOGFILE
 
 if [[ $INSTALLMODE == "auto" ]]; then
   echo "AUTOMATIC INSTALL"

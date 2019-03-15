@@ -1,7 +1,14 @@
 #!/bin/bash
 
 cp -f Dockerfile_ubuntu Dockerfile
-docker ps -a
-docker build . -t essdaq || exit 
-docker rm $(docker ps -a -q)
-docker run -i -t -l essdaqtry essdaq
+docker build . -t essdaq || exit
+
+containers=$(docker ps -a -q)
+if [[ $containers != "" ]]; then
+  docker rm $containers
+fi
+#docker network prune -f
+#docker network create --subnet=10.1.0.0/16 essdaqnet
+docker run -it -v /tmp/dockerresults:/tmp/results -p 18888:8888/tcp -l essdaqtry essdaq
+#docker run -it --net essdaqnet --ip 10.1.15.16 -p 18888:8888/tcp -l essdaqtry essdaq
+#docker run -it --network host -p 18888:8888/tcp -l essdaqtry essdaq
