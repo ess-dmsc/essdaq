@@ -17,14 +17,14 @@ function errexit()
 function install_conan() {
   #TODO: do we use python3 instead?
   sudo apt-get install -y python-pip
-  sudo pip2 install conan
-  conan remote add conancommunity https://api.bintray.com/conan/conan-community/conan
-  conan remote add conan-transit https://api.bintray.com/conan/conan/conan-transit
-  conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-  conan remote add ess-dmsc https://api.bintray.com/conan/ess-dmsc/conan
-  conan profile new --detect default
+  sudo pip2 install conan || exixt 1
+  conan remote add conancommunity https://api.bintray.com/conan/conan-community/conan || exit 1
+  conan remote add conan-transit https://api.bintray.com/conan/conan/conan-transit || exit 1
+  conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan || exit 1
+  conan remote add ess-dmsc https://api.bintray.com/conan/ess-dmsc/conan || exit 1
+  conan profile new --detect default || exit 1
   #TODO: only ubuntu
-  conan profile update settings.compiler.libcxx=libstdc++11 default
+  conan profile update settings.compiler.libcxx=libstdc++11 default || exit 1
 
   echo "Conan install finished" >> $LOGFILE
 }
