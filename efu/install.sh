@@ -8,8 +8,7 @@ pushd $(dirname "${BASH_SOURCE[0]}")
 
 #sudo add-apt-repository ppa:wireshark-dev/stable
 sudo apt update
-sudo apt install -y vim cmake flex ethtool glogg hdf5-tools wireshark
-#sudo apt install -y cmake libpcap-dev ethtool glogg hdf5-tools wireshark
+sudo apt-get install -y --no-install-recommends vim cmake flex ethtool glogg hdf5-tools wireshark
 
 if [[ $usessh =~ ^(yes|y| ) ]]; then
   git clone git@github.com:ess-dmsc/event-formation-unit.git
@@ -25,3 +24,5 @@ pushd event-formation-unit/build
   make -j$NUMCPUS && make unit_tests -j$NUMCPUS
   make runtest && make runefu
 popd
+
+echo "EFU install finished" >> ~/install.log

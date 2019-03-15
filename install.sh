@@ -5,9 +5,15 @@ INSTALLMODE=${1:-manual}
 #ensure that we are in the script directory
 pushd $(dirname "${BASH_SOURCE[0]}")
 
+function errexit()
+{
+  echo Error: $1
+  exit 1
+}
+
 function install_conan() {
   #TODO: do we use python3 instead?
-  sudo apt install -y python-pip
+  sudo apt-get install -y --no-install-recommends python-pip
   sudo pip2 install conan
   conan remote add conancommunity https://api.bintray.com/conan/conan-community/conan
   conan remote add conan-transit https://api.bintray.com/conan/conan/conan-transit
@@ -16,19 +22,23 @@ function install_conan() {
   conan profile new --detect default
   #TODO: only ubuntu
   conan profile update settings.compiler.libcxx=libstdc++11 default
+
+  echo "Conan install finished" >> ~/install.log
 }
 
 #
 #
 #
 
+rm -rf ~/install.log
+
 if [[ $INSTALLMODE == "auto" ]]; then
   echo "AUTOMATIC INSTALL"
-  install_conan
-  grafana/install.sh
-  kafka/install.sh
-  efu/install.sh
-  daquiri/install.sh
+  install_conan  || errexit "conan install failed"
+  grafana/install.sh || errexit "grafana install failed"
+  kafka/install.sh || errexit "kafka install failed"
+  efu/install.sh || errexit "efu install failed"
+  daquiri/install.sh || errexit "daquiri install failed"
   exit 0
 fi
 

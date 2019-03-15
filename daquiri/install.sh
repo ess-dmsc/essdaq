@@ -6,7 +6,7 @@ pushd $(dirname "${BASH_SOURCE[0]}")
 . ../config/scripts/numcpus.sh
 . ../config/scripts/sshconfig.sh
 
-sudo apt install -y cmake qt5-default
+sudo apt-get install -y --no-install-recommends cmake qt5-default
 if [[ $usessh =~ ^(yes|y| ) ]]; then
   git clone git@github.com:ess-dmsc/daquiri.git
 else
@@ -15,3 +15,5 @@ fi
 pushd daquiri
   ./utils/first_build.sh -j$NUMCPUS
 popd
+
+echo "Daquiri install finished" >> ~/install.log
