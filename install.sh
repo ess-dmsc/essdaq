@@ -23,7 +23,7 @@ function install_conan() {
   conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan || exit 1
   conan remote add ess-dmsc https://api.bintray.com/conan/ess-dmsc/conan || exit 1
   conan profile new --detect default || exit 1
-  #TODO: only ubuntu
+
   conan profile update settings.compiler.libcxx=libstdc++11 default || exit 1
 
   echo "Conan install finished" >> $LOGFILE
