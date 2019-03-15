@@ -3,7 +3,7 @@
 INSTALLMODE=${1:-manual}
 
 mkdir -p /tmp/results
-export LOGFILE=~/tmp/results/install.log
+export LOGFILE=/tmp/results/install.log
 
 #ensure that we are in the script directory
 pushd $(dirname "${BASH_SOURCE[0]}")
@@ -49,29 +49,29 @@ echo "INTERACTIVE INSTALL"
 read -r -p "Install and setup conan? [Y/n]" getconan
 getconan=${getconan,,} # tolower
 if [[ $getconan =~ ^(yes|y| ) ]]; then
-  install_conan
+  install_conan || errexit "conan install failed"
 fi
 
 read -r -p "Install docker and start up grafana? [Y/n]" getgrafana
 getgrafana=${getgrafana,,} # tolower
 if [[ $getgrafana =~ ^(yes|y| ) ]]; then
-  grafana/install.sh
+  grafana/install.sh || errexit "grafana install failed"
 fi
 
 read -r -p "Install kafka? [Y/n]" getfkafka
 getfkafka=${getfkafka,,} # tolower
 if [[ $getfkafka =~ ^(yes|y| ) ]]; then
-  ./kafka/install.sh
+  ./kafka/install.sh || errexit "kafka install failed"
 fi
 
 read -r -p "Get and build EFU? [Y/n]" getefu
 getefu=${getefu,,} # tolower
 if [[ $getefu =~ ^(yes|y| ) ]]; then
-  ./efu/install.sh
+  ./efu/install.sh || errexit "efu install failed"
 fi
 
 read -r -p "Get and build Daquiri? [Y/n]" getdaquiri
 getdaquiri=${getdaquiri,,} # tolower
 if [[ $getdaquiri =~ ^(yes|y| ) ]]; then
-  ./daquiri/install.sh
+  ./daquiri/install.sh || errexit "daquiri install failed"
 fi
