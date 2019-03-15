@@ -13,7 +13,7 @@ function errexit()
 
 function install_conan() {
   #TODO: do we use python3 instead?
-  sudo apt-get install -y --no-install-recommends python-pip
+  sudo apt-get install -y python-pip
   sudo pip2 install conan
   conan remote add conancommunity https://api.bintray.com/conan/conan-community/conan
   conan remote add conan-transit https://api.bintray.com/conan/conan/conan-transit
