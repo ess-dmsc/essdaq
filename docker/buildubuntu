@@ -7,8 +7,13 @@ containers=$(docker ps -a -q)
 if [[ $containers != "" ]]; then
   docker rm $containers
 fi
-#docker network prune -f
-#docker network create --subnet=10.1.0.0/16 essdaqnet
-docker run -it -v /tmp/dockerresults:/tmp/results -p 18888:8888/tcp -l essdaqtry essdaq
-#docker run -it --net essdaqnet --ip 10.1.15.16 -p 18888:8888/tcp -l essdaqtry essdaq
+
+FILESYS="-v /tmp/dockerresults:/tmp/results"
+PORTS="--expose=8888 -p 8888:8888/tcp"
+
+docker network prune -f
+docker network create --subnet=10.1.0.0/16 essdaqnet
+
+#docker run $FILESYS $PORTS -it -l essdaqtry essdaq
+docker run $FILESYS $PORTS -it --net essdaqnet --ip 10.1.15.16 -l essdaqtry essdaq
 #docker run -it --network host -p 18888:8888/tcp -l essdaqtry essdaq

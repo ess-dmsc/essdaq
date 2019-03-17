@@ -4,7 +4,7 @@ FROM ubuntu:18.04
 
 # install our own prerequisites
 RUN apt-get update
-RUN apt-get install -y vim sudo
+RUN apt-get install -y vim sudo net-tools 
 RUN apt-get install -y git cmake python3
 
 # add sudo user

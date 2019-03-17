@@ -6,7 +6,7 @@ pushd $(dirname "${BASH_SOURCE[0]}")
 . ../config/scripts/numcpus.sh
 . ../config/scripts/sshconfig.sh
 
-sudo yum install -y cmake qt5-default
+sudo yum install -y cmake3 qt5-qtbase-devel
 if [[ $usessh =~ ^(yes|y| ) ]]; then
   git clone git@github.com:ess-dmsc/daquiri.git
 else

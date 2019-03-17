@@ -3,14 +3,17 @@ FROM centos
 ENV container docker
 
 # these commands are run as root
-# install CentOS related utilities 
+# install CentOS related utilities
 RUN yum install -y centos-release-scl epel-release
 RUN yum install -y devtoolset-6
 
 # install our own prerequisites
-RUN yum install -y vim git cmake cmake3 sudo python36 python36-devel python36-pip
+RUN yum install -y vim git cmake3 sudo python36 python36-devel python36-pip
 RUN yum autoremove -y
 RUN yum clean all
+
+RUN rm -f /usr/bin/cmake
+RUN ln -s /usr/bin/cmake3 /usr/bin/cmake
 
 # add sudo user
 RUN echo "essdaq ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
