@@ -20,19 +20,21 @@ function install_conan() {
   sudo pip2 install --upgrade pip # installs pip > 19.0.3
   #sudo pip3.6 install --upgrade pip # kills itself..?!
   #sudo pip3.4 install --upgrade pip # installs pip > 19.0.3; python3.4 not maintained after March 2019; conan NOT working
-  sudo pip2 install conan
-  conan remote add conancommunity https://api.bintray.com/conan/conan-community/conan
-  conan remote add conan-transit https://api.bintray.com/conan/conan/conan-transit
-  conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-  conan remote add ess-dmsc https://api.bintray.com/conan/ess-dmsc/conan
-  scl enable devtoolset-6 -- conan profile new --detect default
-  #TODO: only Linux-machines w/ native gcc>=5 (forces new ABI); DO NOT USE ON CENTOS7
-  #conan profile update settings.compiler.libcxx=libstdc++11 default
+  sudo pip2 install conan || exit 1
+  conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan || exit 1
+  conan remote add conancommunity https://api.bintray.com/conan/conan-community/conan || exit 1
+  conan remote add conan-transit https://api.bintray.com/conan/conan/conan-transit || exit 1
+  conan remote add ess-dmsc https://api.bintray.com/conan/ess-dmsc/conan || exit 1
+  scl enable devtoolset-6 -- conan profile new --detect default || exit 1
+
+  echo "Conan install finished" >> $LOGFILE
 }
 
 #
 #
 #
+
+rm -rf $LOGFILE
 
 if [[ $INSTALLMODE == "auto" ]]; then
   echo "AUTOMATIC INSTALL"

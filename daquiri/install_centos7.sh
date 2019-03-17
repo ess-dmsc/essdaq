@@ -8,11 +8,13 @@ pushd $(dirname "${BASH_SOURCE[0]}")
 
 sudo yum install -y cmake3 qt5-qtbase-devel
 if [[ $usessh =~ ^(yes|y| ) ]]; then
-  git clone git@github.com:ess-dmsc/daquiri.git
+  git clone git@github.com:ess-dmsc/daquiri.git || exit 1
 else
-  git clone https://github.com/ess-dmsc/daquiri.git
+  git clone https://github.com/ess-dmsc/daquiri.git || exit 1
 fi
 
 pushd daquiri
-  scl enable devtoolset-6 -- ./utils/first_build.sh -j$NUMCPUS
+  scl enable devtoolset-6 -- ./utils/first_build.sh -j$NUMCPUS || exit 1
 popd
+
+echo "Daquiri install finished" >> $LOGFILE
