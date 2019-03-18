@@ -1,4 +1,4 @@
-#!/bin/bash
+
 
 function errexit()
 {
@@ -8,7 +8,7 @@ function errexit()
 
 function detectos()
 {
-  echo "Detect OS and select install script"
+  echo "Detect OS"
   command -v grep  &>/dev/null || errexit "grep command does not exist"
   command -v cat   &>/dev/null || errexit "cat command does not exist"
   command -v uname &>/dev/null || errexit "uname command does not exist"
@@ -16,6 +16,8 @@ function detectos()
   cat /etc/centos-release 2>/dev/null | grep CentOS &>/dev/null && export SYSTEM=centos
   cat /etc/lsb-release 2>/dev/null    | grep Ubuntu &>/dev/null && export SYSTEM=ubuntu
   uname -a | grep Darwin &>/dev/null && export SYSTEM=macos
+
+  echo "Detected os: $SYSTEM"
 }
 
 function installpkg()
@@ -27,12 +29,12 @@ function installpkg()
     errexit "No install package specified"
   fi
 
-  if [[ $SYSTEM == "ubuntu"]]; then
-    apt-get install -y $UBUNTUPKG
+  if [[ $SYSTEM == "ubuntu" ]]; then
+    sudo apt-get install -y $UBUNTUPKG
   fi
 
-  if [[ $SYSTEM == "centos"]]; then
-    yum install -y $CENTOSPKG
+  if [[ $SYSTEM == "centos" ]]; then
+    sudo yum install -y $CENTOSPKG
   fi
 }
 
