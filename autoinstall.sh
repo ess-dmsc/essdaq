@@ -10,9 +10,9 @@ function errexit()
 
 function detectos()
 {
-    cat /etc/centos-release 2>/dev/null | grep CentOS &>/dev/null && SYSTEM=centos
-    cat /etc/lsb-release 2>/dev/null    | grep Ubuntu &>/dev/null && SYSTEM=ubuntu
-    uname -a | grep Darwin &>/dev/null && SYSTEM=macos
+    cat /etc/centos-release 2>/dev/null | grep CentOS &>/dev/null && export SYSTEM=centos
+    cat /etc/lsb-release 2>/dev/null    | grep Ubuntu &>/dev/null && export SYSTEM=ubuntu
+    uname -a | grep Darwin &>/dev/null && export SYSTEM=macos
 }
 
 command -v grep  &>/dev/null || errexit "grep command does not exist"
