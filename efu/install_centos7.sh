@@ -18,18 +18,18 @@ mkdir -p $HOME/data/efu_dump
 mkdir ./event-formation-unit/build
 
 pushd event-formation-unit/build
-  scl enable devtoolset-6 -- conan install --build=boost_filesystem --options boost_filesystem:shared=True \
+  conan install --build=boost_filesystem --options boost_filesystem:shared=True \
       --options boost_system:shared=True boost_filesystem/1.69.0@bincrafters/stable || exit 1
-  scl enable devtoolset-6 -- conan install --build=outdated .. || exit 1
+  conan install --build=outdated .. || exit 1
 
-  scl enable devtoolset-6 -- cmake3 -DCONAN=MANUAL .. || exit 1
+  cmake3 -DCONAN=MANUAL .. || exit 1
   #(or -DCMAKE_BUILD_TYPE=Release -DBUILDSTR=speedtest ..)
 
-  scl enable devtoolset-6 -- make -j$NUMCPUS || exit 1
-  scl enable devtoolset-6 -- make unit_tests -j$NUMCPUS || exit 1
+  make -j$NUMCPUS || exit 1
+  make unit_tests -j$NUMCPUS || exit 1
 
-  scl enable devtoolset-6 -- make runtest || exit 1
-  scl enable devtoolset-6 -- make runefu || exit 1
+  make runtest || exit 1
+  make runefu || exit 1
 popd
 
 echo "EFU install finished" >> $LOGFILE

@@ -3,8 +3,8 @@
 #ensure that we are in the script directory
 pushd $(dirname "${BASH_SOURCE[0]}")
 
-. ../config/scripts/numcpus.sh  || exit 1
-. ../config/scripts/sshconfig.sh || exit 1
+. ../config/scripts/numcpus.sh
+. ../config/scripts/sshconfig.sh
 
 sudo apt-get install -y cmake qt5-default || exit 1
 if [[ $usessh =~ ^(yes|y| ) ]]; then

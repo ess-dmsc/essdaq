@@ -2,7 +2,8 @@ FROM centos
 
 ENV container docker
 
-# these commands are run as root
+USER root
+
 # install CentOS related utilities
 RUN yum install -y centos-release-scl epel-release
 RUN yum install -y devtoolset-6

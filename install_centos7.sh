@@ -25,7 +25,7 @@ function install_conan() {
   conan remote add conancommunity https://api.bintray.com/conan/conan-community/conan || exit 1
   conan remote add conan-transit https://api.bintray.com/conan/conan/conan-transit || exit 1
   conan remote add ess-dmsc https://api.bintray.com/conan/ess-dmsc/conan || exit 1
-  scl enable devtoolset-6 -- conan profile new --detect default || exit 1
+  conan profile new --detect default || exit 1
 
   echo "Conan install finished" >> $LOGFILE
 }
@@ -38,10 +38,10 @@ rm -rf $LOGFILE
 
 if [[ $INSTALLMODE == "auto" ]]; then
   echo "AUTOMATIC INSTALL"
-  install_conan || errexit "conan install failed"
-  grafana/install_centos7.sh || errexit "grafana install failed"
-  kafka/install_centos7.sh || errexit "kafka install failed"
-  efu/install_centos7.sh || errexit "efu install failed"
+  scl enable devtoolset-6 -- install_conan || errexit "conan install failed"
+  scl enable devtoolset-6 -- grafana/install_centos7.sh || errexit "grafana install failed"
+  scl enable devtoolset-6 -- kafka/install_centos7.sh || errexit "kafka install failed"
+  scl enable devtoolset-6 -- efu/install_centos7.sh || errexit "efu install failed"
   echo NOT INSTALLING DAQUIRI YET
   #daquiri/install_centos7.sh || errexit "daquiri install failed"
   exit 0
@@ -51,29 +51,29 @@ echo "INTERACTIVE INSTALL"
 read -r -p "Install and setup conan? [Y/n]" getconan
 getconan=${getconan,,} # tolower
 if [[ $getconan =~ ^(yes|y| ) ]]; then
-  install_conan || errexit "conan install failed"
+  scl enable devtoolset-6 -- install_conan || errexit "conan install failed"
 fi
 
 read -r -p "Install docker and start up grafana? [Y/n]" getgrafana
 getgrafana=${getgrafana,,} # tolower
 if [[ $getgrafana =~ ^(yes|y| ) ]]; then
-  grafana/install_centos7.sh || errexit "grafana install failed"
+  scl enable devtoolset-6 -- grafana/install_centos7.sh || errexit "grafana install failed"
 fi
 
 read -r -p "Install kafka? [Y/n]" getfkafka
 getfkafka=${getfkafka,,} # tolower
 if [[ $getfkafka =~ ^(yes|y| ) ]]; then
-  ./kafka/install_centos7.sh || errexit "kafka install failed"
+  scl enable devtoolset-6 -- ./kafka/install_centos7.sh || errexit "kafka install failed"
 fi
 
 read -r -p "Get and build EFU? [Y/n]" getefu
 getefu=${getefu,,} # tolower
 if [[ $getefu =~ ^(yes|y| ) ]]; then
-  ./efu/install_centos7.sh || errexit "efu install failed"
+  scl enable devtoolset-6 -- ./efu/install_centos7.sh || errexit "efu install failed"
 fi
 
 read -r -p "Get and build Daquiri? [Y/n]" getdaquiri
 getdaquiri=${getdaquiri,,} # tolower
 if [[ $getdaquiri =~ ^(yes|y| ) ]]; then
-  ./daquiri/install_centos7.sh || errexit "daquiri install failed"
+  scl enable devtoolset-6 -- ./daquiri/install_centos7.sh || errexit "daquiri install failed"
 fi

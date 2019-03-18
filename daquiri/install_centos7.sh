@@ -14,7 +14,7 @@ else
 fi
 
 pushd daquiri
-  scl enable devtoolset-6 -- ./utils/first_build.sh -j$NUMCPUS || exit 1
+  ./utils/first_build.sh -j$NUMCPUS || exit 1
 popd
 
 echo "Daquiri install finished" >> $LOGFILE
