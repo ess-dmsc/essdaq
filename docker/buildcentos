@@ -4,4 +4,4 @@ cp -f Dockerfile_centos Dockerfile
 docker ps -a
 docker build . -t essdaq || exit 
 docker rm $(docker ps -a -q)
-docker run -v /sys/fs/cgroup:/sys/fs/cgroup:ro -v /run -i -t -l essdaqtry essdaq
+docker run -v /sys/fs/cgroup:/sys/fs/cgroup:ro -v /run -i -t --name from_buildcentos essdaq

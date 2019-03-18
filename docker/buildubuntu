@@ -15,5 +15,5 @@ docker network prune -f
 docker network create --subnet=10.1.0.0/16 essdaqnet
 
 #docker run $FILESYS $PORTS -it -l essdaqtry essdaq
-docker run $FILESYS $PORTS -it --net essdaqnet --ip 10.1.15.16 -l essdaqtry essdaq
+docker run $FILESYS $PORTS -it --net essdaqnet --ip 10.1.15.16 --name from_buildubuntu essdaq
 #docker run -it --network host -p 18888:8888/tcp -l essdaqtry essdaq
