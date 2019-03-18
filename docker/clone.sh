@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BRANCH=master
+BRANCH=${1:-master}
 
 function errexit()
 {
@@ -13,4 +13,4 @@ git clone -b $BRANCH https://github.com/ess-dmsc/essdaq.git || errexit "cant clo
 
 cd essdaq || errexit "cant cd into essdaq"
 
-./autoinstall.sh || errexit "autoinstall failed"
+#./autoinstall.sh || errexit "autoinstall failed"
