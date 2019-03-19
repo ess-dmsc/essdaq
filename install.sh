@@ -10,10 +10,10 @@ export LOGFILE=/tmp/results/install.log
 #ensure that we are in the script directory
 pushd $(dirname "${BASH_SOURCE[0]}")
 
-function errexit()
+function errlog()
 {
   echo Error: $1
-  echo $1 >> $LOGFILE
+  echo Error: $1 >> $LOGFILE
 }
 
 function install_conan() {
@@ -40,11 +40,11 @@ rm -rf $LOGFILE
 
 if [[ $INSTALLMODE == "auto" ]]; then
   echo "AUTOMATIC INSTALL"
-  install_conan  || errexit "conan install failed"
-  grafana/install.sh || errexit "grafana install failed"
-  kafka/install.sh || errexit "kafka install failed"
-  efu/install.sh || errexit "efu install failed"
-  daquiri/install.sh || errexit "daquiri install failed"
+  install_conan  || errlog "conan install failed"
+  grafana/install.sh || errlog "grafana install failed"
+  kafka/install.sh || errlog "kafka install failed"
+  efu/install.sh || errlog "efu install failed"
+  daquiri/install.sh || errlog "daquiri install failed"
   exit 0
 fi
 
@@ -52,29 +52,29 @@ echo "INTERACTIVE INSTALL"
 read -r -p "Install and setup conan? [Y/n]" getconan
 getconan=${getconan,,} # tolower
 if [[ $getconan =~ ^(yes|y| ) ]]; then
-  install_conan || errexit "conan install failed"
+  install_conan || errlog "conan install failed"
 fi
 
 read -r -p "Install docker and start up grafana? [Y/n]" getgrafana
 getgrafana=${getgrafana,,} # tolower
 if [[ $getgrafana =~ ^(yes|y| ) ]]; then
-  grafana/install.sh || errexit "grafana install failed"
+  grafana/install.sh || errlog "grafana install failed"
 fi
 
 read -r -p "Install kafka? [Y/n]" getfkafka
 getfkafka=${getfkafka,,} # tolower
 if [[ $getfkafka =~ ^(yes|y| ) ]]; then
-  ./kafka/install.sh || errexit "kafka install failed"
+  ./kafka/install.sh || errlog "kafka install failed"
 fi
 
 read -r -p "Get and build EFU? [Y/n]" getefu
 getefu=${getefu,,} # tolower
 if [[ $getefu =~ ^(yes|y| ) ]]; then
-  ./efu/install.sh || errexit "efu install failed"
+  ./efu/install.sh || errlog "efu install failed"
 fi
 
 read -r -p "Get and build Daquiri? [Y/n]" getdaquiri
 getdaquiri=${getdaquiri,,} # tolower
 if [[ $getdaquiri =~ ^(yes|y| ) ]]; then
-  ./daquiri/install.sh || errexit "daquiri install failed"
+  ./daquiri/install.sh || errlog "daquiri install failed"
 fi
