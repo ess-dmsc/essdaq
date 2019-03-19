@@ -5,7 +5,7 @@ HAVETOOLSET=$(set | grep devtoolset\-6)
 if [[ $HAVETOOLSET == "" ]]; then
   echo Error: devtoolset-6 not activated, but is required.
   echo Before calling scripts, first execute the following command
-  echo '> scl enable devtoolset-6 -- bash'
+  echo '> scl enable devtoolset-6 -- ./install_centos7.sh'
   exit 0
 fi
 
