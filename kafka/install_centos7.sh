@@ -11,6 +11,7 @@ sudo pip3.4 install kafka-python
 sudo pip3.4 install argparse
 curl -LO http://ftp.download-by.net/apache/kafka/$kafkaversion/$kafkafile.tgz
 #TODO: ensure download is successful
+
 tar xvzf ./$kafkafile.tgz || exit 1
 rm -f ./$kafkafile.tar || exit 1
 

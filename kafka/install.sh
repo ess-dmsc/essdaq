@@ -22,4 +22,7 @@ rm -f ./$kafkafile.tar
 #sed -e 's/\/\\1\/p/\.\*\/\\1\/p/' ./$kafkafile/bin/old_kafka-run-class.sh > ./$kafkafile/bin/kafka-run-class.sh
 #chmod +x ./$kafkafile/bin/kafka-run-class.sh
 
+./start_kafka.sh || exit 1
+./verify_install.sh || exit 1
+
 echo "Kafka install finished" >> $LOGFILE
