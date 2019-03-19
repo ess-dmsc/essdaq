@@ -12,8 +12,8 @@ RUN echo "essdaq ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # create user
 RUN useradd -p $1$GDleMP1C$Gk4BMmk/tu9AxXgi/dBcX. -ms /bin/bash essdaq
-COPY clone.sh /home/essdaq
-RUN chmod 755 /home/essdaq/clone.sh
+COPY run.sh /home/essdaq
+RUN chmod 755 /home/essdaq/run.sh
 
 # avoid having to type (yes) to git clone
 COPY known_hosts /home/essdaq/.ssh/
@@ -23,4 +23,6 @@ RUN chown -R essdaq:essdaq /home/essdaq/
 
 USER essdaq
 WORKDIR /home/essdaq
-#CMD ["./clone.sh"]
+
+# Eventually run the script on launch
+#CMD ["./run.sh"]
