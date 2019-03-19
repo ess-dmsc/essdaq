@@ -1,5 +1,7 @@
 FROM ubuntu:18.04
 
+ENV container docker
+
 USER root
 
 # install our own prerequisites
@@ -12,17 +14,20 @@ RUN echo "essdaq ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # create user
 RUN useradd -p $1$GDleMP1C$Gk4BMmk/tu9AxXgi/dBcX. -ms /bin/bash essdaq
+
 COPY run.sh /home/essdaq
 RUN chmod 755 /home/essdaq/run.sh
+RUN chown essdaq:essdaq /home/essdaq/run.sh
 
-# avoid having to type (yes) to git clone
+# avoid having to type (yes)
 COPY known_hosts /home/essdaq/.ssh/
 RUN chmod 644 /home/essdaq/.ssh/known_hosts
+RUN chown -R essdaq:essdaq /home/essdaq/.ssh
 
 RUN chown -R essdaq:essdaq /home/essdaq/
 
 USER essdaq
 WORKDIR /home/essdaq
-
-# Eventually run the script on launch
+RUN echo "To build essdaq run ./run.sh"
+# Eventually run this automatically
 #CMD ["./run.sh"]
