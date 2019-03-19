@@ -1,25 +1,6 @@
 #!/bin/bash
 
-echo "Detect OS and select install script"
-
-function errexit()
-{
-    echo Error: $1
-    exit 1
-}
-
-function detectos()
-{
-    cat /etc/centos-release 2>/dev/null | grep CentOS &>/dev/null && SYSTEM=centos
-    cat /etc/lsb-release 2>/dev/null    | grep Ubuntu &>/dev/null && SYSTEM=ubuntu
-    uname -a | grep Darwin &>/dev/null && SYSTEM=macos
-}
-
-command -v grep  &>/dev/null || errexit "grep command does not exist"
-command -v cat   &>/dev/null || errexit "cat command does not exist"
-command -v uname &>/dev/null || errexit "uname command does not exist"
-
-detectos
+. ./common.sh
 
 case $SYSTEM in
     "ubuntu")

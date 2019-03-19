@@ -6,7 +6,7 @@ pushd $(dirname "${BASH_SOURCE[0]}")
 . ../config/scripts/numcpus.sh
 . ../config/scripts/sshconfig.sh
 
-sudo yum install -y cmake3 libpcap-devel ethtool glogg hdf5
+sudo yum install -y cmake3 libpcap-devel ethtool glogg hdf5-tools
 
 if [[ $usessh =~ ^(yes|y| ) ]]; then
   git clone git@github.com:ess-dmsc/event-formation-unit.git || exit 1

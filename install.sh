@@ -2,6 +2,8 @@
 
 INSTALLMODE=${1:-manual}
 
+. ./common.sh
+
 mkdir -p /tmp/results
 export LOGFILE=/tmp/results/install.log
 
@@ -16,7 +18,7 @@ function errexit()
 
 function install_conan() {
   #TODO: do we use python3 instead?
-  sudo apt-get install -y python-pip
+  installpkg python-pip
   sudo pip2 install conan || exit 1
 
   conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan || exit 1

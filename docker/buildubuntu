@@ -1,9 +1,11 @@
 #!/bin/bash
 
-cp -f Dockerfile_ubuntu Dockerfile
-docker build . -t essdaq || exit
+osimg=${1:-ubuntu}
+container=essdaq$osimg
 
-containers=$(docker ps -a -q)
+docker build -f Dockerfile_$osimg -t $container . || exit
+
+containers=$(docker ps -a -q --filter name=$osimg)
 if [[ $containers != "" ]]; then
   docker rm $containers
 fi
@@ -14,6 +16,4 @@ PORTS="--expose=8888 -p 8888:8888/tcp"
 docker network prune -f
 docker network create --subnet=10.1.0.0/16 essdaqnet
 
-#docker run $FILESYS $PORTS -it -l essdaqtry essdaq
-docker run $FILESYS $PORTS -it --net essdaqnet --ip 10.1.15.16 --name from_buildubuntu essdaq
-#docker run -it --network host -p 18888:8888/tcp -l essdaqtry essdaq
+docker run $FILESYS $PORTS -it --net essdaqnet --ip 10.1.15.16 --name from_build$osimg $container
