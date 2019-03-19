@@ -18,7 +18,7 @@ case $SYSTEM in
     ;;
     "centos")
     echo "Installing for CentOS"
-    ./install_centos7.sh auto
+    scl enable devtoolset-6 -- ./install_centos7.sh auto
     ;;
     "macos")
     echo "MacOS detected, no install scripts available"
