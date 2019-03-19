@@ -1,6 +1,15 @@
 #!/bin/bash
 
-. ./common.sh
+function detectos()
+{
+    echo "Detecting OS"
+    cat /etc/centos-release 2>/dev/null | grep CentOS &>/dev/null && export SYSTEM=centos
+    cat /etc/lsb-release 2>/dev/null    | grep Ubuntu &>/dev/null && export SYSTEM=ubuntu
+    uname -a | grep Darwin &>/dev/null && export SYSTEM=macos
+    echo "OS Detected: $SYSTEM"
+}
+
+detectos
 
 case $SYSTEM in
     "ubuntu")
