@@ -15,7 +15,9 @@ PORTS="-p 8888:8888/tcp -p 9000:9000/udp -p 9092:9092/tcp"
 PROXY="--build-arg http_proxy=${http_proxy} --build-arg https_proxy=${https_proxy}"
 #PORTS='-P'
 
-docker network prune -f
-docker network create --subnet=10.1.0.0/16 essdaqnet
+#docker network prune -f
+#docker network create --subnet=10.1.0.0/16 essdaqnet
 
-docker run $FILESYS $PORTS $PROXY -it --net essdaqnet --ip 10.1.15.16 --name from_build$osimg $container
+#docker run $FILESYS $PORTS $PROXY -it --net essdaqnet --ip 10.1.15.16 --name from_build$osimg $container
+
+docker run $FILESYS $PORTS $PROXY -it --name from_build$osimg $container
