@@ -2,6 +2,9 @@ FROM centos:7
 
 ENV container docker
 
+ARG http_proxy
+ARG https_proxy
+
 USER root
 
 # install CentOS related utilities

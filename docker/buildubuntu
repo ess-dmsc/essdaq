@@ -12,6 +12,7 @@ fi
 
 FILESYS="-v /tmp/dockerresults:/tmp/results"
 PORTS="-p 8888:8888/tcp -p 9000:9000/udp -p 9092:9092/tcp"
+PROXY="--build-arg http_proxy=${http_proxy}"
 #PORTS='-P'
 
 docker network prune -f
