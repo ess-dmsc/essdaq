@@ -9,11 +9,6 @@ function errexit()
     exit 1
 }
 
-echo "Checking Socker environment"
-env
-echo "Checking nw connectivity"
-ping -c 1 www.github.com
-
 git clone -b $BRANCH https://github.com/ess-dmsc/essdaq.git || errexit "cant clone essdaq branch $BRANCH"
 
 if [[ $MODE == "auto" ]]; then

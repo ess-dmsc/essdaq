@@ -38,7 +38,7 @@ RUN chown -R essdaq:essdaq /home/essdaq/.ssh
 RUN chown -R essdaq:essdaq /home/essdaq/
 
 USER essdaq
+
 WORKDIR /home/essdaq
-RUN echo "To build essdaq run ./run.sh"
-# Eventually run this automatically
+
 CMD ["./run.sh"]
