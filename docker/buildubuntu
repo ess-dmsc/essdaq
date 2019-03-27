@@ -5,10 +5,12 @@ container=essdaq$osimg
 
 if [[ $http_proxy != "" ]]; then
   PROXY="--build-arg http_proxy=$http_proxy"
+  DOCENV="-e http_proxy=$http_proxy"
 fi
 
 if [[ $https_proxy != "" ]]; then
   PROXY="$PROXY --build-arg https_proxy=$https_proxy"
+  DOCENV="$DOCENV -e https_proxy=$https_proxy"
 fi
 
 echo "Build Docker image"
@@ -26,6 +28,4 @@ PORTS="-p 8888:8888/tcp -p 9000:9000/udp -p 9092:9092/tcp"
 #docker network create --subnet=10.1.0.0/16 essdaqnet
 #docker run $FILESYS $PORTS $PROXY -it --net essdaqnet --ip 10.1.15.16 --name from_build$osimg $container
 echo "Run Docker image"
-docker run $FILESYS $PORTS -i --name from_build$osimg $container
-
-exit 0
+docker run $DOCENV $FILESYS $PORTS -i --name from_build$osimg $container
