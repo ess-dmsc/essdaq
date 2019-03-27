@@ -41,4 +41,4 @@ USER essdaq
 WORKDIR /home/essdaq
 RUN echo "To build essdaq run ./run.sh"
 # Eventually run this automatically
-CMD ["./run.sh"]
+#CMD ["./run.sh"]

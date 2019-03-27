@@ -21,11 +21,14 @@ if [[ $containers != "" ]]; then
   docker rm $containers
 fi
 
-FILESYS="-v /tmp/dockerresults:/tmp/results"
+mkdir -p /tmp/results
+FILESYS="-v /tmp/results:/tmp/results"
 PORTS="-p 8888:8888/tcp -p 9000:9000/udp -p 9092:9092/tcp"
 
 #docker network prune -f
 #docker network create --subnet=10.1.0.0/16 essdaqnet
 #docker run $FILESYS $PORTS $PROXY -it --net essdaqnet --ip 10.1.15.16 --name from_build$osimg $container
 echo "Run Docker image"
-docker run $DOCENV $FILESYS $PORTS -i --name from_build$osimg $container
+docker run $DOCENV $FILESYS $PORTS -it --name from_build$osimg $container
+
+cat /tmp/results/*.log
