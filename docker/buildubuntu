@@ -3,7 +3,15 @@
 osimg=${1:-ubuntu}
 container=essdaq$osimg
 
-docker build -f Dockerfile_$osimg -t $container . || exit
+if [[ $http_proxy != "" ]]; then
+  PROXY="--build-arg http_proxy=$http_proxy"
+fi
+
+if [[ $https_proxy != "" ]]; then
+  PROXY="$PROXY --build-arg https_proxy=$https_proxy"
+fi
+
+docker build $PROXY -f Dockerfile_$osimg -t $container . || exit
 
 containers=$(docker ps -a -q --filter name=$osimg)
 if [[ $containers != "" ]]; then
@@ -12,12 +20,11 @@ fi
 
 FILESYS="-v /tmp/dockerresults:/tmp/results"
 PORTS="-p 8888:8888/tcp -p 9000:9000/udp -p 9092:9092/tcp"
-PROXY="--build-arg http_proxy=${http_proxy} --build-arg https_proxy=${https_proxy}"
-#PORTS='-P'
+
+
 
 #docker network prune -f
 #docker network create --subnet=10.1.0.0/16 essdaqnet
-
 #docker run $FILESYS $PORTS $PROXY -it --net essdaqnet --ip 10.1.15.16 --name from_build$osimg $container
 
-docker run $FILESYS $PORTS $PROXY -it --name from_build$osimg $container
+docker run $FILESYS $PORTS -it --name from_build$osimg $container

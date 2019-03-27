@@ -2,10 +2,11 @@ FROM centos:7
 
 ENV container docker
 
+USER root
+
 ARG http_proxy
 ARG https_proxy
-
-USER root
+RUN env
 
 # install CentOS related utilities
 RUN yum install -y centos-release-scl epel-release
