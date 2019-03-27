@@ -1,35 +1,45 @@
 #!/bin/bash
+# This script is used for both CentOS and Ubuntu
 
 osimg=${1:-ubuntu}
 container=essdaq$osimg
 
+# Setup build- and environment- arguments for proxies
 if [[ $http_proxy != "" ]]; then
-  PROXY="--build-arg http_proxy=$http_proxy"
-  DOCENV="-e http_proxy=$http_proxy"
+  proxy="--build-arg http_proxy=$http_proxy"
+  docker_env="-e http_proxy=$http_proxy"
 fi
 
 if [[ $https_proxy != "" ]]; then
-  PROXY="$PROXY --build-arg https_proxy=$https_proxy"
-  DOCENV="$DOCENV -e https_proxy=$https_proxy"
+  proxy="$proxy --build-arg https_proxy=$https_proxy"
+  docker_env="$docker_env -e https_proxy=$https_proxy"
 fi
 
-echo "Build Docker image"
-docker build $PROXY -f Dockerfile_$osimg -t $container . || exit
+# Build the docker image
+docker build $proxy -f Dockerfile_$osimg -t $container . || exit
 
+# Remove all relevant containers for this image
 containers=$(docker ps -a -q --filter name=$osimg)
 if [[ $containers != "" ]]; then
   docker rm $containers
 fi
 
+# Prepare run-time environment
 mkdir -p /tmp/results
-FILESYS="-v /tmp/results:/tmp/results"
-PORTS="-p 8888:8888/tcp -p 9000:9000/udp -p 9092:9092/tcp"
+filesys="-v /tmp/results:/tmp/results"
+ports="-p 8888:8888/tcp -p 9000:9000/udp -p 9092:9092/tcp"
 
-#docker network prune -f
-#docker network create --subnet=10.1.0.0/16 essdaqnet
-#docker run $FILESYS $PORTS $PROXY -it --net essdaqnet --ip 10.1.15.16 --name from_build$osimg $container
-echo "Run Docker image"
-set | grep -i tty
-docker run $DOCENV $FILESYS $PORTS -i --name from_build$osimg $container
+# Determine whether to attach to a tty or not
+if [[ -t 1 ]]; then
+  ttyarg="-t"
+fi
 
-cat /tmp/results/*.log
+# Run the Docker image
+docker run $docker_env $filesys $ports -i $ttyarg --name from_build$osimg $container
+
+# Validate the results - note Grafana doesn't install
+grep "Conan install finished" /tmp/results/install.log || exit 1
+grep "Kafka install finished" /tmp/results/install.log || exit 1
+#grep "Grafana install finished" /tmp/results/install.log || exit 1
+grep "EFU install finished" /tmp/results/install.log || exit 1
+grep "Daquiri install finished" /tmp/results/install.log || exit 1
