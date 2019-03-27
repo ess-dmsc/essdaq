@@ -2,10 +2,11 @@ FROM ubuntu:18.04
 
 ENV container docker
 
+USER root
+
 ARG http_proxy
 ARG https_proxy
-
-USER root
+RUN env
 
 # install our own prerequisites
 RUN apt-get update
@@ -33,4 +34,4 @@ USER essdaq
 WORKDIR /home/essdaq
 RUN echo "To build essdaq run ./run.sh"
 # Eventually run this automatically
-#CMD ["./run.sh"]
+CMD ["./run.sh"]
