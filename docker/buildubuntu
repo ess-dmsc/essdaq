@@ -37,11 +37,12 @@ if [[ -t 1 ]]; then
 fi
 
 # Run the Docker image
-docker run $docker_env $filesys $dockersock $ports -i $ttyarg --name from_build$osimg $container
+docker run $docker_env $filesys $dockersock $ports -i $ttyarg --name from_build$osimg $container ./run.sh
 
 # Validate the results - note Grafana doesn't install
-grep "Conan install finished" /tmp/results/install.log || exit 1
-grep "Kafka install finished" /tmp/results/install.log || exit 1
-grep "Grafana install finished" /tmp/results/install.log || exit 1
-grep "EFU install finished" /tmp/results/install.log || exit 1
-grep "Daquiri install finished" /tmp/results/install.log || exit 1
+LOGFILE=/tmp/results/install.log
+grep "Conan install finished"  || exit 1
+grep "Kafka install finished" $LOGFILE || exit 1
+grep "Grafana install finished" $LOGFILE || exit 1
+grep "EFU install finished" $LOGFILE || exit 1
+grep "Daquiri install finished" $LOGFILE || exit 1

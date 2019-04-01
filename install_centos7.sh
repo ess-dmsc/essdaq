@@ -24,6 +24,8 @@ function errlog()
 }
 
 function install_conan() {
+  echo "Conan install started: "$(date) | tee -a $LOGFILE
+
   #TODO: do we use python3 instead? (issues on CentOS7 w/ 3.4 and 3.6!)
   sudo yum install -y python-pip
   sudo pip2 install --upgrade pip # installs pip > 19.0.3
@@ -36,7 +38,7 @@ function install_conan() {
   conan remote add ess-dmsc https://api.bintray.com/conan/ess-dmsc/conan || exit 1
   conan profile new --detect default || exit 1
 
-  echo "Conan install finished" >> $LOGFILE
+  echo "Conan install finished: "$(date) | tee -a $LOGFILE
 }
 
 #

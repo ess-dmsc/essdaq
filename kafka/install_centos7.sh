@@ -5,6 +5,8 @@ pushd $(dirname "${BASH_SOURCE[0]}")
 
 . version.sh
 
+echo "Kafka install started: "$(date) | tee -a $LOGFILE
+
 kafkafile="kafka_2.11-$kafkaversion"
 sudo yum install -y python34-pip curl java-1.7.0-openjdk
 sudo pip3.4 install kafka-python
@@ -26,4 +28,4 @@ rm -f ./$kafkafile.tar || exit 1
 ./start_kafka.sh || exit 1
 ./verify_install.sh || exit 1
 
-echo "Kafka install finished" >> $LOGFILE
+echo "Kafka install finished" | tee -a $LOGFILE

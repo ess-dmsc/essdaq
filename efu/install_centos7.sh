@@ -3,6 +3,8 @@
 #ensure that we are in the script directory
 pushd $(dirname "${BASH_SOURCE[0]}")
 
+echo "EFU install started: "$(date) | tee -a $LOGFILE
+
 . ../config/scripts/numcpus.sh
 . ../config/scripts/sshconfig.sh
 
@@ -32,4 +34,4 @@ pushd event-formation-unit/build
   make runefu || exit 1
 popd
 
-echo "EFU install finished" >> $LOGFILE
+echo "EFU install finished: "$(date) | tee -a $LOGFILE

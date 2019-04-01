@@ -3,6 +3,8 @@
 #ensure that we are in the script directory
 pushd $(dirname "${BASH_SOURCE[0]}")
 
+echo "Daquiri install started: "$(date) | tee -a $LOGFILE
+
 . ../config/scripts/numcpus.sh
 . ../config/scripts/sshconfig.sh
 
@@ -17,4 +19,4 @@ pushd daquiri
   ./utils/first_build.sh -j$NUMCPUS || exit 1
 popd
 
-echo "Daquiri install finished" >> $LOGFILE
+echo "Daquiri install finished: "$(date) | tee -a $LOGFILE

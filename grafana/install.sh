@@ -5,6 +5,8 @@ THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 #ensure that we are in the script directory
 pushd $THISDIR
 
+echo "Grafana install started: "$(date) | tee -a $LOGFILE
+
 # From https://docs.docker.com/install/linux/docker-ce/ubuntu/
 sudo apt-get install -y \
     apt-transport-https \
@@ -30,4 +32,4 @@ fi
 echo "Grafana installed! Please proceed with (manual) configuration steps:"
 cat README.md
 
-echo "Grafana install finished" >> $LOGFILE
+echo "Grafana install finished" | tee -a $LOGFILE

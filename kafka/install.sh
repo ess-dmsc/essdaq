@@ -5,6 +5,8 @@ pushd $(dirname "${BASH_SOURCE[0]}")
 
 . version.sh
 
+echo "Kafka install started: "$(date) >> $LOGFILE
+
 kafkafile="kafka_2.11-$kafkaversion"
 sudo apt update && sudo apt-get install -y curl default-jre python3-pip
 sudo pip3 install kafka-python
