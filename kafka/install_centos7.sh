@@ -9,6 +9,7 @@ kafkafile="kafka_2.11-$kafkaversion"
 sudo yum install -y python34-pip curl java-1.7.0-openjdk
 sudo pip3.4 install kafka-python
 sudo pip3.4 install argparse
+echo "Downloading version: $kafkaversion, file: $kafkafile.tgz"
 curl -LO http://ftp.download-by.net/apache/kafka/$kafkaversion/$kafkafile.tgz
 #TODO: ensure download is successful
 

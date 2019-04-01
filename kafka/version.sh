@@ -1,3 +1,3 @@
 #!/bin/bash
 
-kafkaversion="2.0.0"
+kafkaversion="2.2.0"

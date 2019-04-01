@@ -42,6 +42,6 @@ docker run $docker_env $filesys $dockersock $ports -i $ttyarg --name from_build$
 # Validate the results - note Grafana doesn't install
 grep "Conan install finished" /tmp/results/install.log || exit 1
 grep "Kafka install finished" /tmp/results/install.log || exit 1
-#grep "Grafana install finished" /tmp/results/install.log || exit 1
+grep "Grafana install finished" /tmp/results/install.log || exit 1
 grep "EFU install finished" /tmp/results/install.log || exit 1
 grep "Daquiri install finished" /tmp/results/install.log || exit 1
