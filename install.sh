@@ -4,7 +4,6 @@ INSTALLMODE=${1:-manual}
 
 mkdir -p /tmp/results
 export LOGFILE=/tmp/results/install.log
-echo "Starting install: "$(date) >> $LOGFILE
 
 #ensure that we are in the script directory
 pushd $(dirname "${BASH_SOURCE[0]}")
@@ -35,7 +34,7 @@ function install_conan() {
 #
 #
 
-rm -rf $LOGFILE
+echo "Starting install: "$(date) > $LOGFILE
 
 if [[ $INSTALLMODE == "auto" ]]; then
   echo "AUTOMATIC INSTALL"
