@@ -32,4 +32,4 @@ fi
 echo "Grafana installed! Please proceed with (manual) configuration steps:"
 cat README.md
 
-echo "Grafana install finished" | tee -a $LOGFILE
+echo "Grafana install finished: "$(date) | tee -a $LOGFILE

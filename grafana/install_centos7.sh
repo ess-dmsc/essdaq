@@ -5,6 +5,8 @@ THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 #ensure that we are in the script directory
 pushd $THISDIR
 
+echo "Grafana install started: "$(date) | tee -a $LOGFILE
+
 # set up the docker repository -- dependencies
 sudo yum install -y yum-utils device-mapper-persistent-data lvm2 || exit 1
 # add CentOS docker repo
@@ -32,4 +34,4 @@ fi
 echo "Grafana installed! Please proceed with (manual) configuration steps:"
 cat README.md
 
-echo "Grafana install finished" >> $LOGFILE
+echo "Grafana install finished: "$(date) | tee -a $LOGFILE
