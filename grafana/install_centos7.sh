@@ -12,8 +12,13 @@ sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/dock
 # install
 sudo yum install -y docker-ce docker-ce-cli containerd.io || exit 1
 # start
-sudo systemctl start docker || exit 1
+# This may fail when running centos on Docker, where we
+# have some other issues, so for now, do not fail because of this
+# as the next steps will anyway.
+sudo systemctl start docker
 
+# Whe running in Docker we need to expose /var/run/docker.sock to
+# the container, then grafana will launch on the jenkins node
 sudo docker swarm init || exit 1
 sudo docker stack deploy -c docker/docker-compose.yml metrics || exit 1
 

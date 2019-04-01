@@ -27,7 +27,9 @@ fi
 # Prepare run-time environment
 mkdir -p /tmp/results
 filesys="-v /tmp/results:/tmp/results"
+dockersock="-v /var/run/docker.sock:/var/run/docker.sock"
 ports="-p 8888:8888/tcp -p 9000:9000/udp -p 9092:9092/tcp"
+
 
 # Determine whether to attach to a tty or not
 if [[ -t 1 ]]; then
@@ -35,7 +37,7 @@ if [[ -t 1 ]]; then
 fi
 
 # Run the Docker image
-docker run $docker_env $filesys $ports -i $ttyarg --name from_build$osimg $container
+docker run $docker_env $filesys $dockersock $ports -i $ttyarg --name from_build$osimg $container
 
 # Validate the results - note Grafana doesn't install
 grep "Conan install finished" /tmp/results/install.log || exit 1
