@@ -19,6 +19,7 @@ sudo systemctl start docker
 
 # Whe running in Docker we need to expose /var/run/docker.sock to
 # the container, then grafana will launch on the jenkins node
+sudo docker swarm leave -f
 sudo docker swarm init || exit 1
 sudo docker stack deploy -c docker/docker-compose.yml metrics || exit 1
 
