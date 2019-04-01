@@ -13,6 +13,7 @@ INSTALLMODE=${1:-manual}
 
 mkdir -p /tmp/results
 export LOGFILE=/tmp/results/install.log
+echo "Starting install: "$(date) >> $LOGFILE
 
 #ensure that we are in the script directory
 pushd $(dirname "${BASH_SOURCE[0]}")
@@ -52,6 +53,7 @@ if [[ $INSTALLMODE == "auto" ]]; then
   kafka/install_centos7.sh || errlog "kafka install failed"
   efu/install_centos7.sh || errlog "efu install failed"
   daquiri/install_centos7.sh || errlog "daquiri install failed"
+  echo "Install finished: "$(date) >> $LOGFILE
   exit 0
 fi
 
@@ -85,3 +87,5 @@ getdaquiri=${getdaquiri,,} # tolower
 if [[ $getdaquiri =~ ^(yes|y| ) ]]; then
   ./daquiri/install_centos7.sh || errlog "daquiri install failed"
 fi
+
+echo "Install finished: "$(date) >> $LOGFILE

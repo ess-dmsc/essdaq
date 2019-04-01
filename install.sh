@@ -4,6 +4,7 @@ INSTALLMODE=${1:-manual}
 
 mkdir -p /tmp/results
 export LOGFILE=/tmp/results/install.log
+echo "Starting install: "$(date) >> $LOGFILE
 
 #ensure that we are in the script directory
 pushd $(dirname "${BASH_SOURCE[0]}")
@@ -43,6 +44,7 @@ if [[ $INSTALLMODE == "auto" ]]; then
   kafka/install.sh || errlog "kafka install failed"
   efu/install.sh || errlog "efu install failed"
   daquiri/install.sh || errlog "daquiri install failed"
+  echo "Install finished: "$(date) >> $LOGFILE
   exit 0
 fi
 
@@ -76,3 +78,5 @@ getdaquiri=${getdaquiri,,} # tolower
 if [[ $getdaquiri =~ ^(yes|y| ) ]]; then
   ./daquiri/install.sh || errlog "daquiri install failed"
 fi
+
+echo "Install finished: "$(date) >> $LOGFILE
