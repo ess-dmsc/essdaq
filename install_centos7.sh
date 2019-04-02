@@ -55,6 +55,7 @@ if [[ $INSTALLMODE == "auto" ]]; then
   efu/install_centos7.sh || errlog "efu install failed"
   daquiri/install_centos7.sh || errlog "daquiri install failed"
   echo "Install finished: "$(date) >> $LOGFILE
+  cat $LOGFILE
   exit 0
 fi
 
@@ -90,3 +91,4 @@ if [[ $getdaquiri =~ ^(yes|y| ) ]]; then
 fi
 
 echo "Install finished: "$(date) >> $LOGFILE
+cat $LOGFILE

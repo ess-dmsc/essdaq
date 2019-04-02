@@ -34,4 +34,7 @@ USER essdaq
 
 WORKDIR /home/essdaq
 
-CMD ["./run.sh"]
+#RUN echo "Usage: run.sh [branch] [mode]"
+#RUN echo "  branch default is master"
+#RUN echo "  mode default is auto (other values = manual)"
+#CMD ["./run.sh"]

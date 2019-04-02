@@ -44,6 +44,7 @@ if [[ $INSTALLMODE == "auto" ]]; then
   efu/install.sh || errlog "efu install failed"
   daquiri/install.sh || errlog "daquiri install failed"
   echo "Install finished: "$(date) >> $LOGFILE
+  cat $LOGFILE
   exit 0
 fi
 
@@ -79,3 +80,4 @@ if [[ $getdaquiri =~ ^(yes|y| ) ]]; then
 fi
 
 echo "Install finished: "$(date) >> $LOGFILE
+cat $LOGFILE

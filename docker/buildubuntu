@@ -2,6 +2,7 @@
 # This script is used for both CentOS and Ubuntu
 
 osimg=${1:-ubuntu}
+mode=${2:-manual}
 container=essdaq$osimg
 
 # Setup build- and environment- arguments for proxies
@@ -37,7 +38,13 @@ if [[ -t 1 ]]; then
 fi
 
 # Run the Docker image
-docker run $docker_env $filesys $dockersock $ports -i $ttyarg --name from_build$osimg $container ./run.sh
+if [[ $mode == "manual" ]]; then
+  runarg=""
+else
+  runarg="./run.sh"
+fi
+docker run $docker_env $filesys $dockersock $ports -i $ttyarg --name from_build$osimg $container $runarg
+
 
 # Validate the results - note Grafana doesn't install
 LOGFILE=/tmp/results/install.log

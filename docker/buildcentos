@@ -1,3 +1,5 @@
 #!/bin/bash
 
-./buildubuntu centos
+mode=${1:-manual}
+
+./buildubuntu centos $mode
