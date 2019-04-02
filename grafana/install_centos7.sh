@@ -21,9 +21,13 @@ sudo systemctl start docker
 
 # Whe running in Docker we need to expose /var/run/docker.sock to
 # the container, then grafana will launch on the jenkins node
-sudo docker swarm leave -f
 sudo docker swarm init || exit 1
+sleep 2
+sudo docker ps
+sudo docker network ls
 sudo docker stack deploy -c docker/docker-compose.yml metrics || exit 1
+sudo docker ps
+sudo docker network ls
 
 if test -d $HOME/Desktop; then
   echo Adding desktop icons

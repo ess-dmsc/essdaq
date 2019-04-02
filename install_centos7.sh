@@ -49,11 +49,11 @@ echo "Starting install: "$(date) > $LOGFILE
 
 if [[ $INSTALLMODE == "auto" ]]; then
   echo "AUTOMATIC INSTALL"
-  install_conan || errlog "conan install failed"
+  #install_conan || errlog "conan install failed"
   grafana/install_centos7.sh || errlog "grafana install failed"
-  kafka/install_centos7.sh || errlog "kafka install failed"
-  efu/install_centos7.sh || errlog "efu install failed"
-  daquiri/install_centos7.sh || errlog "daquiri install failed"
+  #kafka/install_centos7.sh || errlog "kafka install failed"
+  #efu/install_centos7.sh || errlog "efu install failed"
+  #daquiri/install_centos7.sh || errlog "daquiri install failed"
   echo "Install finished: "$(date) >> $LOGFILE
   cat $LOGFILE
   exit 0
