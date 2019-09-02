@@ -33,7 +33,7 @@ function install_conan() {
   sudo ln -s /opt/conan-venv/bin/conan /usr/local/bin/conan || exit 1
 
   conan config install http://github.com/ess-dmsc/conan-configuration.git || exit 1
-  sed -i '/\[build_requires\]/a cmake_installer\/3.10.0@conan\/stable'
+  sed -i '/\[build_requires\]/a cmake_installer\/3.10.0@conan\/stable' ~/.conan/profiles/default
 
   conan profile new --detect default || exit 1
 
