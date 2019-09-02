@@ -37,6 +37,9 @@ function install_conan() {
   conan profile new --detect default || exit 1
   sed -i '/\[build_requires\]/a cmake_installer\/3.10.0@conan\/stable' ~/.conan/profiles/default
 
+  # Build FlatBuffers locally
+  conan install --build flatbuffers flatbuffers/1.10.0@google/stable
+
   echo "Conan install finished: "$(date) | tee -a $LOGFILE
 }
 
