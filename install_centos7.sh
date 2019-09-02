@@ -26,7 +26,7 @@ function errlog()
 function install_conan() {
   echo "Conan install started: "$(date) | tee -a $LOGFILE
 
-  sudo apt-get install -y python36 python36-pip || exit 1
+  sudo yum install -y python36 python36-pip || exit 1
   sudo python36 -m venv /opt/conan-venv || exit 1
   sudo /opt/conan-venv/bin/pip install --upgrade pip setuptools || exit 1
   sudo /opt/conan-venv/bin/pip install conan || exit 1

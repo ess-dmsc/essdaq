@@ -15,11 +15,9 @@ function errlog()
 }
 
 function install_conan() {
-  sudo apt-get install -y python36 python36-pip || exit 1
-  sudo python36 -m venv /opt/conan-venv || exit 1
-  sudo /opt/conan-venv/bin/pip install --upgrade pip setuptools || exit 1
-  sudo /opt/conan-venv/bin/pip install conan || exit 1
-  sudo ln -s /opt/conan-venv/bin/conan /usr/local/bin/conan || exit 1
+  #TODO: do we use python3 instead?
+  sudo apt-get install -y python-pip
+  sudo pip2 install conan || exit 1
 
   conan config install http://github.com/ess-dmsc/conan-configuration.git || exit 1
 
