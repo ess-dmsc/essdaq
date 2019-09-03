@@ -929,12 +929,17 @@
         {
           "refCount": 0,
           "refId": "A",
-          "target": "alias(perSecond(efu.mbcaen.0.transmit.bytes), 'bytes')"
+          "target": "alias(perSecond(scale(efu.mbcaen.0.transmit.bytes, 8)), 'bits/s')"
         },
         {
           "refCount": 0,
           "refId": "B",
-          "target": "alias(perSecond(efu.mbcaen.0.events.count), 'events')"
+          "target": "alias(perSecond(efu.mbcaen.0.events.count), 'events/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "C",
+          "target": "alias(perSecond(efu.mbcaen.0.kafka.produce_fails), 'prod. fails/s')"
         }
       ],
       "thresholds": [],
@@ -987,7 +992,7 @@
     "list": []
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {
@@ -1018,5 +1023,5 @@
   "timezone": "",
   "title": "MultiBlade",
   "uid": "YQicRrKZk",
-  "version": 8
+  "version": 10
 }
