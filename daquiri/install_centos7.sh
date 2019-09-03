@@ -16,6 +16,7 @@ else
 fi
 
 pushd daquiri
+  sed -i 's/cmake/cmake3/' ./utils/first_build.sh
   ./utils/first_build.sh -j$NUMCPUS || exit 1
 popd
 
