@@ -19,7 +19,7 @@ function install_conan() {
   sudo apt-get install -y python-pip
   sudo pip2 install conan || exit 1
 
-  conan config install http://github.com/ess-dmsc/conan-configuration.git || exit 1
+  conan config install https://github.com/ess-dmsc/conan-configuration.git || exit 1
 
   conan profile new --detect default || exit 1
   conan profile update settings.compiler.libcxx=libstdc++11 default || exit 1
