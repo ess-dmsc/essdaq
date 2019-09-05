@@ -17,9 +17,6 @@ RUN yum install -y vim git cmake3 sudo python36 python36-devel python36-pip
 RUN yum autoremove -y
 RUN yum clean all
 
-RUN rm -f /usr/bin/cmake
-RUN ln -s /usr/bin/cmake3 /usr/bin/cmake
-
 # add sudo user
 RUN echo "essdaq ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
