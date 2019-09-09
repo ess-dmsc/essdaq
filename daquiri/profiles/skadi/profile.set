@@ -237,6 +237,16 @@
          "value": "notused3"
         },
         {
+         "id": "mo01_nmx/FilterSourceName",
+         "type": "boolean",
+         "value": false
+        },
+        {
+         "id": "mo01_nmx/SourceName",
+         "type": "text",
+         "value": ""
+        },
+        {
          "branches": [
           {
            "id": "TimeBase/multiplier",

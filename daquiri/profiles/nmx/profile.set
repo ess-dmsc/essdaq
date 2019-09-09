@@ -22,7 +22,7 @@
       {
        "id": "KafkaConfig/KafkaBroker",
        "type": "text",
-       "value": "172.17.5.38:9092"
+       "value": "dmsc-kafka01.cslab.esss.lu.se:9092"
       },
       {
        "id": "KafkaConfig/KafkaTimeout",
@@ -204,6 +204,16 @@
          "value": "hits"
         },
         {
+         "id": "mo01_nmx/FilterSourceName",
+         "type": "boolean",
+         "value": false
+        },
+        {
+         "id": "mo01_nmx/SourceName",
+         "type": "text",
+         "value": ""
+        },
+        {
          "branches": [
           {
            "id": "TimeBase/multiplier",
@@ -274,6 +284,16 @@
         },
         {
          "id": "mo01_nmx/HitsStream",
+         "type": "text",
+         "value": ""
+        },
+        {
+         "id": "mo01_nmx/FilterSourceName",
+         "type": "boolean",
+         "value": false
+        },
+        {
+         "id": "mo01_nmx/SourceName",
          "type": "text",
          "value": ""
         },
