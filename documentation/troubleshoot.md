@@ -4,14 +4,17 @@
 ### Check that EFU is running
 The EFU is a Linux application is called efu, check that the process exist.
 On the server running the efu process issue the following command
+
      > ps aux | grep efu
 
 ### Check the internal EFU counters
 Locate the efustats.py script (event-formation-unit/utils/efushell/efustats.py)
+
     > ./efystats.py
 
 This should return a number of lines with detector-specific counters. It looks something
 like this
+```
      > STAT_GET efu.sonde.0.receive.packets 7626
      > STAT_GET efu.sonde.0.receive.bytes 1105915
      > STAT_GET efu.sonde.0.receive.dropped 0
@@ -27,13 +30,15 @@ like this
      > STAT_GET efu.sonde.0.kafka.dr_errors 0
      > STAT_GET efu.sonde.0.kafka.dr_others 0
      > STAT_GET efu.sonde.0.main.uptime 7
+```
 
 Look for receive.packets and transmit.bytes which should be nonzero and increasing
 on successive calls if data is being received. Also check kafka.produce_fails which
 should be 0.
 
 ### Check that Kafka and Zookeeper are running
-On the server running Kafka, issue the following command
+On the server running Kafka, issue the following commands
+
     > ps aux | grep kafka
     > ps aux | grep zookeeper
 
