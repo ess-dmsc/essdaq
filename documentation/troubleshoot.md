@@ -44,5 +44,5 @@ On the server running Kafka, issue the following commands
 
 ### Check daquiri
 Daquiri must subscribe to a Kafka broker using a combination of ip address and tcp port.
-The brokser string must match the ip address of the Kafka server. If the ip address
+The broker string must match the ip address of the Kafka server. If the ip address
 is 10.1.2.3, then the broker url is 10.1.2.3:9092.
