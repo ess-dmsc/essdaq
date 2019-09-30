@@ -16,10 +16,6 @@ if [[ -f /etc/lsb-release ]]; then
   echo "Ubuntu: "$BACKLOG
 fi
 
-if [[ $BACKLOG == "" ]]; then
-  errexit "Unsupported Linux distro"
-fi
-
 #
 ###
 #
@@ -48,6 +44,9 @@ ifconfig $ETHIF | grep $ETHIF | grep "mtu 9000" &>/dev/null || errexit "ethif [$
 if [[ $MYOS != "Darwin" ]] ;
 then
   echo "Checking kernel buffer sizes"
+  if [[ $BACKLOG == "" ]]; then
+    errexit "Unknown Linux distro BACKLOG not set"
+  fi
   sysctl -a 2>/dev/null | grep net.core.rmem_max | grep $rmemsize || setbuffersizes
 
   sysctl -a 2>/dev/null | grep net.core.rmem_max | grep $rmemsize || errexit "rmem_max size incorrect"
