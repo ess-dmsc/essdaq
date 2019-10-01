@@ -5,6 +5,17 @@ MYOS=$(uname)
 rmemsize=12582912
 backlogsize=5000
 
+BACKLOG=""
+if [[ -f /etc/centos-release ]]; then
+  BACKLOG=net.core.netdev_max_backlog
+  echo "CentOS: "$BACKLOG
+fi
+
+if [[ -f /etc/lsb-release ]]; then
+  BACKLOG=net.core.netdev.max_backlog
+  echo "Ubuntu: "$BACKLOG
+fi
+
 #
 ###
 #
@@ -14,7 +25,7 @@ function setbuffersizes()
   echo "Setting buffersizes temporary. Consider doing this permanently"
   sudo sysctl -w net.core.rmem_max=$rmemsize
   sudo sysctl -w net.core.wmem_max=$rmemsize
-  sudo sysctl -w net.core.netdev.max_backlog=$backlogsize
+  sudo sysctl -w $BACKLOG=$backlogsize
 }
 
 #
@@ -32,11 +43,15 @@ ifconfig $ETHIF | grep $ETHIF | grep "mtu 9000" &>/dev/null || errexit "ethif [$
 
 if [[ $MYOS != "Darwin" ]] ;
 then
+  echo "Checking kernel buffer sizes"
+  if [[ $BACKLOG == "" ]]; then
+    errexit "Unknown Linux distro BACKLOG not set"
+  fi
   sysctl -a 2>/dev/null | grep net.core.rmem_max | grep $rmemsize || setbuffersizes
 
   sysctl -a 2>/dev/null | grep net.core.rmem_max | grep $rmemsize || errexit "rmem_max size incorrect"
   sysctl -a 2>/dev/null | grep net.core.wmem_max | grep $rmemsize || errexit "wmem_max size incorrect"
-  sysctl -a 2>/dev/null | grep net.core.netdev.max_backlog | grep $backlogsize || errexit "max_backlog size incorrect"
+  sysctl -a 2>/dev/null | grep $BACKLOG | grep $backlogsize || errexit "max_backlog size incorrect"
 else
   echo "Skipping receive buffer check for MacOS!!"
 fi
