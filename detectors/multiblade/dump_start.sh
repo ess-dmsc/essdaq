@@ -42,9 +42,10 @@ else
     echo Split files every $splittime seconds
 fi
 
-RUNID=$(./getrunid)
-echo "Runid from Amor: $RUNID"
+#RUNID=$(./getrunid)
+#echo "Runid from Amor: $RUNID"
 
-prepend=$RUNID-$fileprefix
+#prepend=$RUNID-$fileprefix
+prepend=$fileprefix
 
 ./start.sh --dumptofile $fullpath/$prepend --h5filesplit $splittime

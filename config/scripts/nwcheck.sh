@@ -9,7 +9,7 @@ MYOS=$(uname)
 
 function pingcheck()
 {
-  ping -c 1 -i 0.2 -W 1000 $1 &>/dev/null || errexit "unable to ping $1"
+  ping -c 1 -W 1000 $1 &>/dev/null || errexit "unable to ping $1"
 }
 
 echo Network check started
