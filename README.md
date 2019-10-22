@@ -73,6 +73,8 @@ Create a symbolic link to the configuration file named `system.sh`.
 
 Just run `./update.sh` and answer the simple questions (currently only for Ubuntu)
 
+Not seeing the data you expected? Follow these steps for [troubleshooting](documentation/troubleshoot.md)
+
 ## Contributing
 
 See the [CONTRIBUTING.md](CONTRIBUTING.md) file for details.
