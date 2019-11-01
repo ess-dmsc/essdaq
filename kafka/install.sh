@@ -35,7 +35,7 @@ if [[ $IP == "" ]]; then
 fi
 
 echo "Kafka IP address: "$IP | tee -a $LOGFILE
-sed -e "s/^listeners=.*/listeners=PLAINTEXT:\/\/$IP:9092/g" -i .bak server.config
+sed -e "s/^advertised.listeners=.*/advertised.listeners=PLAINTEXT:\/\/$IP:9092/g" -i .bak server.config
 
 ./start_kafka.sh || exit 1
 ./verify_install.sh || exit 1
