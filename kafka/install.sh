@@ -23,7 +23,22 @@ rm -f ./$kafkafile.tar
 #sed -e 's/\/\\1\/p/\.\*\/\\1\/p/' ./$kafkafile/bin/old_kafka-run-class.sh > ./$kafkafile/bin/kafka-run-class.sh
 #chmod +x ./$kafkafile/bin/kafka-run-class.sh
 
+if test -f "../config/system.sh"; then
+  # get config variables
+  . ../config/system.sh
+  IP=$KAFKA_IP
+fi
+
+if [[ $IP == "" ]]; then
+  echo "No KAFKA_IP, setting IP to 127.0.0.1 (change with setlistener.sh)" | tee -a $LOGFILE
+  IP="127.0.0.1"
+fi
+
+echo "Kafka IP address: "$IP | tee -a $LOGFILE
+sed -e "s/^listeners=.*/listeners=PLAINTEXT:\/\/$IP:9092/g" -i .bak server.config
+
 ./start_kafka.sh || exit 1
 ./verify_install.sh || exit 1
 
 echo "Kafka install finished: "$(date) | tee -a $LOGFILE
+echo "Check IP address for listeners (use setlisteners.sh to change)" | tee -a $LOGFILE
