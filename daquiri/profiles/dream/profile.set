@@ -108,17 +108,17 @@
           {
            "id": "ESSGeometry/extent_x",
            "type": "integer",
-           "value": 64
+           "value": 20
           },
           {
            "id": "ESSGeometry/extent_y",
            "type": "integer",
-           "value": 128
+           "value": 16
           },
           {
            "id": "ESSGeometry/extent_z",
            "type": "integer",
-           "value": 1
+           "value": 16
           },
           {
            "id": "ESSGeometry/panels",

@@ -16,6 +16,9 @@ else
 fi
 
 pushd daquiri
+  # Force local gtest build
+  conan install --build gtest --options gtest:shared=True gtest/1.8.1@bincrafters/stable
+  sed -i 's/cmake/cmake3/' ./utils/first_build.sh
   ./utils/first_build.sh -j$NUMCPUS || exit 1
 popd
 
