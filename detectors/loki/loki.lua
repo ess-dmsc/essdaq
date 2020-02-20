@@ -4,6 +4,10 @@
 
 -- helper variable and functions
 
+esshdrsize = 30
+datasize = 20
+dataheadersize = 4
+
 function i64_ax(h,l)
  local o = {}; o.l = l; o.h = h; return o;
 end -- +assign 64-bit v.as 2 regs
@@ -54,31 +58,49 @@ function essloki_proto.dissector(buffer, pinfo, tree)
   esshdr:add(buffer(18,8),string.format("PrevPT   0x%04x%04x", ppth, pptl))
   esshdr:add(buffer(26,4),string.format("SeqNo    %d", seqno))
 
-  dhoffset = 30
+  bytesleft = protolen - esshdrsize
+  offset = esshdrsize
 
-  ringid = buffer(dhoffset, 1):uint()
-  fenid = buffer(dhoffset + 1, 1):uint()
-  dlen = buffer(dhoffset + 2, 2):le_uint()
-  esshdr:add(buffer(dhoffset, 4),string.format("Ring %d, FEN %d, Length %d", ringid, fenid, dlen))
+  while (bytesleft)
+  do
+    ringid = buffer(offset, 1):uint()
+    fenid = buffer(offset + 1, 1):uint()
+    dlen = buffer(offset + 2, 2):le_uint()
+    readouts = (dlen - dataheadersize) / datasize
+    dtree = esshdr:add(buffer(offset, 4),string.format("Ring %d, FEN %d, Length %d, Readouts %d",
+               ringid, fenid, dlen, readouts))
 
-  doffset = dhoffset + 4
-  th = buffer(doffset, 4):le_uint()
-  tl = buffer(doffset + 4, 4):le_uint()
-  fpga = buffer(doffset + 8, 1):uint()
-  tube = buffer(doffset + 9, 1):uint()
-  adc = buffer(doffset + 10, 2):le_uint()
-  ampa = buffer(doffset + 12, 2):le_uint()
-  ampb = buffer(doffset + 14, 2):le_uint()
-  ampc = buffer(doffset + 16, 2):le_uint()
-  ampd = buffer(doffset + 18, 2):le_uint()
-  esshdr:add(buffer(doffset + 0, 8),string.format("Time   0x%04x 0x%04x", th, tl))
-  esshdr:add(buffer(doffset + 8, 1),string.format("Fpga   %d", fpga))
-  esshdr:add(buffer(doffset + 9, 1),string.format("Tube   %d", tube))
-  esshdr:add(buffer(doffset + 12, 2),string.format("Amp A %d", ampa))
-  esshdr:add(buffer(doffset + 14, 2),string.format("Amp B %d", ampb))
-  esshdr:add(buffer(doffset + 16, 2),string.format("Amp C %d", ampc))
-  esshdr:add(buffer(doffset + 18, 2),string.format("Amp D %d", ampd))
+    bytesleft = bytesleft - dataheadersize
+    offset = offset + dataheadersize
 
+    if (readouts * datasize > bytesleft) then
+      return
+    end
+
+    if (readouts > 0) then
+      for i=1,readouts
+      do
+        th = buffer(offset + 0, 4):le_uint()
+        tl = buffer(offset + 4, 4):le_uint()
+        fpga = buffer(offset + 8, 1):uint()
+        tube = buffer(offset + 9, 1):uint()
+        adc = buffer(offset + 10, 2):le_uint()
+        ampa = buffer(offset + 12, 2):le_uint()
+        ampb = buffer(offset + 14, 2):le_uint()
+        ampc = buffer(offset + 16, 2):le_uint()
+        ampd = buffer(offset + 18, 2):le_uint()
+        dtree:add(buffer(offset + 0, datasize),string.format(
+            "Time   0x%08x 0x%08x Fpga %3d, Tube %3d, A:%5d, B:%5d, C:%5d, D:%5d",
+             th, tl, fpga, tube, ampa, ampb, ampc, ampd))
+        bytesleft = bytesleft - datasize
+        offset = offset + datasize
+      end
+      if (bytesleft < 24) then
+        return
+      end
+    end
+
+  end
 	-- pinfo.cols.info = string.format("Type: 0x%x, OQ: %d", type, oq)
 end
 

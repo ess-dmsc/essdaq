@@ -22,7 +22,7 @@
       {
        "id": "KafkaConfig/KafkaBroker",
        "type": "text",
-       "value": "192.168.0.58:9092"
+       "value": "172.17.5.38:9092"
       },
       {
        "id": "KafkaConfig/KafkaTimeout",

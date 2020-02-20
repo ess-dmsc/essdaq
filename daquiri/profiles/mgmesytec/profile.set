@@ -22,7 +22,7 @@
       {
        "id": "KafkaConfig/KafkaBroker",
        "type": "text",
-       "value": "dmsc-kafka01.cslab.esss.lu.se:9092"
+       "value": "172.30.242.20:9092"
       },
       {
        "id": "KafkaConfig/KafkaTimeout",

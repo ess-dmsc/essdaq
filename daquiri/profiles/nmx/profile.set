@@ -22,7 +22,7 @@
       {
        "id": "KafkaConfig/KafkaBroker",
        "type": "text",
-       "value": "dmsc-kafka01.cslab.esss.lu.se:9092"
+       "value": "172.17.5.38:9092"
       },
       {
        "id": "KafkaConfig/KafkaTimeout",
@@ -108,12 +108,12 @@
           {
            "id": "ESSGeometry/extent_x",
            "type": "integer",
-           "value": 384
+           "value": 256
           },
           {
            "id": "ESSGeometry/extent_y",
            "type": "integer",
-           "value": 384
+           "value": 256
           },
           {
            "id": "ESSGeometry/extent_z",
