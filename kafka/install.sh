@@ -3,19 +3,21 @@
 #ensure that we are in the script directory
 pushd $(dirname "${BASH_SOURCE[0]}")
 
-. version.sh
-
 echo "Kafka install started: "$(date) | tee -a $LOGFILE
 
-kafkafile="kafka_2.11-$kafkaversion"
 sudo apt update && sudo apt-get install -y curl default-jre python3-pip
 sudo pip3 install kafka-python
 sudo pip3 install argparse
-curl -LO http://ftp.download-by.net/apache/kafka/$kafkaversion/$kafkafile.tgz
+
+kafka=kafka_2.13-2.5.0
+kafkafile=$kafka.tgz
+kafkaurl=http://ftp.download-by.net/apache/kafka/2.5.0/
+curl -LO $kafkaurl/$kafkafile
 #TODO: ensure download is successful
 
-tar xvzf ./$kafkafile.tgz || exit 1
-rm -f ./$kafkafile.tar
+tar xvzf ./$kafkafile|| exit 1
+rm -f ./$kafkafile
+ln -s $kafka kafka
 
 #for older (pre- 2.0) kafka versions
 #patch the script for most recent java version
