@@ -10,7 +10,7 @@ On the server running the efu process issue the following command
 ### Check the internal EFU counters
 Locate the efustats.py script (event-formation-unit/utils/efushell/efustats.py)
 
-    > ./efystats.py
+    > ./efustats.py
 
 This should return a number of lines with detector-specific counters. It looks something
 like this
@@ -41,6 +41,7 @@ On the server running Kafka, issue the following commands
 
     > ps aux | grep kafka
     > ps aux | grep zookeeper
+    > netstat -an | grep tcp (look for ports 9092 and 2181)
 
 ### Check daquiri
 Daquiri must subscribe to a Kafka broker using a combination of ip address and tcp port.

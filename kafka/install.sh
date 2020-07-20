@@ -19,18 +19,15 @@ tar xvzf ./$kafkafile|| exit 1
 rm -f ./$kafkafile
 ln -s $kafka kafka
 
-#for older (pre- 2.0) kafka versions
-#patch the script for most recent java version
-#mv ./$kafkafile/bin/kafka-run-class.sh ./$kafkafile/bin/old_kafka-run-class.sh
-#sed -e 's/\/\\1\/p/\.\*\/\\1\/p/' ./$kafkafile/bin/old_kafka-run-class.sh > ./$kafkafile/bin/kafka-run-class.sh
-#chmod +x ./$kafkafile/bin/kafka-run-class.sh
-
+# Try to  add Kafka IP address to config file
+# Fist get it via the user configuration - if it exist
 if test -f "../config/system.sh"; then
   # get config variables
   . ../config/system.sh
   IP=$KAFKA_IP
 fi
 
+# If it doesn't then use localhost
 if [[ $IP == "" ]]; then
   echo "No KAFKA_IP, setting IP to 127.0.0.1 (change with setlistener.sh)" | tee -a $LOGFILE
   IP="127.0.0.1"
