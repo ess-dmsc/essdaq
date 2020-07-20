@@ -6,6 +6,7 @@ USER root
 
 ARG http_proxy
 ARG https_proxy
+ARG DEBIAN_FRONTEND=noninteractive
 RUN env
 
 # install our own prerequisites
@@ -34,7 +35,7 @@ USER essdaq
 
 WORKDIR /home/essdaq
 
-#RUN echo "Usage: run.sh [branch] [mode]"
-#RUN echo "  branch default is master"
-#RUN echo "  mode default is auto (other values = manual)"
+RUN echo "Usage: run.sh [branch] [mode]"
+RUN echo "  branch default is master"
+RUN echo "  mode default is auto (other values implies manual)"
 #CMD ["./run.sh"]

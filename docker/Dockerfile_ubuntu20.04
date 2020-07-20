@@ -1,4 +1,4 @@
-FROM centos:7
+FROM ubuntu:20.04
 
 ENV container docker
 
@@ -6,16 +6,13 @@ USER root
 
 ARG http_proxy
 ARG https_proxy
+ARG DEBIAN_FRONTEND=noninteractive
 RUN env
 
-# install CentOS related utilities
-RUN yum install -y centos-release-scl epel-release
-RUN yum install -y devtoolset-6
-
 # install our own prerequisites
-RUN yum install -y vim git cmake3 sudo python36 python36-devel python36-pip
-RUN yum autoremove -y
-RUN yum clean all
+RUN apt-get update
+RUN apt-get install -y vim sudo net-tools
+RUN apt-get install -y git cmake python3
 
 # add sudo user
 RUN echo "essdaq ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers

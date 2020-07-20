@@ -1,7 +1,7 @@
 #!/bin/bash
 # This script is used for both CentOS and Ubuntu
 
-osimg=${1:-ubuntu}
+osimg=${1:-ubuntu18.04}
 mode=${2:-manual}
 container=essdaq$osimg
 
