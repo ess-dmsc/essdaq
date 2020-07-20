@@ -17,7 +17,7 @@ function errlog()
 function install_conan() {
   #TODO: do we use python3 instead?
   sudo apt-get install -y python-pip
-  sudo pip2 install conan || exit 1
+  sudo pip3 install conan || sudo pip2 install conan || exit 1
 
   conan config install https://github.com/ess-dmsc/conan-configuration.git || exit 1
 
