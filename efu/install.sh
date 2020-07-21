@@ -25,8 +25,8 @@ pushd event-formation-unit/build
   conan install --build=outdated .. || exit 1
   cmake -DCONAN=MANUAL .. || exit 1
 
-  make -j$NUMCPUS || exit 1
-  make unit_tests -j$NUMCPUS || exit 1
+  make || exit 1
+  make unit_tests || exit 1
   make runtest  || exit 1
   make runefu || exit 1
 popd
