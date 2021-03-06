@@ -18,7 +18,10 @@ curl -LO $kafkaurl/$kafkafile
 tar xvzf ./$kafkafile|| exit 1
 rm -f ./$kafkafile
 ln -s $kafka kafka
+
+# Create and set zookeeper data directory in configuration file
 mkdir $kafka/zookeeper_data
+sed -e 's/dataDir=.*/dataDir=zookeeper_data/' -i $kafka/config/zookeeper.properties
 
 # Try to  add Kafka IP address to config file
 # Fist get it via the user configuration - if it exist
