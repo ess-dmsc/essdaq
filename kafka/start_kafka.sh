@@ -11,6 +11,9 @@ pushd kafka
 echo "Starting Zookeeper"
 ./bin/zookeeper-server-start.sh -daemon ./config/zookeeper.properties
 
+echo "Wait 10s for initialisation"
+sleep 10
+
 echo "Starting Kafka"
 ./bin/kafka-server-start.sh -daemon ../server.config
 

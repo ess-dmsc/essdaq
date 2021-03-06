@@ -11,13 +11,14 @@ sudo pip3 install argparse
 
 kafka=kafka_2.13-2.5.0
 kafkafile=$kafka.tgz
-kafkaurl=http://ftp.download-by.net/apache/kafka/2.5.0/
+kafkaurl=https://archive.apache.org/dist/kafka/2.5.0
 curl -LO $kafkaurl/$kafkafile
 #TODO: ensure download is successful
 
 tar xvzf ./$kafkafile|| exit 1
 rm -f ./$kafkafile
 ln -s $kafka kafka
+mkdir $kafka/zookeeper_data
 
 # Try to  add Kafka IP address to config file
 # Fist get it via the user configuration - if it exist
