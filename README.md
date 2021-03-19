@@ -28,6 +28,12 @@ cd essdaq
 ```
 
 #### 2. Interactive installation
+If you have multiple compiler versions installed, you might need to define which version to use by setting the CC and CXX environment variables, e.g.:
+```
+export CC=/usr/bin/gcc-9
+export CXX=/usr/bin/g++-9
+```
+Then start the interactive installation by running
 ```
 ./install.sh          # for Ubuntu
 ./install_centos7.sh  # for CentOS
