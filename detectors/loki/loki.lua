@@ -66,7 +66,7 @@ function essloki_proto.dissector(buffer, pinfo, tree)
   bytesleft = protolen - esshdrsize
   offset = esshdrsize
 
-  while (bytesleft)
+  while (bytesleft >= 24 )
   do
     ringid = buffer(offset, 1):uint()
     fenid = buffer(offset + 1, 1):uint()
