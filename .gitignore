@@ -1,9 +1,5 @@
 config/system.sh
 
-kafka/kafka_*
-kafka/logs/
-kafka/server.config.bak
-
 efu/event-formation-unit/
 efu/logfile*
 
@@ -12,4 +8,3 @@ daquiri/daquiri/
 detectors/multigrid/mvme/mvme-*
 
 .DS_Store
-

@@ -16,12 +16,12 @@ systemChecks
 
 CALIBARG=""
 if [[ $EFU_CALIB != "" ]]; then
-  CALIBARG="--calibration $(pwd)/${EFU_CONFIG}_calib.json"
+  CALIBARG="--calibration $(pwd)/config/${EFU_CONFIG}_calib.json"
 fi
 
 CONFIGARG=""
 if [[ $EFU_CONFIG != "" ]]; then
-  CONFIGARG="--file $(pwd)/${EFU_CONFIG}_config.json"
+  CONFIGARG="--file $(pwd)/config/${EFU_CONFIG}_config.json"
 fi
 
 startDaquiri
