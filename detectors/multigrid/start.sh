@@ -16,7 +16,7 @@ systemChecks
 
 CONFIGARG=""
 if [[ $EFU_CONFIG != "" ]]; then
-  CONFIGARG="--file $(pwd)/${EFU_CONFIG}.json"
+  CONFIGARG="--file $(pwd)/config/${EFU_CONFIG}.json"
 fi
 
 startDaquiri
