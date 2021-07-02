@@ -9,6 +9,7 @@ cmd = { [0x10] = "Write SysReg",
         [0x12] = "SysReg Readback",
         [0xc0] = "ASIC Config",
         [0xc1] = "ASIC Config Readback",
+        [0xd4] = "All Channel Data",
         [0xd6] = "Time Triggered Data",
       }
 
@@ -158,6 +159,19 @@ function sonde_data.dissector(buffer,pinfo,tree)
     local nsamples = buffer(15,2):uint()
     header:add(buffer(15,2), string.format("samples: %d", nsamples))
     pinfo.cols.info = string.format("Single EV pulse height")
+  elseif type == 0xd4 then
+    local hits = ((protolen-10) - 3)/9
+
+    for i=1,hits do
+      local hitoffset = 13 + (i-1)*9
+      local ts =  buffer(hitoffset, 4):uint()
+      local ttype = buffer(hitoffset + 4, 1):uint()
+      local src = buffer(hitoffset + 5, 1):uint()
+      local channel = buffer(hitoffset + 6, 1):uint()
+      local sample = buffer(hitoffset + 7, 2):uint()
+      local hit = header:add(buffer(hitoffset, 9),
+          string.format("Timestamp %d, source %d, ttype %d, channel %d, sample %d", ts, src, ttype, channel, sample))
+    end
   end
 end
 
