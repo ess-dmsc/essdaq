@@ -50,7 +50,7 @@
         {
          "id": "KafkaTopicConfig/KafkaTopic",
          "type": "text",
-         "value": "DREAM_detector"
+         "value": "dream_detector"
         },
         {
          "id": "KafkaTopicConfig/KafkaFF",

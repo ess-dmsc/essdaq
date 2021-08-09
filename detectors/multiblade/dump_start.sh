@@ -42,7 +42,7 @@ else
     echo Split files every $splittime seconds
 fi
 
-#RUNID=$(./getrunid)
+#RUNID=$(./scripts/getrunid)
 #echo "Runid from Amor: $RUNID"
 
 #prepend=$RUNID-$fileprefix

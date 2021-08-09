@@ -1,48 +1,21 @@
-# ESS DAQ: Simplified setup of the EFU-based data acquisition system
+# ESS DAQ: utilities for the EFU-based data acquisition system
 
 [![DOI](https://zenodo.org/badge/135150324.svg)](https://zenodo.org/badge/latestdoi/135150324)
 
-This repository contains a set of scripts and config files for getting a neutron detector data acquisition system up and running. The functionality provided by these scripts is summarized below:
-
-- Install and configure `conan` to provide dependencies for ESS projects.
-- Install docker and configure the `grafana` service for data stream statistics.
-- Install `kafka`, use provided scripts to easily start and stop it at will.
-- Download and build the [Event Formation Unit](https://github.com/ess-dmsc/event-formation-unit).
-- Download and build [DAQuiri](https://github.com/ess-dmsc/daquiri).
+This repository contains a set of scripts and config files for scripted data acquisition
+based on the ESS projects Daquiri and event-formation-unit.
 
 A description of the contents of each directory in the root of the repository can be found in [documentation/directories.md](documentation/directories.md).
 
 ## Getting started
 
-### Prerequisites
+It is assumed that a CentOS server has been provisioned and that following projects have been built
 
- * The only package you should need to install on a fresh operating system are `git`, `cmake` and `python3`. If you intend to commit changes, now is also the time to configure your `ssh` to work with `github`.
- * If you can authenticate to github with ssh, the necessary projects will be cloned accordingly and you will be able to commit changes to those projects.
-
-### Installing
-
-#### 1. Cloning the essdaq scripts
-```
-git clone https://github.com/ess-dmsc/essdaq.git
-cd essdaq
-```
-
-#### 2. Interactive installation
-If you have multiple compiler versions installed, you might need to define which version to use by setting the CC and CXX environment variables, e.g.:
-```
-export CC=/usr/bin/gcc-9
-export CXX=/usr/bin/g++-9
-```
-Then start the interactive installation by running
-```
-./install.sh          # for Ubuntu
-./install_centos7.sh  # for CentOS
-```
-
-The script *install.sh* and *install_centos7.sh* will ask you a few questions during the installation process.
+  * [Daquiri](https://github.com/ess-dmsc/daquiri)
+  * [Event Formation Unit](https://github.com/ess-dmsc/event-formation-unit)
 
 
-### Post-install configuration
+### Configuration
 
 #### 1. Create a configuration file
 In order to run correctly the essdaq scripts need to know the following about your system:
@@ -84,7 +57,7 @@ Start with the following files
 ### Running
 
 You should ensure that docker/grafana and Kafka is running. You also need to manually start
-Daquiri but following that daquiri can be controlled by the start and stop scripts.
+Daquiri but following that, Daquiri can be controlled by the start and stop scripts.
 
     > cd essdaq/daquiri/daquiri/build
     > ./bin/daquiri

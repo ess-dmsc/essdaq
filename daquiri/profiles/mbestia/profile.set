@@ -50,7 +50,7 @@
         {
          "id": "KafkaTopicConfig/KafkaTopic",
          "type": "text",
-         "value": "ESTIA_detector"
+         "value": "estia_detector"
         },
         {
          "id": "KafkaTopicConfig/KafkaFF",
@@ -160,7 +160,7 @@
         {
          "id": "KafkaTopicConfig/KafkaTopic",
          "type": "text",
-         "value": "ESTIA_monitor"
+         "value": "estia_monitor"
         },
         {
          "id": "KafkaTopicConfig/KafkaFF",
