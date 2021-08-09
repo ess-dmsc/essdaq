@@ -1,5 +1,5 @@
 
--- Copyright (C) 2017 European Spallation Source ERIC
+-- Copyright (C) 2017 - 2021 European Spallation Source ERIC
 -- Wireshark plugin for dissecting IDEAS readout data
 
 -- protocol commands and register addresses
@@ -123,15 +123,18 @@ function sonde_data.dissector(buffer,pinfo,tree)
   local header = tree:add(sonde_data,buffer(),"IDEAS Header")
 
   local versys = buffer(0,1):uint()
-  header:add(buffer(0,1), string.format("%d%d.. .... = version %d", bit.band(versys, 0x80), bit.band(versys, 0x40), bit.rshift(versys, 6)))
-  header:add(buffer(0,1), string.format("..xx xxxx = System  %d", bit.band(versys, 0x3f)))
+  header:add(buffer(0,1), string.format("%d%d%d. .... = version %d", bit.band(versys, 0x80), bit.band(versys, 0x40), bit.band(versys, 0x20), bit.rshift(versys, 5)))
+  -- header:add(buffer(0,1), string.format("...x xxxx = System  %d", bit.band(versys, 0x3f)))
+  header:add(buffer(0,1), string.format("...x xxxx = System  %d", bit.band(versys, 0x1f)))
+
+
   local type = buffer(1,1):uint()
-  header:add(buffer(1,1), string.format("Packet Type: %s (0x%02x) ", cmd[type], type))
+  local pseq = buffer(2,2):uint()
+  local seqflag = bit.rshift(pseq, 14)
+  local seqno = bit.band(pseq, 0x3fff)
+  header:add(buffer(1,1), string.format("Packet Type: %s (0x%02x) flag %d, seqno %d", cmd[type], type, seqflag, seqno))
 
   header:add(buffer(2,2), "Packet Sequence")
-
-  local ts = buffer(4,4):uint()
-  header:add(buffer(4,4), string.format("Timestamp: %d (0x%04x)", ts, ts))
 
   local datalen = buffer(8,2):uint()
   header:add(buffer(8,2), string.format("Data length: %d", datalen))

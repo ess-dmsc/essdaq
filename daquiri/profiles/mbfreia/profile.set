@@ -50,7 +50,7 @@
         {
          "id": "KafkaTopicConfig/KafkaTopic",
          "type": "text",
-         "value": "FREIA_detector"
+         "value": "freia_detector"
         },
         {
          "id": "KafkaTopicConfig/KafkaFF",
@@ -160,7 +160,7 @@
         {
          "id": "KafkaTopicConfig/KafkaTopic",
          "type": "text",
-         "value": "FREIA_monitor"
+         "value": "freia_monitor"
         },
         {
          "id": "KafkaTopicConfig/KafkaFF",
