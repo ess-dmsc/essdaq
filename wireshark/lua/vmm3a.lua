@@ -1,193 +1,106 @@
 
--- Copyright (C) 2016, 2017, 2018 European Spallation Source ERIC
--- Wireshark plugin for dissecting VMM3/SRS readout data
+-- Copyright (C) 2019 - 2021 European Spallation Source ERIC
+-- Wireshark plugin for dissecting ESS Readout data for VMM3a
 
 -- helper variable and functions
 
-
-local t0=0
-local fc0=0
-local firstMarker = 0
-
-function i64_ax(h,l)
- local o = {}; o.l = l; o.h = h; return o;
-end -- +assign 64-bit v.as 2 regs
-
-function i64u(x)
- return ( ( (bit.rshift(x,1) * 2) + bit.band(x,1) ) % (0xFFFFFFFF+1));
-end -- keeps [1+0..0xFFFFFFFFF]
-
-
-function i64_rshift(a,n)
- local o = {};
- if(n==0) then
-   o.l=a.l; o.h=a.h;
- else
-   if(n<32) then
-     o.l= bit.rshift(a.l, n)+i64u( bit.lshift(a.h, (32-n))); o.h=bit.rshift(a.h, n);
-   else
-     o.l=bit.rshift(a.h, (n-32)); o.h=0;
-   end
-  end
-  return o;
-end
-
-function i64_toInt(a)
-  return (a.l + (a.h * (0xFFFFFFFF+1)));
-end -- value=2^53 or even less, so better use a.l value
-
-function i64_toString(a)
-  local s1=string.format("%x",a.l);
-  local s2=string.format("%x",a.h);
-  return "0x"..string.upper(s2)..string.upper(s1);
-end
-
-function gray2bin32(ival)
-  ival = bit.bxor(ival, bit.rshift(ival, 16))
-  ival = bit.bxor(ival, bit.rshift(ival,  8))
-  ival = bit.bxor(ival, bit.rshift(ival,  4))
-  ival = bit.bxor(ival, bit.rshift(ival,  2))
-  ival = bit.bxor(ival, bit.rshift(ival,  1))
-  return ival
-end
+esshdrsize = 30
+datasize = 16
+dataheadersize = 4
+resolution = 11.25 -- ns per clock tick for 88.888888 MHz!!!
+-- resolution = 11.36 -- ns per clock tick for 88.025 MHz
 
 -- -----------------------------------------------------------------------------------------------
 -- the protocol dissector
 -- -----------------------------------------------------------------------------------------------
-srsvmm_proto = Proto("srsvmm","SRSVMM Protocol")
+essvmm3a_proto = Proto("ess_vmm3a","ESSR Protocol")
 
-function srsvmm_proto.dissector(buffer,pinfo,tree)
-	pinfo.cols.protocol = "SRSVMM3a"
-	local data_length_byte = 6
-	local protolen = buffer():len()
-	local srshdr = tree:add(srsvmm_proto,buffer(),"SRS Header")
-	local fc = buffer(0,4):uint()
-    local last_timestamp1 = 0
-    local timestamp1 = 0
-    local last_timestamp2 = 0
-    local timestamp2 = 0
-	if (fc0 == 0) and (fc ~= 0xfafafafa) then
-		fc0 = fc
-	end
+function essvmm3a_proto.dissector(buffer, pinfo, tree)
+	pinfo.cols.protocol = "ESSR/VMM3A"
+	protolen = buffer():len()
+	esshdr = tree:add(essvmm3a_proto,buffer(0, esshdrsize),"ESSR Header")
 
-	if fc == 0xfafafafa then
-		srshdr:add("Frame Counter: 0xfafafafa (End of Frame)")
-		pinfo.cols.info = "End of Frame"
-	else
-		local dataid = buffer(4,3):uint()
-		local time = buffer(8,4):uint()
-		if (t0 == 0) then
-			t0 = time
-		end
+  padding = buffer( 0, 1):uint()
+  version = buffer( 1, 1):uint()
+  cookie  = buffer( 2, 3):uint()
+  type    = buffer( 5, 1):uint()
+  length  = buffer( 6, 2):le_uint()
+  oq      = buffer( 8, 1):uint()
+  tmsrc   = buffer( 9, 1):uint()
+  pth     = buffer(10, 4):le_uint()
+  ptl     = buffer(14, 4):le_uint()
+  ppth    = buffer(18, 4):le_uint()
+  pptl    = buffer(22, 4):le_uint()
+  seqno   = buffer(26, 4):le_uint()
 
-		srshdr:add(buffer(0,4),"Frame Counter: " .. fc .. " (" .. (fc-fc0) .. ")")
-		if dataid == 0x564d33 then
-			local fecid = bit.rshift(buffer(7,1):uint(), 4)
-			local overflow = buffer(12,4):uint()
-			srshdr:add(buffer(4,3),"Data Id: VMM3a Data")
-			srshdr:add(buffer(7,1),"FEC ID: " .. fecid)
-			srshdr:add(buffer(8,4),"UDP Timestamp: " .. time .. " (" .. (time - t0) .. ")")
-			srshdr:add(buffer(12,4),"Offset overflow last frame: " .. overflow)
+  esshdr:add(buffer( 0,1),string.format("Padding  0x%02x", padding))
+  esshdr:add(buffer( 1,1),string.format("Version  %d", version))
+  esshdr:add(buffer( 2,3),string.format("Cookie   0x%x", cookie))
+  esshdr:add(buffer( 5,1),string.format("Type     0x%02x", type))
+  esshdr:add(buffer( 6,2),string.format("Length   %d", length))
+  esshdr:add(buffer( 8,1),string.format("OutputQ  %d", oq))
+  esshdr:add(buffer( 9,1),string.format("TimeSrc  %d", tmsrc))
 
-			if protolen >= 16 then
-				local hits = (protolen-16)/data_length_byte
-				local hit_id = 0
-				local marker_id = 0
-				for i=1,hits do
+  esshdr:add(buffer(10,8),string.format("PulseT   0x%04x%04x", pth, ptl))
+  esshdr:add(buffer(18,8),string.format("PrevPT   0x%04x%04x", ppth, pptl))
+  esshdr:add(buffer(26,4),string.format("SeqNo    %04x", seqno))
 
-					local d1 = buffer(16 + (i-1)*data_length_byte, 4)
-					local d2 = buffer(20 + (i-1)*data_length_byte, 2)
-					-- data marker
-					local flag = bit.band(bit.rshift(d2:uint(), 15), 0x01)
+  bytesleft = protolen - esshdrsize
+  offset    = esshdrsize
+  readouts  = 1
+  while ( bytesleft >= dataheadersize + datasize )
+  do
+    ringid   = buffer(offset                      , 1):uint()
+    fenid    = buffer(offset                  +  1, 1):uint()
+    dlen     = buffer(offset                  +  2, 2):le_uint()
+	  th       = buffer(offset + dataheadersize +  0, 4):le_uint()
+    tl       = buffer(offset + dataheadersize +  4, 4):le_uint()
+    bc       = buffer(offset + dataheadersize +  8, 2):le_uint()
+    othr_adc = buffer(offset + dataheadersize + 10, 2):le_uint()
+    geo      = buffer(offset + dataheadersize + 12, 1):uint()
+    tdc      = buffer(offset + dataheadersize + 13, 1):uint()
+    vmmid    = buffer(offset + dataheadersize + 14, 1):uint()
+    chno     = buffer(offset + dataheadersize + 15, 1):uint()
 
-					if flag == 0 then
-					-- marker
-						--data 2 (16 bit):
-						-- 	flag: 0: 1 bit
-						-- 	vmmid: 1-5 : 5 bit
-						--	timestamp: 6-15: 10 bit
+	  tl_ns    = tl*resolution
+    adc      = bit.band(othr_adc, 0x03ff)
+    othr     = bit.band(bit.rshift(othr_adc, 15), 1)
+	  overflow = math.floor(bit.rshift(tl, 1) / 4096)
 
-						--data 1 (32 bit):
-						--	timestamp: 0-31: 32 bit
-						last_timestamp1 = timestamp1
-						last_timestamp2 = timestamp2
-						timestamp1 = d1:uint()
-						timestamp2 = bit.lshift(d2:uint(), 22)
-						local temp = i64_ax(timestamp1,timestamp2)
+    -- if bit 7 of geo is zero - Readout, else BC calibration
+    if bit.band(geo, 0x80) == 0 then
+      -- make a readout summary
+	    dtree = tree:add(buffer(offset, dataheadersize + datasize),
+              string.format("Readout %3d, Ring %d, FEN %d, VMM:%2d, " ..
+                            "CH:%2d, Time %d s %.2f ns, Overflow %d, " ..
+                            "BC %4d, OTHR %1d, ADC %4d, TDC:%3d GEO %2d",
+              readouts, ringid, fenid, vmmid, chno, th, tl_ns, overflow, bc, othr, adc, tdc, geo, tdc))
 
-						local timestamp = i64_rshift(temp,22)
-						if firstMarker == 0 then
-							firstMarker = i64_toInt(timestamp)
-						end
-						marker_id = marker_id + 1
-						local vmmid =  bit.band(bit.rshift(d2:uint(), 10), 0x1F)
+      -- make an expanding tree with details of the fields
+      dtree:add(buffer(offset +                   0, 1), string.format("Ring    %d",    ringid))
+      dtree:add(buffer(offset +                   1, 1), string.format("FEN     %d",    fenid))
+      dtree:add(buffer(offset +                   2, 2), string.format("Length  %d",    dlen))
+      dtree:add(buffer(offset + dataheadersize +  0, 4), string.format("Time Hi 0x%08x", th))
+      dtree:add(buffer(offset + dataheadersize +  4, 4), string.format("Time Lo 0x%08x", tl))
+      dtree:add(buffer(offset + dataheadersize +  8, 2), string.format("BC      %d",    bc))
+      dtree:add(buffer(offset + dataheadersize + 10, 2), string.format("OT|ADC  0x%04x", othr_adc))
+      dtree:add(buffer(offset + dataheadersize + 12, 1), string.format("GEO     %d",     geo))
+      dtree:add(buffer(offset + dataheadersize + 13, 1), string.format("TDC     %d",    tdc))
+      dtree:add(buffer(offset + dataheadersize + 14, 1), string.format("VMM     %d",    vmmid))
+      dtree:add(buffer(offset + dataheadersize + 15, 1), string.format("Channel %2d",    chno))
+    else
+      dtree = tree:add(buffer(offset, dataheadersize + datasize),
+              string.format("Latency calibration %3d, Ring %d, FEN %d, VMM:%2d, CH:%2d, BC %4d, CBC %4d",
+              readouts, ringid, fenid, vmmid, chno, bc, bit.band(geo, 0x0f)*256 + tdc))
+    end
 
-						local hit = srshdr:add(buffer(16 + (i-1)*data_length_byte, data_length_byte),
-							string.format("Marker: %3d, SRS timestamp: %d, vmmid: %d",
-							marker_id, i64_toInt(timestamp), vmmid))
-
-						local d1handle = hit:add(d1, "Data1 " .. d1)
-						d1handle:add(d1, "timestamp: " .. i64_toString(timestamp))
-
-						local d2handle = hit:add(d2, "Data2 " .. d2)
-						d2handle:add(d2, "flag: " .. flag)
-						d2handle:add(d2, "vmmid: " .. vmmid)
-
-					else
-					-- hit
-						hit_id = hit_id + 1
-						--data 2 (16 bit):
-						--	flag: 0
-						-- 	overThreshold: 1
-						-- 	chno: 2-7 : 6 bit
-						-- 	tdc: 8-15: 8 bit
-
-						--data 1 (32 bit):
-						-- 	offset: 0-4: 5 bit
-						-- 	vmmid: 5-9: 5 bit
-						-- 	adc: 10-19: 10 bit
-						-- 	bcid: 20-31: 12 bit
-
-						local othr = bit.band(bit.rshift(d2:uint(), 14), 0x01)
-						local chno = bit.band(bit.rshift(d2:uint(), 8), 0x3f)
-						local tdc  = bit.band(d2:uint(), 0xff)
-
-						local offset = bit.band(bit.rshift(d1:uint(), 27), 0x1f)
-						local vmmid = bit.band(bit.rshift(d1:uint(), 22), 0x1f)
-						local adc   = bit.band(bit.rshift(d1:uint(), 12), 0x03FF)
-						local gbcid   = bit.band(d1:uint(), 0x0FFF)
-
-						local bcid  = gray2bin32(gbcid)
-
-						local hit = srshdr:add(buffer(16 + (i-1)*data_length_byte, data_length_byte),
-							string.format("Hit: %3d, offset: %d, vmmID: %2d, ch: %2d, bcid: %4d, tdc: %4d, adc: %4d, over thr: %d",
-							hit_id, offset, vmmid, chno, bcid, tdc, adc, othr))
-
-						local d1handle = hit:add(d1, "Data1 " .. d1)
-						d1handle:add(d1, "offset: " .. offset)
-						d1handle:add(d1, "vmmid: " .. vmmid)
-						d1handle:add(d1, "adc: " .. adc)
-						d1handle:add(d1, "bcid(gray): " .. gbcid)
-						d1handle:add(d1, "bcid: " .. bcid)
-
-						local d2handle = hit:add(d2, "Data2 " .. d2)
-						d2handle:add(d2, "flag: " .. flag)
-						d2handle:add(d2, "ovr thresh: " .. othr)
-						d2handle:add(d2, "chno: " .. chno)
-						d2handle:add(d2, "tdc: " .. tdc)
-					end
-				end
-		  		pinfo.cols.info = string.format("FEC: %d, Hits: %3d, Markers: %3d", fecid, hit_id, marker_id)
-			end
-		elseif dataid == 0x564133 then
-			srshdr:add(buffer(4,4),"Data Id: No Data")
-			pinfo.cols.info = "No Data"
-		else
-			srshdr:add(buffer(4,4),"Data Id: Unknown data " .. buffer(5,3))
-		end
-	end
+    bytesleft = bytesleft - datasize - dataheadersize
+    offset    = offset + dataheadersize + datasize
+	  readouts  = readouts + 1
+  end
+	-- pinfo.cols.info = string.format("Type: 0x%x, OQ: %d", type, oq)
 end
 
 -- Register the protocol
 udp_table = DissectorTable.get("udp.port")
-udp_table:add(6006, srsvmm_proto)
+udp_table:add(6006, essvmm3a_proto)
