@@ -62,10 +62,10 @@ function essvmm3a_proto.dissector(buffer, pinfo, tree)
     vmmid    = buffer(offset + dataheadersize + 14, 1):uint()
     chno     = buffer(offset + dataheadersize + 15, 1):uint()
 
-	  tl_ns    = tl*resolution
+    tl_ns    = tl * resolution
     adc      = bit.band(othr_adc, 0x03ff)
     othr     = bit.band(bit.rshift(othr_adc, 15), 1)
-	  overflow = math.floor(bit.rshift(tl, 1) / 4096)
+    overflow = math.floor(bit.rshift(tl, 1) / 4096)
 
     -- if bit 7 of geo is zero - Readout, else BC calibration
     if bit.band(geo, 0x80) == 0 then
@@ -103,4 +103,4 @@ end
 
 -- Register the protocol
 udp_table = DissectorTable.get("udp.port")
-udp_table:add(6006, essvmm3a_proto)
+udp_table:add(9000, essvmm3a_proto)
