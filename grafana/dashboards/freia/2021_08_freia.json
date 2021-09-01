@@ -17,7 +17,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 25,
-  "iteration": 1629287983982,
+  "iteration": 1630489270179,
   "links": [],
   "panels": [
     {
@@ -367,7 +367,7 @@
         {
           "refCount": 0,
           "refId": "J",
-          "target": "alias(perSecond(efu.freia.$region.readouts.error_size), 'ring_err/s')"
+          "target": "alias(perSecond(efu.freia.$region.readouts.error_size), 'err size/s')"
         },
         {
           "refCount": 0,
@@ -469,33 +469,6 @@
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
-      "targets": [
-        {
-          "refCount": 0,
-          "refId": "A",
-          "target": "alias(perSecond(efu.loki.$region.geometry.ring_mapping_errors), 'Ring errors/s')"
-        },
-        {
-          "refCount": 0,
-          "refId": "B",
-          "target": "alias(perSecond(efu.loki.$region.geometry.fen_mapping_errors), 'FEN errors/s')"
-        },
-        {
-          "refCount": 0,
-          "refId": "C",
-          "target": "alias(perSecond(efu.loki.$region.geometry.calib_errors), 'calib errors/s')"
-        },
-        {
-          "refCount": 0,
-          "refId": "D",
-          "target": "alias(perSecond(efu.loki.$region.geometry.pos_low), 'clamp HI/s')"
-        },
-        {
-          "refCount": 0,
-          "refId": "E",
-          "target": "alias(perSecond(efu.loki.$region.geometry.pos_high), 'clamp LO/s')"
-        }
-      ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
@@ -586,24 +559,8 @@
       "steppedLine": false,
       "targets": [
         {
-          "refCount": 0,
           "refId": "A",
-          "target": "alias(perSecond(efu.loki.$region.readouts.tof_count), 'tof count/s')"
-        },
-        {
-          "refCount": 0,
-          "refId": "B",
-          "target": "alias(perSecond(efu.loki.$region.readouts.tof_neg), 'tof neg/s')"
-        },
-        {
-          "refCount": 0,
-          "refId": "C",
-          "target": "alias(perSecond(efu.loki.$region.readouts.prevtof_count), 'prevtof count/s')"
-        },
-        {
-          "refCount": 0,
-          "refId": "D",
-          "target": "alias(perSecond(efu.loki.$region.readouts.prevtof_neg), 'prevtof neg/s')"
+          "target": "alias(perSecond(efu.freia.$region.essheader.error_timehigh), 'err_time_hi/s')"
         }
       ],
       "thresholds": [],
@@ -955,9 +912,8 @@
       {
         "allValue": null,
         "current": {
-          "tags": [],
-          "text": "0",
-          "value": "0"
+          "text": "9",
+          "value": "9"
         },
         "datasource": "utgard-graphite",
         "definition": "efu.loki.*",
@@ -1016,5 +972,5 @@
   "variables": {
     "list": []
   },
-  "version": 5
+  "version": 10
 }

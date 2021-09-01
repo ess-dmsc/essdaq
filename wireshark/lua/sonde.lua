@@ -132,12 +132,19 @@ function sonde_data.dissector(buffer,pinfo,tree)
   local pseq = buffer(2,2):uint()
   local seqflag = bit.rshift(pseq, 14)
   local seqno = bit.band(pseq, 0x3fff)
-  header:add(buffer(1,1), string.format("Packet Type: %s (0x%02x) flag %d, seqno %d", cmd[type], type, seqflag, seqno))
-
-  header:add(buffer(2,2), "Packet Sequence")
+  header:add(buffer(1,1), string.format("Packet Type: %s (0x%02x)", cmd[type], type))
+  header:add(buffer(2,2), string.format("flag %d, seqno %d", seqflag, seqno))
+  local hdrtime = buffer(4,4):uint()
+  header:add(buffer(4,4), string.format("Timestamp %d", hdrtime))
 
   local datalen = buffer(8,2):uint()
   header:add(buffer(8,2), string.format("Data length: %d", datalen))
+
+  local nbreadouts = buffer(10,1):uint()
+  header:add(buffer(10,1), string.format("Readouts in pkt: %d", nbreadouts))
+  local nsampls = buffer(11,2):uint()
+  header:add(buffer(11,2), string.format("samples/readout: %d", nsampls))
+
 
   if type == 0xd6 then
     local hits = ((protolen-10) - 1)/5
@@ -148,7 +155,7 @@ function sonde_data.dissector(buffer,pinfo,tree)
       local ts =  buffer(11 + (i-1)*5, 4):uint()
       local asch = buffer(15 + (i-1)*5, 1):uint()
       local hit = header:add(buffer(11 + (i-1)*5, 5),
-          string.format("Timestamp %d, ASIC %d, channel %d", ts, bit.rshift(asch, 6), bit.band(asch, 0x3f)))
+          string.format("Hit %2d: Timestamp %d, ASIC %d, channel %d", i, ts, bit.rshift(asch, 6), bit.band(asch, 0x3f)))
     end
   elseif type == 0xd5 then
     local source = buffer(10,1):uint()
@@ -162,6 +169,7 @@ function sonde_data.dissector(buffer,pinfo,tree)
     local nsamples = buffer(15,2):uint()
     header:add(buffer(15,2), string.format("samples: %d", nsamples))
     pinfo.cols.info = string.format("Single EV pulse height")
+
   elseif type == 0xd4 then
     local hits = ((protolen-10) - 3)/9
 
@@ -173,7 +181,7 @@ function sonde_data.dissector(buffer,pinfo,tree)
       local channel = buffer(hitoffset + 6, 1):uint()
       local sample = buffer(hitoffset + 7, 2):uint()
       local hit = header:add(buffer(hitoffset, 9),
-          string.format("Timestamp %d, source %d, ttype %d, channel %d, sample %d", ts, src, ttype, channel, sample))
+          string.format("Hit %2d: Timestamp %d, source %d, trig. type %d, channel %d, sample %d", i, ts, src, ttype, channel, sample))
     end
   end
 end
