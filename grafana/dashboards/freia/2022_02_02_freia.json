@@ -1,0 +1,1165 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "$$hashKey": "object:10",
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 25,
+  "iteration": 1643803498482,
+  "links": [],
+  "panels": [
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": "",
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 0,
+        "y": 0
+      },
+      "hiddenSeries": false,
+      "id": 2,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:545",
+          "alias": "bytes/s",
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "refCount": 0,
+          "refId": "A",
+          "target": "alias(perSecond(efu.freia.$region.receive.packets), 'packets/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "B",
+          "target": "alias(perSecond(efu.freia.$region.receive.dropped), 'dropped/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "C",
+          "target": "alias(perSecond(scale(efu.freia.$region.receive.bytes, 8)), 'bits/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "D",
+          "target": "alias(perSecond(efu.freia.$region.receive.fifo_seq_errors), 'seq err/s')"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Receive Stats",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:558",
+          "decimals": 1,
+          "format": "short",
+          "label": "",
+          "logBase": 10,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "$$hashKey": "object:559",
+          "format": "short",
+          "label": null,
+          "logBase": 10,
+          "max": null,
+          "min": "0",
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": "",
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 8,
+        "y": 0
+      },
+      "hiddenSeries": false,
+      "id": 4,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:110",
+          "alias": "bytes/s",
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "refCount": 0,
+          "refId": "A",
+          "target": "alias(perSecond(efu.freia.$region.essheader.error_header), 'header errors/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "C",
+          "target": "alias(perSecond(efu.freia.$region.essheader.error_buffer), 'buffer errors/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "D",
+          "target": "alias(perSecond(efu.freia.$region.essheader.error_version), 'version errors/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "E",
+          "target": "alias(perSecond(efu.freia.$region.essheader.error_output_queue), 'OQ errors/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "F",
+          "target": "alias(perSecond(efu.freia.$region.essheader.error_type), 'type errors/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "G",
+          "target": "alias(perSecond(efu.freia.$region.essheader.error_seqno), 'seqno errors/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "H",
+          "target": "alias(perSecond(efu.freia.$region.essheader.error_timefrac), 'timefrac errors/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "B",
+          "target": "alias(perSecond(efu.freia.$region.essheader.error_timehigh), 'max pulse time diff/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "I",
+          "target": "alias(perSecond(efu.freia.$region.essheader.heartbeats), 'heartbeats/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "J",
+          "target": "alias(perSecond(efu.freia.$region.essheader.error_cookie), 'cookie err/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "K",
+          "target": "alias(perSecond(efu.freia.$region.essheader.error_pad), 'padding err/s')"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "ESS Readout Header Stats",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:123",
+          "format": "short",
+          "label": null,
+          "logBase": 10,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "$$hashKey": "object:124",
+          "format": "short",
+          "label": null,
+          "logBase": 10,
+          "max": null,
+          "min": "0",
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": "",
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 16,
+        "y": 0
+      },
+      "hiddenSeries": false,
+      "id": 3,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:2641",
+          "alias": "bytes/s",
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "refCount": 0,
+          "refId": "B",
+          "target": "alias(perSecond(efu.freia.$region.readouts.count), 'readouts/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "A",
+          "target": "alias(perSecond(efu.freia.$region.readouts.error_ring), 'ring_err/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "C",
+          "target": "alias(perSecond(efu.freia.$region.readouts.error_fen), 'fen_err/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "D",
+          "target": "alias(perSecond(efu.freia.$region.readouts.error_datalen), 'dlen_err/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "E",
+          "target": "alias(perSecond(efu.freia.$region.readouts.error_timefrac), 'timefrac_err/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "F",
+          "target": "alias(perSecond(efu.freia.$region.readouts.error_bc), 'bc_err/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "G",
+          "target": "alias(perSecond(efu.freia.$region.readouts.error_adc), 'adc_err/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "H",
+          "target": "alias(perSecond(efu.freia.$region.readouts.error_vmm), 'vmm_err/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "I",
+          "target": "alias(perSecond(efu.freia.$region.readouts.error_channel), 'size_err/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "J",
+          "target": "alias(perSecond(efu.freia.$region.readouts.error_size), 'err size/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "K",
+          "target": "alias(perSecond(efu.freia.$region.readouts.data), 'data/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "L",
+          "target": "alias(perSecond(efu.freia.$region.readouts.bccalib), 'bc_calib/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "M",
+          "target": "alias(perSecond(efu.freia.$region.readouts.fen_mismatch), 'fen_mapping_err/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "P",
+          "target": "alias(perSecond(efu.freia.$region.readouts.ring_mismatch), 'ring_mapping_err/s')"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "VMM3a Readout Data Stats",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:2654",
+          "format": "short",
+          "label": null,
+          "logBase": 10,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "$$hashKey": "object:2655",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": "",
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 0,
+        "y": 9
+      },
+      "hiddenSeries": false,
+      "id": 8,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:726",
+          "alias": "bytes/s",
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "refCount": 0,
+          "refId": "A",
+          "target": "alias(perSecond(efu.freia.$region.cluster.matched_clusters), 'matched clust/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "C",
+          "target": "alias(perSecond(efu.freia.$region.cluster.no_coincidence), 'no coincidence/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "D",
+          "target": "alias(perSecond(efu.freia.$region.cluster.wire_only), 'wire only/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "E",
+          "target": "alias(perSecond(efu.freia.$region.cluster.strip_only), 'strip only/s')"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Clustering",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:739",
+          "decimals": 1,
+          "format": "short",
+          "label": "",
+          "logBase": 10,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "$$hashKey": "object:740",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": "",
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 8,
+        "y": 9
+      },
+      "hiddenSeries": false,
+      "id": 9,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:613",
+          "alias": "bytes/s",
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "refCount": 0,
+          "refId": "A",
+          "target": "alias(perSecond(efu.freia.$region.readouts.tof_toolarge), 'tof too large/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "B",
+          "target": "alias(perSecond(efu.freia.$region.readouts.tof_count), 'tof count/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "C",
+          "target": "alias(perSecond(efu.freia.$region.readouts.tof_neg), 'tof negative/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "D",
+          "target": "alias(perSecond(efu.freia.$region.readouts.prevtof_count), 'prev tof count/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "E",
+          "target": "alias(perSecond(efu.freia.$region.readouts.prevtof_neg), 'prev tof neg/s')"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Time Stats",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:626",
+          "format": "short",
+          "label": null,
+          "logBase": 10,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "$$hashKey": "object:627",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": "",
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 16,
+        "y": 9
+      },
+      "hiddenSeries": false,
+      "id": 10,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "bytes/s",
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "refCount": 0,
+          "refId": "A",
+          "target": "alias(perSecond(efu.freia.$region.events.count), 'events/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "B",
+          "target": "alias(perSecond(efu.freia.$region.events.pixel_errors), 'pixel errors/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "C",
+          "target": "alias(perSecond(efu.freia.$region.events.strip_gaps), 'strip gap/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "D",
+          "target": "alias(perSecond(efu.freia.$region.events.wire_gaps), 'wire gap/s')"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Event rates",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 10,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": "",
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "utgard-graphite",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 0,
+        "y": 18
+      },
+      "hiddenSeries": false,
+      "id": 6,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "bytes/s",
+          "yaxis": 2
+        },
+        {
+          "alias": "uptime",
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "refCount": 0,
+          "refId": "A",
+          "target": "alias(perSecond(efu.freia.$region.thread.processing_idle), 'processing idle/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "B",
+          "target": "alias(efu.freia.$region.main.uptime, 'uptime')"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Idle/Uptime",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 10,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "s",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": "",
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 8,
+        "y": 18
+      },
+      "hiddenSeries": false,
+      "id": 11,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:202",
+          "alias": "bytes/s",
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "refCount": 0,
+          "refId": "A",
+          "target": "alias(perSecond(scale(efu.freia.$region.kafka.ev_errors, 8)), 'ev errors/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "B",
+          "target": "alias(perSecond(scale(efu.freia.$region.kafka.ev_others, 8)), 'ev others/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "C",
+          "target": "alias(perSecond(scale(efu.freia.$region.kafka.dr_errors, 8)), 'dr errors/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "D",
+          "target": "alias(perSecond(scale(efu.freia.$region.kafka.dr_others, 8)), 'dr others/s')"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Kafka stats",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:215",
+          "format": "short",
+          "label": null,
+          "logBase": 10,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "$$hashKey": "object:216",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": "",
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 16,
+        "y": 18
+      },
+      "hiddenSeries": false,
+      "id": 7,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "bytes/s",
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "refCount": 0,
+          "refId": "A",
+          "target": "alias(perSecond(scale(efu.freia.$region.transmit.bytes, 8)), 'bits/s')"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Output rates",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 10,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 22,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "tags": [],
+          "text": "5",
+          "value": "5"
+        },
+        "datasource": "utgard-graphite",
+        "definition": "efu.freia.*",
+        "hide": 0,
+        "includeAll": false,
+        "index": -1,
+        "label": null,
+        "multi": false,
+        "name": "region",
+        "options": [],
+        "query": "efu.freia.*",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-5m",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "",
+  "title": "Freia",
+  "uid": "IF-MdT77k",
+  "variables": {
+    "list": []
+  },
+  "version": 38
+}

@@ -8,7 +8,7 @@ esshdrsize = 30
 datasize = 16
 dataheadersize = 4
 resolution = 11.25 -- ns per clock tick for 88.888888 MHz!!!
--- resolution = 11.36 -- ns per clock tick for 88.025 MHz
+-- resolution = 11.36 -- ns per clock tick for 88.025 MHz which is ESS time
 
 -- -----------------------------------------------------------------------------------------------
 -- the protocol dissector
@@ -104,3 +104,4 @@ end
 -- Register the protocol
 udp_table = DissectorTable.get("udp.port")
 udp_table:add(9000, essvmm3a_proto)
+udp_table:add(9001, essvmm3a_proto)
