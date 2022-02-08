@@ -1,0 +1,24 @@
+#!/bin/bash
+
+if [[ ! -d $basedir ]] ; then
+    echo "No efu directory [$basedir], set EFUBASE environment varuable"
+    echo "export EFUBASE=/path/to/efu/repo"
+    exit 1
+fi
+
+if [[ ! -f $efu ]] ; then
+    echo "No efu binary [$efu], build project first"
+    exit 1
+fi
+
+if [[ ! -f $module ]] ; then
+    echo "No detector module [$module], build module first"
+    exit 1
+fi
+
+if [[ ! -f $config ]] ; then
+    echo "No detector config file [$config], check launch script"
+    exit 1
+fi
+
+$efu -d $module  -f $config  -r $region -b $kafka -g $grafana -m $cmdport -p $dataport $@
