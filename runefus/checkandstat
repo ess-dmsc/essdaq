@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [[ ! -d $basedir ]] ; then
+    echo "No efu directory [$basedir], set EFUBASE environment varuable"
+    echo "export EFUBASE=/path/to/efu/repo"
+    exit 1
+fi
+
+if [[ ! -f $efustat ]] ; then
+    echo "efustat cmd not found [$efustat]"
+    exit 1
+fi
+
+python3 $efustat -p $cmdport
