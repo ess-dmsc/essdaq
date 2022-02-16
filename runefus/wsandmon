@@ -1,0 +1,24 @@
+#!/bin/bash
+
+basedir=${EFUBASE:-/home/essdaq/essproj/essdaq}
+
+detector=$1
+pcap=$2
+
+lua_dir=$basedir/wireshark/lua
+
+if [[ ! -d ${lua_dir} ]]; then
+  echo "lua_dir: \"${lua_dir}\" does not exist use env variable EFUBASE"
+  exit 0
+fi
+
+lua_script=${lua_dir}/${detector}.lua
+
+if [[ ! -f ${lua_script} ]]; then
+  echo "lua plugin \"${lua_script}\" does not exist"
+  exit 0
+fi
+
+lua_mon=${lua_dir}/monitor.lua
+
+wireshark -Xlua_script:${lua_script} -Xlua_script:${lua_mon} $pcap

@@ -1,12 +1,6 @@
 
--- Copyright (C) 2019 European Spallation Source ERIC
+-- Copyright (C) 2019 - 2022 European Spallation Source ERIC
 -- Wireshark plugin for dissecting ESS Readout data for LOKI
-
--- helper variable and functions
-
-esshdrsize = 30
-datasize = 20
-dataheadersize = 4
 
 function i64_ax(h,l)
  local o = {}; o.l = l; o.h = h; return o;
@@ -33,6 +27,12 @@ end
 essloki_proto = Proto("essreadout","ESSR Protocol")
 
 function essloki_proto.dissector(buffer, pinfo, tree)
+  -- helper variable and functions
+
+  esshdrsize = 30
+  datasize = 20
+  dataheadersize = 4
+  --
 	pinfo.cols.protocol = "ESSR/LOKI"
 	protolen = buffer():len()
 	esshdr = tree:add(essloki_proto,buffer(),"ESSR Header")

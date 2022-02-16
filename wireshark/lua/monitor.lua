@@ -1,14 +1,6 @@
 
--- Copyright (C) 2019 - 2021 European Spallation Source ERIC
+-- Copyright (C) 2019 - 2022 European Spallation Source ERIC
 -- Wireshark plugin for dissecting ESS Readout data for VMM3a
-
--- helper variable and functions
-
-esshdrsize = 30
-datasize = 16
-dataheadersize = 4
-resolution = 11.25 -- ns per clock tick for 88.888888 MHz!!!
--- resolution = 11.36 -- ns per clock tick for 88.025 MHz which is ESS time
 
 -- -----------------------------------------------------------------------------------------------
 -- the protocol dissector
@@ -16,6 +8,14 @@ resolution = 11.25 -- ns per clock tick for 88.888888 MHz!!!
 essvmm3amon_proto = Proto("ess_vmm3amon","ESSR Protocol Mon")
 
 function essvmm3amon_proto.dissector(buffer, pinfo, tree)
+	-- helper variable and functions
+	esshdrsize = 30
+	datasize = 16
+	dataheadersize = 4
+	resolution = 11.25 -- ns per clock tick for 88.888888 MHz!!!
+	-- resolution = 11.36 -- ns per clock tick for 88.025 MHz which is ESS time
+	--
+
 	pinfo.cols.protocol = "ESSR/VMM3A MON"
 	protolen = buffer():len()
 	esshdr = tree:add(essvmm3amon_proto,buffer(0, esshdrsize),"ESSR Header")
