@@ -1,0 +1,27 @@
+#!/bin/bash
+
+detector=$1
+pcap=$2
+
+lua_dir=/home/essdaq/essproj/essdaq/wireshark/lua
+
+case $detector in
+    skadi)
+      lua_script=${lua_dir}/sonde.lua
+    ;;
+    vmm3|vmm3a|freia|amor|estia)
+      lua_script=${lua_dir}/vmm3a.lua
+    ;;
+    loki)
+      lua_script=${lua_dir}/loki.lua
+    ;;
+     *)
+      printf "unknown detector: %s\n" $detector
+      printf "Usage: ws detector pcap_file\n"
+      printf "Use one of: vmm3, vmm3a, skadi, freia, amor, estia, loki\n"
+      exit 0
+      ;;
+esac
+
+
+wireshark -Xlua_script:${lua_script} $pcap

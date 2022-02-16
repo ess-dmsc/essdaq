@@ -1,0 +1,12 @@
+#!/bin/bash
+
+detector=$1
+pcap=$2
+
+lua_dir=/home/essdaq/essproj/essdaq/wireshark/lua
+
+lua_script=${lua_dir}/loki.lua
+lua_script2=${lua_dir}/monitor.lua
+
+
+wireshark -Xlua_script:${lua_script} -Xlua_script:${lua_script2} $pcap
