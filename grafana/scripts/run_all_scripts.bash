@@ -1,5 +1,5 @@
 
 while :; do
-   ./watch_netstats.zsh
+   ./watch_netstats.bash
    sleep 1
 done
