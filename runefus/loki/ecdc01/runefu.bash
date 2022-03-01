@@ -10,4 +10,4 @@ dataport=9000
 cmdport=8888
 region=9
 
-. ../../checkandrun $@
+. /home/essdaq/essproj/essdaq/runefus/checkandrun $@
