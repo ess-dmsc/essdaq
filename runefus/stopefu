@@ -1,9 +1,6 @@
 #!/bin/bash
 
-if [[ $cmdport == "" ]] ; then
-  echo "CMD port not specified, stopping ..."
-  exit
-fi
+port=${1:-8888}
 
 echo "Stopping EFU ..."
-echo "EXIT" | nc 127.0.0.1 $cmdport
+echo "EXIT" | nc 127.0.0.1 $port

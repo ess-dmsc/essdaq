@@ -1,7 +1,6 @@
 #!/bin/bash
-netstat_grab=$(netstat -s | grep "udp:" -A 18)
-dropped_full_socket_buffers=$(echo "$netstat_grab" | grep "full socket buffers" | awk '{print $1}')
-dropped_no_socket=$(echo $netstat_grab | grep "no socket" | awk '{print $1}')
-
-echo "stats.udp.dropped_full_socket_buffers $dropped_full_socket_buffers $(date +%s)" | nc 127.0.0.1 2003
-echo "stats.udp.dropped_no_socket $dropped_no_socket $(date +%s)" | nc 127.0.0.1 2003
+netstat_grab=$(netstat -s | grep "Udp:" -A 6)
+buffer_errors=$(echo "$netstat_grab" | grep "receive buffer error" | awk '{print $1}')
+unknown_port=$(echo "$netstat_grab" | grep "unknown port" | awk '{print $1}')
+echo "stats.udp.buffererrors $buffer_errors $(date +%s)" | nc 127.0.0.1 2003
+echo "stats.udp.unknownport $unknown_port $(date +%s)" | nc 127.0.0.1 2003
