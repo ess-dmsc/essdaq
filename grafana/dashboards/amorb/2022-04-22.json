@@ -17,7 +17,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 33,
-  "iteration": 1650620199545,
+  "iteration": 1650628806337,
   "links": [],
   "panels": [
     {
@@ -905,6 +905,11 @@
           "refCount": 0,
           "refId": "E",
           "target": "alias(perSecond(efu.mbcaen.$region.events.2D), '2D')"
+        },
+        {
+          "refCount": 0,
+          "refId": "F",
+          "target": "alias(perSecond(efu.mbcaen.$region.events.max_tof_ns), 'max TOF')"
         }
       ],
       "thresholds": [],
@@ -1228,5 +1233,5 @@
   "variables": {
     "list": []
   },
-  "version": 2
+  "version": 3
 }
