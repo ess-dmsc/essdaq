@@ -1,10 +1,10 @@
 # Define dashboards to be deployed to site with Ansible.
 #
-# site_dashboards:
+# dashboards:
 #   <name1>: <file1>
 #   <name2>: <file2>
 #   ...
 #
-site_dashboards:
+dashboards:
   freia: freia/2022_02_02_freia.json
   loki: loki/2021_04_13.json
