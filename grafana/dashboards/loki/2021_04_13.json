@@ -820,7 +820,6 @@
           "text": "0",
           "value": "0"
         },
-        "datasource": "utgard-graphite",
         "definition": "efu.loki.*",
         "hide": 0,
         "includeAll": false,
