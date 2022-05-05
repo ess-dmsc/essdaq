@@ -787,7 +787,6 @@
       "cacheTimeout": "",
       "dashLength": 10,
       "dashes": false,
-      "datasource": "utgard-graphite",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1104,7 +1103,6 @@
           "text": "5",
           "value": "5"
         },
-        "datasource": "utgard-graphite",
         "definition": "efu.freia.*",
         "hide": 0,
         "includeAll": false,
