@@ -7,8 +7,7 @@
 esshdrsize = 30
 datasize = 16
 dataheadersize = 4
-resolution = 11.25 -- ns per clock tick for 88.888888 MHz!!!
--- resolution = 11.36 -- ns per clock tick for 88.025 MHz which is ESS time
+resolution = 11.36 -- ns per clock tick for 88.025 MHz which is ESS time
 
 -- -----------------------------------------------------------------------------------------------
 -- the protocol dissector
