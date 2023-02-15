@@ -16,6 +16,8 @@ lua_script=${lua_dir}/${detector}.lua
 
 if [[ ! -f ${lua_script} ]]; then
   echo "lua plugin \"${lua_script}\" does not exist"
+  echo "usage: wsandmon detector"
+  echo "example: wsandmon loki"
   exit 0
 fi
 

@@ -2,7 +2,7 @@
   "annotations": {
     "list": [
       {
-        "$$hashKey": "object:10",
+        "$$hashKey": "object:7",
         "builtIn": 1,
         "datasource": "-- Grafana --",
         "enable": true,
@@ -16,10 +16,410 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 22,
-  "iteration": 1618298315015,
+  "id": 33,
+  "iteration": 1650628806337,
   "links": [],
   "panels": [
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": null,
+      "format": "short",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 4,
+        "x": 0,
+        "y": 0
+      },
+      "id": 4,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "refId": "A",
+          "target": "perSecond(efu.mbcaen.$region.receive.packets)"
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "packets/s",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": "",
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": null,
+      "format": "short",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 4,
+        "x": 4,
+        "y": 0
+      },
+      "id": 5,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "refId": "A",
+          "target": "perSecond(scale(efu.mbcaen.$region.receive.packets, 8))"
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "bits/s",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": null,
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 4,
+        "x": 8,
+        "y": 0
+      },
+      "id": 6,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "refId": "A",
+          "target": "perSecond(efu.mbcaen.$region.receive.dropped)"
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "dropped/s",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": null,
+      "format": "short",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 4,
+        "x": 12,
+        "y": 0
+      },
+      "id": 7,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "refId": "A",
+          "target": "perSecond(efu.mbcaen.$region.readouts.count)"
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "readouts/s",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": null,
+      "format": "short",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 4,
+        "x": 16,
+        "y": 0
+      },
+      "id": 12,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "refId": "A",
+          "target": "perSecond(efu.mbcaen.$region.events.count)"
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "events/s",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
     {
       "aliasColors": {},
       "bars": false,
@@ -33,7 +433,7 @@
         "h": 9,
         "w": 8,
         "x": 0,
-        "y": 0
+        "y": 2
       },
       "hiddenSeries": false,
       "id": 2,
@@ -57,12 +457,7 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-        {
-          "alias": "bytes/s",
-          "yaxis": 2
-        }
-      ],
+      "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
@@ -70,29 +465,29 @@
         {
           "refCount": 0,
           "refId": "A",
-          "target": "alias(perSecond(efu.loki.$region.receive.packets), 'packets/s')"
+          "target": "alias(perSecond(efu.mbcaen.$region.receive.packets), 'pkts/s')"
         },
         {
           "refCount": 0,
           "refId": "B",
-          "target": "alias(perSecond(efu.loki.$region.receive.dropped), 'dropped/s')"
+          "target": "alias(perSecond(scale(efu.mbcaen.$region.receive.bytes, 8)), 'bits/s')"
         },
         {
           "refCount": 0,
           "refId": "C",
-          "target": "alias(perSecond(scale(efu.loki.$region.receive.bytes, 8)), 'bits/s')"
+          "target": "alias(perSecond(scale(efu.mbcaen.$region.receive.dropped, 8)), 'dropped/s')"
         },
         {
           "refCount": 0,
           "refId": "D",
-          "target": "alias(perSecond(efu.loki.$region.receive.fifo_seq_errors), 'seq err/s')"
+          "target": "alias(perSecond(scale(efu.mbcaen.$region.receive.fifo_seq_errors, 8)), 'fifo error/s')"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Receive Stats",
+      "title": "Input rates",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -118,9 +513,9 @@
         {
           "format": "short",
           "label": null,
-          "logBase": 10,
+          "logBase": 1,
           "max": null,
-          "min": "0",
+          "min": null,
           "show": true
         }
       ],
@@ -142,10 +537,10 @@
         "h": 9,
         "w": 8,
         "x": 8,
-        "y": 0
+        "y": 2
       },
       "hiddenSeries": false,
-      "id": 4,
+      "id": 11,
       "legend": {
         "avg": false,
         "current": false,
@@ -168,8 +563,8 @@
       "renderer": "flot",
       "seriesOverrides": [
         {
-          "$$hashKey": "object:110",
-          "alias": "bytes/s",
+          "$$hashKey": "object:1034",
+          "alias": "idle/s",
           "yaxis": 2
         }
       ],
@@ -178,66 +573,23 @@
       "steppedLine": false,
       "targets": [
         {
-          "refCount": 0,
-          "refId": "A",
-          "target": "alias(perSecond(efu.loki.$region.essheader.error_header), 'header errors/s')"
-        },
-        {
+          "hide": false,
           "refCount": 0,
           "refId": "B",
-          "target": "alias(perSecond(efu.loki.$region.essheader.error_buffer), 'buffer errors/s')"
+          "target": "alias(perSecond(efu.mbcaen.$region.readouts.seq_errors), 'seq error')"
         },
         {
+          "hide": false,
           "refCount": 0,
           "refId": "C",
-          "target": "alias(perSecond(efu.loki.$region.essheader.error_buffer), 'buffer errors/s')"
-        },
-        {
-          "refCount": 0,
-          "refId": "D",
-          "target": "alias(perSecond(efu.loki.$region.essheader.error_version), 'version errors/s')"
-        },
-        {
-          "refCount": 0,
-          "refId": "E",
-          "target": "alias(perSecond(efu.loki.$region.essheader.error_output_queue), 'OQ errors/s')"
-        },
-        {
-          "refCount": 0,
-          "refId": "F",
-          "target": "alias(perSecond(efu.loki.$region.essheader.error_type), 'type errors/s')"
-        },
-        {
-          "refCount": 0,
-          "refId": "G",
-          "target": "alias(perSecond(efu.loki.$region.essheader.error_seqno), 'seqno errors/s')"
-        },
-        {
-          "refCount": 0,
-          "refId": "H",
-          "target": "alias(perSecond(efu.loki.$region.essheader.error_timefrac), 'timefrac errors/s')"
-        },
-        {
-          "refCount": 0,
-          "refId": "I",
-          "target": "alias(perSecond(efu.loki.$region.essheader.heartbeats), 'heartbeats/s')"
-        },
-        {
-          "refCount": 0,
-          "refId": "J",
-          "target": "alias(perSecond(efu.loki.$region.essheader.error_cookie), 'cookie err/s')"
-        },
-        {
-          "refCount": 0,
-          "refId": "K",
-          "target": "alias(perSecond(efu.loki.$region.essheader.error_pad), 'padding err/s')"
+          "target": "alias(perSecond(efu.mbcaen.$region.readouts.error_version), 'version err')"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "ESS Readout Header Stats",
+      "title": "Packets",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -253,19 +605,20 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:123",
-          "format": "short",
+          "$$hashKey": "object:1047",
+          "decimals": null,
+          "format": "none",
           "label": null,
-          "logBase": 10,
+          "logBase": 1,
           "max": null,
           "min": "0",
           "show": true
         },
         {
-          "$$hashKey": "object:124",
+          "$$hashKey": "object:1048",
           "format": "short",
           "label": null,
-          "logBase": 10,
+          "logBase": 1,
           "max": null,
           "min": "0",
           "show": true
@@ -289,235 +642,7 @@
         "h": 9,
         "w": 8,
         "x": 16,
-        "y": 0
-      },
-      "hiddenSeries": false,
-      "id": 3,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 2,
-      "links": [],
-      "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
-      "percentage": false,
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [
-        {
-          "alias": "bytes/s",
-          "yaxis": 2
-        }
-      ],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "refCount": 0,
-          "refId": "A",
-          "target": "alias(perSecond(efu.loki.$region.readouts.headers), 'headers/s')"
-        },
-        {
-          "refCount": 0,
-          "refId": "B",
-          "target": "alias(perSecond(efu.loki.$region.readouts.count), 'readouts/s')"
-        },
-        {
-          "refCount": 0,
-          "refId": "C",
-          "target": "alias(perSecond(efu.loki.$region.readouts.error_amplitude), 'ampl errors/s')"
-        },
-        {
-          "refCount": 0,
-          "refId": "D",
-          "target": "alias(perSecond(efu.loki.$region.readouts.error_header), 'header errors/s')"
-        },
-        {
-          "refCount": 0,
-          "refId": "E",
-          "target": "alias(perSecond(efu.loki.$region.readouts.error_bytes), 'error bytes/s')"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Readout Data Stats",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 10,
-          "max": null,
-          "min": "0",
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "cacheTimeout": "",
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 9,
-        "w": 8,
-        "x": 0,
-        "y": 9
-      },
-      "hiddenSeries": false,
-      "id": 5,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 2,
-      "links": [],
-      "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
-      "percentage": false,
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [
-        {
-          "alias": "bytes/s",
-          "yaxis": 2
-        }
-      ],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "refCount": 0,
-          "refId": "A",
-          "target": "alias(perSecond(efu.loki.$region.geometry.ring_mapping_errors), 'Ring errors/s')"
-        },
-        {
-          "refCount": 0,
-          "refId": "B",
-          "target": "alias(perSecond(efu.loki.$region.geometry.fen_mapping_errors), 'FEN errors/s')"
-        },
-        {
-          "refCount": 0,
-          "refId": "C",
-          "target": "alias(perSecond(efu.loki.$region.geometry.calib_errors), 'calib errors/s')"
-        },
-        {
-          "refCount": 0,
-          "refId": "D",
-          "target": "alias(perSecond(efu.loki.$region.geometry.pos_low), 'clamp HI/s')"
-        },
-        {
-          "refCount": 0,
-          "refId": "E",
-          "target": "alias(perSecond(efu.loki.$region.geometry.pos_high), 'clamp LO/s')"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Geometry Stats",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 10,
-          "max": null,
-          "min": "0",
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "cacheTimeout": "",
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 9,
-        "w": 8,
-        "x": 8,
-        "y": 9
+        "y": 2
       },
       "hiddenSeries": false,
       "id": 8,
@@ -541,12 +666,7 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-        {
-          "alias": "bytes/s",
-          "yaxis": 2
-        }
-      ],
+      "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
@@ -554,24 +674,249 @@
         {
           "refCount": 0,
           "refId": "A",
-          "target": "alias(perSecond(efu.loki.$region.events.count), 'events/s')"
+          "target": "alias(perSecond(efu.mbcaen.$region.readouts.count), 'count')"
         },
         {
           "refCount": 0,
           "refId": "B",
-          "target": "alias(perSecond(efu.loki.$region.events.pixel_errors), 'pixel errors/s')"
+          "target": "alias(perSecond(efu.mbcaen.$region.readouts.count_valid), 'count_valid')"
         },
         {
           "refCount": 0,
           "refId": "C",
-          "target": "alias(perSecond(efu.loki.$region.events.udder), 'udder events/s')"
+          "target": "alias(perSecond(efu.mbcaen.$region.readouts.monitor), 'monitors')"
+        },
+        {
+          "refCount": 0,
+          "refId": "D",
+          "target": "alias(perSecond(efu.mbcaen.$region.readouts.count1D), '1D')"
+        },
+        {
+          "refCount": 0,
+          "refId": "E",
+          "target": "alias(perSecond(efu.mbcaen.$region.readouts.count2D), '2D')"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Event rates",
+      "title": "Readouts",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 10,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": "",
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 0,
+        "y": 11
+      },
+      "hiddenSeries": false,
+      "id": 14,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "refCount": 0,
+          "refId": "A",
+          "target": "alias(perSecond(efu.mbcaen.$region.readouts.invalid_adc), 'bad adc')"
+        },
+        {
+          "refCount": 0,
+          "refId": "B",
+          "target": "alias(perSecond(efu.mbcaen.$region.readouts.invalid_ch), 'bad channel')"
+        },
+        {
+          "refCount": 0,
+          "refId": "C",
+          "target": "alias(perSecond(efu.mbcaen.$region.readouts.invalid_plane), 'bad plane')"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Readout Errors",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:613",
+          "format": "short",
+          "label": null,
+          "logBase": 10,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "$$hashKey": "object:614",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": "",
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 8,
+        "y": 11
+      },
+      "hiddenSeries": false,
+      "id": 10,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "refCount": 0,
+          "refId": "A",
+          "target": "alias(perSecond(efu.mbcaen.$region.events.count), 'count')"
+        },
+        {
+          "refCount": 0,
+          "refId": "B",
+          "target": "alias(perSecond(efu.mbcaen.$region.events.geometry_errors), 'geom. errors')"
+        },
+        {
+          "refCount": 0,
+          "refId": "C",
+          "target": "alias(perSecond(efu.mbcaen.$region.events.no_coincidence), 'no coincidence')"
+        },
+        {
+          "refCount": 0,
+          "refId": "D",
+          "target": "alias(perSecond(efu.mbcaen.$region.events.1D), '1D')"
+        },
+        {
+          "refCount": 0,
+          "refId": "E",
+          "target": "alias(perSecond(efu.mbcaen.$region.events.2D), '2D')"
+        },
+        {
+          "refCount": 0,
+          "refId": "F",
+          "target": "alias(perSecond(efu.mbcaen.$region.events.max_tof_ns), 'max TOF')"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Events",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -621,10 +966,10 @@
         "h": 9,
         "w": 8,
         "x": 16,
-        "y": 9
+        "y": 11
       },
       "hiddenSeries": false,
-      "id": 6,
+      "id": 13,
       "legend": {
         "avg": false,
         "current": false,
@@ -647,12 +992,8 @@
       "renderer": "flot",
       "seriesOverrides": [
         {
-          "alias": "bytes/s",
-          "yaxis": 2
-        },
-        {
-          "alias": "uptime",
-          "yaxis": 2
+          "alias": "events",
+          "yaxis": 1
         }
       ],
       "spaceLength": 10,
@@ -662,19 +1003,24 @@
         {
           "refCount": 0,
           "refId": "A",
-          "target": "alias(perSecond(efu.loki.$region.thread.processing_idle), 'processing idle/s')"
+          "target": "alias(perSecond(scale(efu.mbcaen.$region.transmit.bytes, 8)), 'bits/s')"
         },
         {
           "refCount": 0,
           "refId": "B",
-          "target": "alias(efu.loki.$region.main.uptime, 'uptime')"
+          "target": "alias(perSecond(efu.mbcaen.$region.events.count), 'events/s')"
+        },
+        {
+          "refCount": 0,
+          "refId": "C",
+          "target": "alias(perSecond(efu.mbcaen.$region.kafka.produce_fails), 'prod. fails/s')"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Idle/Uptime",
+      "title": "Transmit",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -698,9 +1044,9 @@
           "show": true
         },
         {
-          "format": "s",
+          "format": "short",
           "label": null,
-          "logBase": 1,
+          "logBase": 10,
           "max": null,
           "min": "0",
           "show": true
@@ -724,10 +1070,10 @@
         "h": 9,
         "w": 8,
         "x": 0,
-        "y": 18
+        "y": 20
       },
       "hiddenSeries": false,
-      "id": 7,
+      "id": 9,
       "legend": {
         "avg": false,
         "current": false,
@@ -750,7 +1096,8 @@
       "renderer": "flot",
       "seriesOverrides": [
         {
-          "alias": "bytes/s",
+          "$$hashKey": "object:241",
+          "alias": "idle/s",
           "yaxis": 2
         }
       ],
@@ -759,16 +1106,23 @@
       "steppedLine": false,
       "targets": [
         {
+          "hide": false,
           "refCount": 0,
           "refId": "A",
-          "target": "alias(perSecond(scale(efu.loki.$region.transmit.bytes, 8)), 'bis/s')"
+          "target": "alias(efu.mbcaen.$region.main.uptime, 'uptime')"
+        },
+        {
+          "hide": false,
+          "refCount": 0,
+          "refId": "B",
+          "target": "alias(perSecond(efu.mbcaen.$region.thread.processing_idle), 'idle/s')"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Output rates",
+      "title": "Uptime/idle",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -784,19 +1138,22 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "$$hashKey": "object:254",
+          "decimals": null,
+          "format": "s",
           "label": null,
-          "logBase": 10,
+          "logBase": 1,
           "max": null,
           "min": "0",
           "show": true
         },
         {
+          "$$hashKey": "object:255",
           "format": "short",
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         }
       ],
@@ -815,34 +1172,21 @@
       {
         "allValue": null,
         "current": {
-          "isNone": true,
           "tags": [],
-          "text": "0",
-          "value": "0"
+          "text": "5",
+          "value": "5"
         },
-        "definition": "efu.loki.*",
+        "datasource": "utgard-graphite",
+        "definition": "efu.mbcaen.*",
         "hide": 0,
-        "includeAll": false,
+        "includeAll": true,
         "index": -1,
         "label": null,
         "multi": false,
         "name": "region",
-        "options": [
-          {
-            "$$hashKey": "object:40",
-            "selected": true,
-            "text": "0",
-            "value": "0"
-          },
-          {
-            "$$hashKey": "object:41",
-            "selected": false,
-            "text": "1",
-            "value": "1"
-          }
-        ],
-        "query": "efu.loki.*",
-        "refresh": 0,
+        "options": [],
+        "query": "efu.mbcaen.*",
+        "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
@@ -855,7 +1199,7 @@
     ]
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {
@@ -884,10 +1228,10 @@
     ]
   },
   "timezone": "",
-  "title": "LoKI_IV",
-  "uid": "2CCsbb2Zk",
+  "title": "AMORB",
+  "uid": "4v7KmKQnz",
   "variables": {
     "list": []
   },
-  "version": 7
+  "version": 3
 }

@@ -6,8 +6,8 @@ config=$basedir/src/modules/loki/configs/STFCTestIII.json
 efu=$basedir/build/bin/efu
 kafka="127.0.0.1:9092"
 grafana="127.0.0.1"
-dataport=9000
-cmdport=8888
-region=9
+dataport=9002
+cmdport=8890
+region=8
 
-. /home/essdaq/essproj/essdaq/runefus/checkandrun $@
+. ../../checkandrun $@

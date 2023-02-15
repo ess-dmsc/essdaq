@@ -10,4 +10,4 @@ dataport=9001
 cmdport=8889
 region=9
 
-. ../../checkandrun -t loki_beam_monitor $@
+. /home/essdaq/essproj/essdaq/runefus/checkandrun -t loki_beam_monitor $@
