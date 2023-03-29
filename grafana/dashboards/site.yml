@@ -12,4 +12,4 @@ dashboards:
   loki: loki/2023_03_28_loki.json
   miracles: miracles/2023_03_28_miracles.json
   nmx: nmx/2023_03_28_nmx.json
-  odin: odin/2023_03_28_odin.json
+  odin: odin/2023_03_29_odin.json
