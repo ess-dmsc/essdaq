@@ -81,16 +81,20 @@ function tpix_ctrl.dissector(buffer,pinfo,tree)
 
   local reqresp = buffer(0, 2):uint()
   local command = buffer(2, 2):uint()
+  local len = buffer(6, 2):uint()
+  local cmdarg = buffer(16, 4):uint()
 
-  if (reqresp == 0) then
-    header:add(buffer(0, protolen), string.format("Request : %s",
-               cmd2str(command)))
-  else
-    header:add(buffer(0, protolen), string.format("Response: %s",
-               cmd2str(command)))
-  end
+  header:add(buffer( 0, 2), string.format("type    : %s",
+             getcmdtype(reqresp)))
+  header:add(buffer( 2, 2), string.format("command : %s",
+             cmd2str(command)))
+  header:add(buffer( 6, 2), string.format("length  : %s",
+             len))
+  header:add(buffer(16, 4), string.format("cmd arg : 0x%04x (%d)",
+             cmdarg, cmdarg))
 
-  pinfo.cols.info = string.format("%s 0x%04x, %s", getcmdtype(reqresp), command, cmd2str(command))
+
+  pinfo.cols.info = string.format("%s - %s", getcmdtype(reqresp), cmd2str(command))
 end
 
 
