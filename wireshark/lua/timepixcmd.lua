@@ -10,12 +10,22 @@ cmd = {
         [0x0115] = "Set IPAddr Dest",
         [0x0117] = "Get Server Port",
         [0x0118] = "Set Server Port",
+        [0x011A] = "Get DAC",
+        [0x011B] = "Set DAC",
+        [0x0121] = "Set CTPR",
 
         [0x022A] = "Set PixConf",
         [0x022E] = "Reset Pixels",
 
+        [0x0331] = "Set TP PeriodPhase",
+        [0x0332] = "Set TP Number",
         [0x0335] = "Set Gen Config",
         [0x0336] = "Get PLL Config",
+        [0x0338] = "Set SenseDAC",
+
+        [0x0445] = "Set Seq Readout",
+        [0x0446] = "Set DDriven Readout",
+        [0x0447] = "Pause Readout",
 
         [0x0549] = "Get Remote Temp",
         [0x054A] = "Get Local Temp",
@@ -50,11 +60,12 @@ function getcmdtype(t)
   end
 end
 
+
 function arr2str(arr, val)
   res = arr[val]
   if (res == nil)
   then
-      res = "[Unknown]"
+      res = string.format("[Unknown 0x%04x]", val)
   end
   return res
 end
@@ -83,18 +94,18 @@ function tpix_ctrl.dissector(buffer,pinfo,tree)
   local command = buffer(2, 2):uint()
   local len = buffer(6, 2):uint()
   local cmdarg = buffer(16, 4):uint()
+  local remain = protolen - 20
 
-  header:add(buffer( 0, 2), string.format("type    : %s",
-             getcmdtype(reqresp)))
-  header:add(buffer( 2, 2), string.format("command : %s",
-             cmd2str(command)))
-  header:add(buffer( 6, 2), string.format("length  : %s",
-             len))
-  header:add(buffer(16, 4), string.format("cmd arg : 0x%04x (%d)",
-             cmdarg, cmdarg))
+  header:add(buffer( 0, 2), string.format("type    : %s", getcmdtype(reqresp)))
+  header:add(buffer( 2, 2), string.format("command : %s", cmd2str(command)))
+  header:add(buffer( 6, 2), string.format("length  : %s", len))
+  header:add(buffer(16, 4), string.format("cmd arg : 0x%08x (%d)", cmdarg, cmdarg))
 
-
-  pinfo.cols.info = string.format("%s - %s", getcmdtype(reqresp), cmd2str(command))
+  if (remain == 0) then
+    pinfo.cols.info = string.format("%s - %-24s 0x%08x", getcmdtype(reqresp), cmd2str(command), cmdarg)
+  else
+    pinfo.cols.info = string.format("%s - %-24s 0x%08x (+ %d more bytes)", getcmdtype(reqresp), cmd2str(command), cmdarg, remain)
+  end
 end
 
 
