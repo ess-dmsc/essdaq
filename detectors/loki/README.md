@@ -12,6 +12,10 @@ position along the straw (y) against the straw id (x).
 Both straw id and position are floating point values between 0 and 1 and
 calculated acording to the formulae in the LoKI ICD.
 
+<img src="images/strawpos_any_any.png", width="100">
+
+<img src="images/strawpos_0_3.png", width="100">
+
 ## ampls.py
 This scipt creates a figure with a historgram plot for each tube,
 with amplitude B vs amplitude A.
@@ -31,4 +35,5 @@ For each run a png file is created.
 
 ## References
 https://scipp.github.io/
+
 https://scipp.github.io/plopp/
