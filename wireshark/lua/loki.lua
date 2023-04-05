@@ -1,5 +1,5 @@
 
--- Copyright (C) 2019 - 2022 European Spallation Source ERIC
+-- Copyright (C) 2019 - 2023 European Spallation Source ERIC
 -- Wireshark plugin for dissecting ESS Readout data for LOKI
 
 function i64_ax(h,l)
@@ -13,7 +13,7 @@ end -- keeps [1+0..0xFFFFFFFFF]
 
 function i64_toInt(a)
   return (a.l + (a.h * (0xFFFFFFFF+1)));
-end -- value=2^53 or even less, so better use a.l value
+end
 
 function i64_toString(a)
   local s1=string.format("%x",a.l);
