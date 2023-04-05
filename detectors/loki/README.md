@@ -6,15 +6,15 @@ they read ringid, fenid, tubeid and the four amplitudes A, B, C, D
 into a Scipp DataArray. Plotting is done using Plopp.
 
 ## strawpos.py
-This script creates a figure with a historgram plot for each tube, with
+This script creates a figure with a histogram plot for each tube, with
 position along the straw (y) against the straw id (x).
 
 Both straw id and position are floating point values between 0 and 1 and
 calculated acording to the formulae in the LoKI ICD.
 
-<img src="images/strawpos_any_any.png", width="100">
+<img src="https://github.com/ess-dmsc/essdaq/blob/master/detectors/loki/images/strawpos_any_any.png" width="100">
 
-<img src="images/strawpos_0_3.png", width="100">
+<img src="images/strawpos_0_3.png" width="100">
 
 ## ampls.py
 This scipt creates a figure with a historgram plot for each tube,
