@@ -53,7 +53,7 @@ def load_and_save(args):
     fig, ax = plt.subplots(4,2, figsize=(16,16))
     #fig.tight_layout()
 
-    for i in range(8):
+    for i in range(args.tubes):
         print(f'processing ring {id2chr(args.ring)}, fen {id2chr(args.fen)}, tube {i}')
         tgrp = array(dims=['tube'], values=[i])
         if args.ring == -1 and args.fen == -1:
@@ -68,10 +68,10 @@ def load_and_save(args):
         yi = i // 2
         xi = i % 2
         cax = ax[yi, xi]
-        grp.hist(pos=200, straw=200).plot(aspect=1.,norm='log', ax=cax)
+        grp.hist(pos=args.bin, straw=args.bin).plot(aspect=1.,norm='log', ax=cax)
         cax.title.set_text(f'Tube {i}')
-        cax.set_xlim(0, 1)
-        cax.set_ylim(0, 1)
+        cax.set_xlim(args.xmin, args.xmax)
+        cax.set_ylim(args.ymin, args.ymax)
         cax.yaxis.tick_left()
         cax.yaxis.set_label_position('left')
         if i <= 5:
@@ -91,6 +91,12 @@ if __name__ == '__main__':
                         help='output directory')
     parser.add_argument('-r','--ring', type=int, default=-1, help='Ring Id (default all rings)')
     parser.add_argument('-f','--fen', type=int, default=-1, help='FEN Id (default all fens)')
+    parser.add_argument('-t','--tubes', type=int, default=8, help='number of tubes')
+    parser.add_argument('--xmin', type=float, default=0.0, help='min x-value')
+    parser.add_argument('--xmax', type=float, default=1.0, help='max x-value')
+    parser.add_argument('--ymin', type=float, default=0.0, help='min y-value')
+    parser.add_argument('--ymax', type=float, default=1.0, help='max y-value')
+    parser.add_argument('-b', '--bin', type=int, default=200, help='histogram bin size')
 
     args = parser.parse_args()
 
