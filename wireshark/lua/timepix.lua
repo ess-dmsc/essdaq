@@ -37,32 +37,71 @@ function timepix_proto.dissector(buffer, pinfo, tree)
   bytesleft = protolen
   offset = 0
 
-  while (bytesleft >= datasize)
-  do
-    -- Readout Data (Timepix specific)
-   
-   -- reading 3 overlapping chunks of data, le_uint doesn't support 64bit ints
-   -- and 'data' field of timepix readout spans first 4 and last 4 bytes
-   local readout_bytes_1 = buffer(offset+4, 4):le_uint()
-   local readout_bytes_2 = buffer(offset+2, 4):le_uint()
-   local readout_bytes_3 = buffer(offset, 4):le_uint()
-   
-   --- applying mask and shifts for each element of readout
-   local readout_type = bit.rshift(bit.band(readout_bytes_1, 0xF0000000), 28)
-   local dcol =         bit.rshift(bit.band(readout_bytes_1, 0x0FE00000), 21) 
-   local spix =         bit.rshift(bit.band(readout_bytes_1, 0x001F8000), 15)
-   local pix =          bit.rshift(bit.band(readout_bytes_1, 0x00007000), 12) 
-   local data =         bit.band(readout_bytes_2, 0x0FFFFFFF)
-   local spidr_time =   bit.band(readout_bytes_3, 0x0000FFFF)
-   
+  local cookie = 0x53534501
+  if (buffer(offset, 4):le_uint() == cookie) then
+    local counter =                   buffer(offset + 4,  4):le_uint()
+    local pulseTimeSeconds =          buffer(offset + 8,  4):le_uint()
+    local pulseTimeNanoseconds =      buffer(offset + 12, 4):le_uint()
+    local prevPulseTimeSeconds =      buffer(offset + 16, 4):le_uint()
+    local prevPulseTimeNanoseconds =  buffer(offset + 20, 4):le_uint()
+    dtree = timepixhdr:add(buffer(offset, 8),string.format("EVR timestamp, counter %d, pulseTimeSeconds %d, pulseTimeNanoseconds %d, prevPulseTimeSeconds %d, prevPuseTimeNanoseconds %d", counter, pulseTimeSeconds, pulseTimeNanoseconds, prevPulseTimeSeconds, prevPulseTimeNanoseconds))
+    dtree:add(buffer(offset + 4, 4),  string.format("Counter                  %d", counter))
+    dtree:add(buffer(offset + 8, 4),  string.format("pulseTimeSeconds         %d", pulseTimeSeconds))
+    dtree:add(buffer(offset + 12, 4), string.format("pulseTimeNanoseconds     %d", pulseTimeNanoseconds))
+    dtree:add(buffer(offset + 16, 4), string.format("prevPulseTimeSeconds     %d", prevPulseTimeSeconds))
+    dtree:add(buffer(offset + 20, 4), string.format("prevPulseTimeNanoseconds %d", prevPulseTimeNanoseconds))
+  else
+    while (bytesleft >= datasize)
+    do
+      -- Readout Data (Timepix specific)
+      
+      -- reading 3 overlapping chunks of data, le_uint doesn't support 64bit ints
+      -- and 'data' field of timepix readout spans first 4 and last 4 bytes
+      local readout_high =    buffer(offset + 4, 4):le_uint()
+      local readout_bytes_2 = buffer(offset + 2, 4):le_uint()
+      local readout_low =     buffer(offset    , 4):le_uint()
 
-    dtree = timepixhdr:add(buffer(offset, 8),string.format("type %d, dcol %d, spix %d, pix %d, data %d, spidr_time %d",
-    readout_type, dcol, spix, pix, data, spidr_time))
+      --- applying mask and shifts for each element of readout
+      local readout_type = bit.rshift(bit.band(readout_high, 0xF0000000), 28)
 
-    bytesleft = bytesleft - datasize
-    offset = offset + datasize
+      if (readout_type == 11) then
+        local dcol =         bit.rshift(bit.band(readout_high, 0x0FE00000), 21) 
+        local spix =         bit.rshift(bit.band(readout_high, 0x001F8000), 15)
+        local pix =          bit.rshift(bit.band(readout_high, 0x00007000), 12) 
+        local data =         bit.band(readout_bytes_2, 0x0FFFFFFF)
+        local spidr_time =   bit.band(readout_low, 0x0000FFFF)
+      
+
+        dtree = timepixhdr:add(buffer(offset, 8),string.format("Pixel readout, type %2d, dcol %d, spix %d, pix %d, data %d, spidr_time %d",
+        readout_type, dcol, spix, pix, data, spidr_time))
+
+      elseif (readout_type == 6) then
+        local trigger_counter = bit.rshift(bit.band(readout_high, 0x00FFF000), 12)
+        local timestamp =       bit.lshift(bit.band(readout_high, 0x00000FFF), 23) + bit.rshift(bit.band(readout_low, 0xFFFFFE00), 9)
+        local stamp =           bit.rshift(bit.band(readout_low, 0x000001E0), 5)
+        local reserved =        bit.band(readout_low, 0x0000001F)
+        
+        dtree = timepixhdr:add(buffer(offset, 8),string.format("TDC timestamp, type %2d, trigger_counter %d, stamp %d, reserved %d",
+        readout_type, trigger_counter, timestamp, stamp, reserved))
+
+      elseif (readout_type == 4) then
+        local timestamp = bit.lshift(bit.band(readout_high, 0x00FFFFFF), 24) + bit.rshift(bit.band(readout_low, 0xFFFFFF00), 8)
+        local stamp =     bit.rshift(bit.band(readout_low, 0x000000F0), 4)
+        local reserved =  bit.band(readout_low, 0x0000000F)
+        dtree = timepixhdr:add(buffer(offset, 8),string.format("Global timestamp, type %2d, timestamp %d, stamp %d, reserved %d",
+        readout_type, timestamp, stamp, reserved))
+      else
+        dtree = timepixhdr:add(buffer(offset, 8),string.format("unknown type %2d",
+        readout_type))
+      end
+
+    
+
+      bytesleft = bytesleft - datasize
+      offset = offset + datasize
+  
+    end
   end
-
 end
 
 -- Register the protocol
