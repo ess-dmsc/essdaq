@@ -12,7 +12,7 @@ def id2chr(id):
     if id == -1:
         return 'any'
     else:
-        return f'{id}'
+        return f'{id:02}'
 
 def readtoscipp(filename):
 
