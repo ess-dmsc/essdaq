@@ -7,4 +7,5 @@ daquiri/daquiri/
 
 detectors/multigrid/mvme/mvme-*
 
+__pycache__
 .DS_Store
