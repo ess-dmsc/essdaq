@@ -7,12 +7,7 @@ if [[ ! -d $basedir ]] ; then
 fi
 
 if [[ ! -f $efu ]] ; then
-    echo "No efu binary [$efu], build project first"
-    exit 1
-fi
-
-if [[ ! -f $module ]] ; then
-    echo "No detector module [$module], build module first"
+    echo "No EFU binary [$efu], build it first"
     exit 1
 fi
 
@@ -21,4 +16,5 @@ if [[ ! -f $config ]] ; then
     exit 1
 fi
 
-$efu -d $module  -f $config  -r $region -b $kafka -g $grafana -m $cmdport -p $dataport $@
+echo Debug: $*
+$efu  -f $config  -r $region -b $kafka -g $grafana -m $cmdport -p $dataport $@
