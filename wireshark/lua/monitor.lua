@@ -1,5 +1,5 @@
 
--- Copyright (C) 2019 - 2022 European Spallation Source ERIC
+-- Copyright (C) 2019 - 2023 European Spallation Source ERIC
 -- Wireshark plugin for dissecting ESS Readout data for TTL monitor
 
 -- -----------------------------------------------------------------------------------------------
@@ -50,7 +50,8 @@ function essttlmon_proto.dissector(buffer, pinfo, tree)
 
   while ( bytesleft >= dataheadersize + datasize )
   do
-    ringid   = buffer(offset                      , 1):uint()
+    fiberid  = buffer(offset                      , 1):uint()
+		ringid   = fiberid/2
     fenid    = buffer(offset                  +  1, 1):uint()
     dlen     = buffer(offset                  +  2, 2):le_uint()
 	  th       = buffer(offset + dataheadersize +  0, 4):le_uint()
@@ -63,12 +64,12 @@ function essttlmon_proto.dissector(buffer, pinfo, tree)
 
     -- make a readout summary
     dtree = tree:add(buffer(offset, dataheadersize + datasize),
-            string.format("MON Readout %3d, Ring %d, FEN %d, Pos:%3d, " ..
+            string.format("MON Readout %3d, Fiber %u, Ring %d, FEN %d, Pos:%3d, " ..
                           "CH:%3d, ADC %5d",
-            readouts, ringid, fenid, pos, ch, adc))
+            readouts, fiberid, ringid, fenid, pos, ch, adc))
 
     -- make an expanding tree with details of the fields
-    dtree:add(buffer(offset +                   0, 1), string.format("Ring    %d",    ringid))
+    dtree:add(buffer(offset +                   0, 1), string.format("Fiber   %d",    fiberid))
     dtree:add(buffer(offset +                   1, 1), string.format("FEN     %d",    fenid))
     dtree:add(buffer(offset +                   2, 2), string.format("Length  %d",    dlen))
     dtree:add(buffer(offset + dataheadersize +  0, 4), string.format("Time Hi 0x%04x", th))

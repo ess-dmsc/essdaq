@@ -1,5 +1,4 @@
-
--- Copyright (C) 2022 European Spallation Source ERIC
+-- Copyright (C) 2022 - 2023 European Spallation Source ERIC
 -- Wireshark plugin for dissecting ESS Readout data for BIFROST
 
 function i64_ax(h,l)
@@ -68,12 +67,13 @@ function essloki_proto.dissector(buffer, pinfo, tree)
 
   while (bytesleft >= 24 )
   do
-    ringid = buffer(offset, 1):uint()
+    fiberid = buffer(offset, 1):uint()
+    ringid = fiberid/2
     fenid = buffer(offset + 1, 1):uint()
     dlen = buffer(offset + 2, 2):le_uint()
     readouts = (dlen - dataheadersize) / datasize
-    dtree = esshdr:add(buffer(offset, 4),string.format("Ring %d, FEN %d, Length %d, Readouts %d",
-               ringid, fenid, dlen, readouts))
+    dtree = esshdr:add(buffer(offset, 4),string.format("Fiber %d, Ring %d, FEN %d, Length %d, Readouts %d",
+               fiberid, ringid, fenid, dlen, readouts))
 
     bytesleft = bytesleft - dataheadersize
     offset = offset + dataheadersize
@@ -88,14 +88,14 @@ function essloki_proto.dissector(buffer, pinfo, tree)
         th = buffer(offset + 0, 4):le_uint()
         tl = buffer(offset + 4, 4):le_uint()
         flags = buffer(offset + 8, 1):uint()
-        tube = buffer(offset + 9, 1):uint()
+        group = buffer(offset + 9, 1):uint()
         ampa = buffer(offset + 12, 2):le_uint()
         ampb = buffer(offset + 14, 2):le_uint()
         ampc = buffer(offset + 16, 2):le_uint()
         ampd = buffer(offset + 18, 2):le_uint()
         dtree:add(buffer(offset + 0, datasize),string.format(
-            "Time   0x%08x 0x%08x flags %2x, Tube %3d, A:%5d, B:%5d, C:%5d, D:%5d",
-             th, tl, flags, tube, ampa, ampb, ampc, ampd))
+            "Time   0x%08x 0x%08x flags %2x, Group %3d, A:%5d, B:%5d, C:%5d, D:%5d",
+             th, tl, flags, group, ampa, ampb, ampc, ampd))
         bytesleft = bytesleft - datasize
         offset = offset + datasize
       end

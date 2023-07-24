@@ -89,15 +89,15 @@ function essloki_proto.dissector(buffer, pinfo, tree)
         th = buffer(offset + 0, 4):le_uint()
         tl = buffer(offset + 4, 4):le_uint()
         unused = buffer(offset + 8, 1):uint()
-        tube = buffer(offset + 9, 1):uint()
+        group = buffer(offset + 9, 1):uint()
         seq = buffer(offset + 10, 2):le_uint()
         ampa = buffer(offset + 12, 2):le_uint()
         ampb = buffer(offset + 14, 2):le_uint()
         ampc = buffer(offset + 16, 2):le_uint()
         ampd = buffer(offset + 18, 2):le_uint()
         dtree:add(buffer(offset + 0, datasize),string.format(
-            "Time   0x%08x 0x%08x unused %3d, Tube %3d, Seq %5d, A:%5d, B:%5d, C:%5d, D:%5d",
-             th, tl, unused, tube, seq, ampa, ampb, ampc, ampd))
+            "Time   0x%08x 0x%08x unused %3d, Group %3d, Seq %5d, A:%5d, B:%5d, C:%5d, D:%5d",
+             th, tl, unused, group, seq, ampa, ampb, ampc, ampd))
         bytesleft = bytesleft - datasize
         offset = offset + datasize
       end

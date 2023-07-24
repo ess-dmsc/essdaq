@@ -1,5 +1,5 @@
 
--- Copyright (C) 2019 - 2021 European Spallation Source ERIC
+-- Copyright (C) 2019 - 2023 European Spallation Source ERIC
 -- Wireshark plugin for dissecting ESS Readout data for VMM3a
 
 -- helper variable and functions
@@ -49,7 +49,8 @@ function essvmm3a_proto.dissector(buffer, pinfo, tree)
   readouts  = 1
   while ( bytesleft >= dataheadersize + datasize )
   do
-    ringid   = buffer(offset                      , 1):uint()
+    fiberid  = buffer(offset                      , 1):uint()
+		ringid   = fiberid/2
     fenid    = buffer(offset                  +  1, 1):uint()
     dlen     = buffer(offset                  +  2, 2):le_uint()
 	  th       = buffer(offset + dataheadersize +  0, 4):le_uint()
@@ -70,13 +71,13 @@ function essvmm3a_proto.dissector(buffer, pinfo, tree)
     if bit.band(geo, 0x80) == 0 then
       -- make a readout summary
 	    dtree = tree:add(buffer(offset, dataheadersize + datasize),
-              string.format("Readout %3d, Ring %d, FEN %d, VMM:%2d, " ..
+              string.format("Readout %3d, Fiber %d, Ring %d, FEN %d, VMM:%2d, " ..
                             "CH:%2d, Time %d s %.2f ns, Overflow %d, " ..
                             "BC %4d, OTHR %1d, ADC %4d, TDC:%3d GEO %2d",
-              readouts, ringid, fenid, vmmid, chno, th, tl_ns, overflow, bc, othr, adc, tdc, geo, tdc))
+              readouts, fiberid, ringid, fenid, vmmid, chno, th, tl_ns, overflow, bc, othr, adc, tdc, geo, tdc))
 
       -- make an expanding tree with details of the fields
-      dtree:add(buffer(offset +                   0, 1), string.format("Ring    %d",    ringid))
+      dtree:add(buffer(offset +                   0, 1), string.format("Fiber   %d",    fiberid))
       dtree:add(buffer(offset +                   1, 1), string.format("FEN     %d",    fenid))
       dtree:add(buffer(offset +                   2, 2), string.format("Length  %d",    dlen))
       dtree:add(buffer(offset + dataheadersize +  0, 4), string.format("Time Hi 0x%08x", th))
@@ -89,8 +90,8 @@ function essvmm3a_proto.dissector(buffer, pinfo, tree)
       dtree:add(buffer(offset + dataheadersize + 15, 1), string.format("Channel %2d",    chno))
     else
       dtree = tree:add(buffer(offset, dataheadersize + datasize),
-              string.format("Latency calibration %3d, Ring %d, FEN %d, VMM:%2d, CH:%2d, BC %4d, CBC %4d",
-              readouts, ringid, fenid, vmmid, chno, bc, bit.band(geo, 0x0f)*256 + tdc))
+              string.format("Latency calibration %3d, Fiber %d, Ring %d, FEN %d, VMM:%2d, CH:%2d, BC %4d, CBC %4d",
+              readouts, fiberid, ringid, fenid, vmmid, chno, bc, bit.band(geo, 0x0f)*256 + tdc))
     end
 
     bytesleft = bytesleft - datasize - dataheadersize

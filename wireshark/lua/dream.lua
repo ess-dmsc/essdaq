@@ -1,5 +1,4 @@
-
--- Copyright (C) 2019 - 2022 European Spallation Source ERIC
+-- Copyright (C) 2019 - 2023 European Spallation Source ERIC
 -- Wireshark plugin for dissecting ESS Readout data for DREAM (CDT)
 
 -- helper variable and functions
@@ -73,11 +72,12 @@ function essdream_proto.dissector(buffer, pinfo, tree)
   while (bytesleft >= datasize)
   do
     -- Readout Header (RING, FEN, Size)
-    ringid = buffer(offset    , 1):uint()
+    fiberid = buffer(offset    , 1):uint()
+    ringid = fiberid/2
     fenid  = buffer(offset + 1, 1):uint()
     dlen   = buffer(offset + 2, 2):le_uint()
-    dtree = esshdr:add(buffer(offset, 4),string.format("Ring %d, FEN %d, Length %d",
-               ringid, fenid, dlen))
+    dtree = esshdr:add(buffer(offset, 4),string.format("Fiber %d, Ring %d, FEN %d, Length %d",
+               fiberid, ringid, fenid, dlen))
 
     -- Readout Data (DREAM specific)
     th      = buffer(offset +  4, 4):le_uint()
