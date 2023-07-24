@@ -15,6 +15,7 @@ See the [CONTRIBUTING.md](CONTRIBUTING.md) file for details.
 
 * Morten Jagd Christensen
 * Martin Shetty
+* Jennifer Walker
 
 See the list of contributors [on Github](https://github.com/ess-dmsc/essdaq/graphs/contributors).
 
