@@ -1,7 +1,7 @@
 #!/bin/bash
 
 basedir=${EFUBASE:-/home/essdaq/essproj/event-formation-unit}
-config=$basedir/src/modules/ttlmon/configs/freiamon.json
+config=$basedir/src/modules/ttlmonitor/configs/freiamon.json
 efu=$basedir/build/bin/ttlmonitor
 kafka="127.0.0.1:9092"
 grafana="127.0.0.1"
