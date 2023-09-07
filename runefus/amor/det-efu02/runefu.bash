@@ -1,7 +1,7 @@
 #!/bin/bash
 
 basedir=${EFUBASE:-/home/essdaq/essproj/event-formation-unit}
-config=$basedir/src/modules/freia/config/amor.json
+config=$basedir/src/modules/freia/configs/amor.json
 efu=$basedir/build/bin/freia
 kafka="127.0.0.1:9092"
 grafana="127.0.0.1"
