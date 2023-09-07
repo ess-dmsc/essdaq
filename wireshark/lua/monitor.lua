@@ -42,7 +42,7 @@ function essttlmon_proto.dissector(buffer, pinfo, tree)
 
   esshdr:add(buffer(10,8),string.format("PulseT   0x%04x 0x%04x", pth, ptl))
   esshdr:add(buffer(18,8),string.format("PrevPT   0x%04x 0x%04x", ppth, pptl))
-  esshdr:add(buffer(26,4),string.format("SeqNo    %04x", seqno))
+  esshdr:add(buffer(26,4),string.format("SeqNo    0x%04x", seqno))
 
   bytesleft = protolen - esshdrsize
   offset    = esshdrsize
@@ -89,3 +89,6 @@ end
 -- Register the protocol
 udp_table = DissectorTable.get("udp.port")
 udp_table:add(9810, essttlmon_proto)
+udp_table:add(9010, essttlmon_proto)
+udp_table:add(9000, essttlmon_proto)
+udp_table:add(9001, essttlmon_proto)
