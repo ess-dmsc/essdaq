@@ -58,7 +58,7 @@ function essttlmon_proto.dissector(buffer, pinfo, tree)
     tl       = buffer(offset + dataheadersize +  4, 4):le_uint()
     pos      = buffer(offset + dataheadersize +  8, 1):uint()
 		ch       = buffer(offset + dataheadersize +  9, 1):uint()
-    adc      = buffer(offset + dataheadersize + 10, 2):uint()
+    adc      = buffer(offset + dataheadersize + 10, 2):le_uint()
 
 
 
@@ -76,7 +76,7 @@ function essttlmon_proto.dissector(buffer, pinfo, tree)
     dtree:add(buffer(offset + dataheadersize +  4, 4), string.format("Time Lo 0x%04x", tl))
     dtree:add(buffer(offset + dataheadersize +  8, 1), string.format("Pos       %d",   pos))
 		dtree:add(buffer(offset + dataheadersize +  9, 1), string.format("Channel   %d",   ch))
-		dtree:add(buffer(offset + dataheadersize + 10, 1), string.format("ADC       %d",   adc))
+		dtree:add(buffer(offset + dataheadersize + 10, 2), string.format("ADC       %d",   adc))
 
 
     bytesleft = bytesleft - datasize - dataheadersize
