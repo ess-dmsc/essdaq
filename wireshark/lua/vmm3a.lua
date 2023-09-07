@@ -71,7 +71,7 @@ function essvmm3a_proto.dissector(buffer, pinfo, tree)
     if bit.band(geo, 0x80) == 0 then
       -- make a readout summary
 	    dtree = tree:add(buffer(offset, dataheadersize + datasize),
-              string.format("Readout %3d, Fiber %d, Ring %d, FEN %d, VMM:%2d, " ..
+              string.format("%3d Readout            , Fiber %d, Ring %d, FEN %d, VMM:%2d, " ..
                             "CH:%2d, Time %d s %.2f ns, Overflow %d, " ..
                             "BC %4d, OTHR %1d, ADC %4d, TDC:%3d GEO %2d",
               readouts, fiberid, ringid, fenid, vmmid, chno, th, tl_ns, overflow, bc, othr, adc, tdc, geo, tdc))
@@ -90,7 +90,7 @@ function essvmm3a_proto.dissector(buffer, pinfo, tree)
       dtree:add(buffer(offset + dataheadersize + 15, 1), string.format("Channel %2d",    chno))
     else
       dtree = tree:add(buffer(offset, dataheadersize + datasize),
-              string.format("Latency calibration %3d, Fiber %d, Ring %d, FEN %d, VMM:%2d, CH:%2d, BC %4d, CBC %4d",
+              string.format("%3d Latency calibration, Fiber %d, Ring %d, FEN %d, VMM:%2d, CH:%2d, BC %4d, CBC %4d",
               readouts, fiberid, ringid, fenid, vmmid, chno, bc, bit.band(geo, 0x0f)*256 + tdc))
     end
 
