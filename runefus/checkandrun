@@ -21,6 +21,5 @@ if [[ ! $kafkacfg == "" ]] ; then
 fi
 
 echo Debug: $*
-efucmd = $efu  -f $config  -r $region -b $kafka -g $grafana -m $cmdport -p $dataport $kafkacmd $@
-echo $efucmd
-$(efucmd)
+echo $efu  -f $config  -r $region -b $kafka -g $grafana -m $cmdport -p $dataport $kafkacmd $@
+$efu  -f $config  -r $region -b $kafka -g $grafana -m $cmdport -p $dataport $kafkacmd $@
