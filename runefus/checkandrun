@@ -17,8 +17,10 @@ if [[ ! -f $config ]] ; then
 fi
 
 if [[ ! $kafkacfg == "" ]] ; then
-    kafka="--kakfa_config "$kafkacfg
+    kafka="--kafka_config "$kafkacfg
 fi
 
 echo Debug: $*
-$efu  -f $config  -r $region -b $kafka -g $grafana -m $cmdport -p $dataport $kafka $@
+efucmd = $efu  -f $config  -r $region -b $kafka -g $grafana -m $cmdport -p $dataport $kafka $@
+echo $efucmd
+$(efucmd)
