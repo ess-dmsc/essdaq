@@ -7,7 +7,7 @@ efu=$basedir/build/bin/freia
 local_kafka="127.0.0.1:9092"
 psi_kafka="127.0.0.1:9092"
 staging_kafka="10.102.80.32:8093"
-kafka=staging_kafka
+kafka=$staging_kafka
 kafkacfg=$PWD/config/kafkacfg.json
 
 grafana="127.0.0.1"
