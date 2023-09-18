@@ -7,7 +7,6 @@ efu=$basedir/build/bin/ttlmonitor
 local_kafka="127.0.0.1:9092"
 psi_kafka="127.0.0.1:9092"
 kafka=$local_kafka
-kafkacfg=$PWD/config/kafkacfg.json
 
 grafana="127.0.0.1"
 dataport=9010
