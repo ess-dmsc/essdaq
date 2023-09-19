@@ -4,8 +4,8 @@
 
   "Detector" : "NMX",
   "InstrumentGeometry" : "NMX",
-  "MaxSpanX" : 10,
-  "MaxSpanY" : 10,
+  "MaxSpanX" : 64,
+  "MaxSpanY" : 64,
   "MaxGapX" : 2,
   "MaxGapY" : 2,
   "SizeX" : 1280,

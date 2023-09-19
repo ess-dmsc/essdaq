@@ -1,7 +1,7 @@
 #!/bin/bash
 
 basedir=${EFUBASE:-/home/essdaq/essproj/event-formation-unit}
-config=$PWD/config/nmx.json
+config=$PWD/config/nmx_2023_09_18.json
 efu=$basedir/build/bin/nmx
 
 local_kafka="127.0.0.1:9092"
