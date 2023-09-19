@@ -13,4 +13,4 @@ dataport=9000
 cmdport=8888
 region=9
 
-. ../../checkandrun $@
+. ../../checkandrun -t amor_detector $@

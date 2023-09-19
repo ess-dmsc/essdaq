@@ -13,4 +13,4 @@ dataport=9010
 cmdport=8889
 region=9
 
-. ../../checkandrun $@
+. ../../checkandrun -t amor_beam_monitor $@
