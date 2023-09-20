@@ -1,6 +1,7 @@
 {
   "Comment"  : "Budapest Measurements",
-  "Comment2" : "New hybrids added, corrected hybrid and channel order"
+  "Comment2" : "New hybrids added, corrected hybrid and channel order",
+  "Comment3" : "From: mapping_9mV_fC_new_hybrid_fen1_hybrid0_155126.json",
   "Date" : "2023 09 19 15:52",
 
   "Detector" : "NMX",
@@ -16,25 +17,25 @@
   "Config" : [
     {
       "Ring": 0, "FEN": 0, "Hybrid": 4, "Plane": 0, "Offset":   0, "ReversedChannels": true, "Panel": 0,
-      "HybridId": "a0000068bcc8a000641000611e800718"
+      "HybridId": "a00000c7a0a5a000641000611e800718"
     },{
       "Ring": 0, "FEN": 0, "Hybrid": 3, "Plane": 0, "Offset": 128, "ReversedChannels": true, "Panel": 0,
-      "HybridId": "ffffffffffffffffffffffffffff_0_1"
-    }, {
-      "Ring": 0, "FEN": 0, "Hybrid": 2, "Plane": 0, "Offset": 256, "ReversedChannels": true, "Panel": 0,
-      "HybridId": "ffffffffffffffffffffffffffff_0_2"
-    }, {
-      "Ring": 0, "FEN": 0, "Hybrid": 1, "Plane": 0, "Offset": 384, "ReversedChannels": true, "Panel": 0,
       "HybridId": "a0000039c4cea0007410003002504010"
     }, {
+      "Ring": 0, "FEN": 0, "Hybrid": 2, "Plane": 0, "Offset": 256, "ReversedChannels": true, "Panel": 0,
+      "HybridId": "a00000b40caba000641000621e800718"
+    }, {
+      "Ring": 0, "FEN": 0, "Hybrid": 1, "Plane": 0, "Offset": 384, "ReversedChannels": true, "Panel": 0,
+      "HybridId": "a0000056e872a0007410003002504010"
+    }, {
       "Ring": 0, "FEN": 0, "Hybrid": 0, "Plane": 0, "Offset": 512, "ReversedChannels": true, "Panel": 0,
-      "HybridId": "a00000c7a0a5a000641000611e800718"
+      "HybridId": "a0000068bcc8a000641000611e800718"
     },
 
 
        {
       "Ring": 0, "FEN": 1, "Hybrid": 0, "Plane": 1, "Offset":   0, "ReversedChannels": false, "Panel": 0,
-      "HybridId": "a08000ed24dca0803410082106704410"
+      "HybridId": "a00000afac2ca0007410003102504010"
     }, {
       "Ring": 0, "FEN": 1, "Hybrid": 1, "Plane": 1, "Offset": 128, "ReversedChannels": false, "Panel": 0,
       "HybridId": "a00000b530c6a000641000621e800718"
