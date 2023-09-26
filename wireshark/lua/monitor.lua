@@ -4,20 +4,21 @@
 
 -- monitor type identifier
 
-typearr = { [0x00] = "Unused",
-				[0x01] = "TTL Monitor   ",
-        [0x02] = "Monitor Type 2",
-				[0x03] = "Monitor Type 3",
-				[0x04] = "Monitor Type 4",
-				[0x05] = "Monitor Type 5",
-				[0x06] = "Monitor Type 6"
-      }
+typearr = {
+	[0x00] = "Unknown Monitor",
+	[0x01] = "TTL Monitor    ",
+	[0x02] = "Monitor Type 2 ",
+	[0x03] = "Monitor Type 3 ",
+	[0x04] = "Monitor Type 4 ",
+	[0x05] = "Monitor Type 5 ",
+	[0x06] = "Monitor Type 6 "
+}
 
 function arr2str(arr, val)
   res = arr[val]
   if (res == nil)
   then
-      res = "[Unknown]"
+      res = "[Undefined]"
   end
   return res
 end
@@ -91,7 +92,7 @@ function essmonitor_proto.dissector(buffer, pinfo, tree)
     dtree = tree:add(buffer(offset, dataheadersize + datasize),
             string.format("%3d Fiber/Ring/FEN %u/%d/%d, Type: %s, " ..
 						              "Channel %d, Pos (%3d, %3d), ADC %5d",
-            readouts, fiberid, ringid, fenid, type2str(type), channel, adc, xpos, ypos))
+            readouts, fiberid, ringid, fenid, type2str(type), channel, xpos, ypos, adc))
 
     -- make an expanding tree with details of the fields
     dtree:add(buffer(offset +                   0, 1), string.format("Fiber   %d",    fiberid))
