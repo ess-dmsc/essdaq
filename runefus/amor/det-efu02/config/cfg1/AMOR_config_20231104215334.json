@@ -1,0 +1,230 @@
+{
+    "Comment": "layout for AMOR for the PSI visit 2023-10",
+    "Config": [
+        {
+            "CassetteNumber": 13,
+            "FEN": 0,
+            "Hybrid": 0,
+            "HybridId": "a08000e4fccca0803410082006704400",
+            "Ring": 0,
+            "Thresholds": [
+                [
+                    0
+                ],
+                [
+                    0
+                ]
+            ]
+        },
+        {
+            "CassetteNumber": 12,
+            "FEN": 0,
+            "Hybrid": 1,
+            "HybridId": "a08000e4fccca0803410082006704401",
+            "Ring": 0,
+            "Thresholds": [
+                [
+                    0
+                ],
+                [
+                    0
+                ]
+            ]
+        },
+        {
+            "CassetteNumber": 11,
+            "FEN": 0,
+            "Hybrid": 2,
+            "HybridId": "a08000e4fccca0803410082006704402",
+            "Ring": 0,
+            "Thresholds": [
+                [
+                    0
+                ],
+                [
+                    0
+                ]
+            ]
+        },
+        {
+            "CassetteNumber": 10,
+            "FEN": 0,
+            "Hybrid": 3,
+            "HybridId": "a08000e4fccca0803410082006704403",
+            "Ring": 0,
+            "Thresholds": [
+                [
+                    0
+                ],
+                [
+                    0
+                ]
+            ]
+        },
+        {
+            "CassetteNumber": 9,
+            "FEN": 0,
+            "Hybrid": 4,
+            "HybridId": "a08000e4fccca0803410082006704404",
+            "Ring": 0,
+            "Thresholds": [
+                [
+                    0
+                ],
+                [
+                    0
+                ]
+            ]
+        },
+        {
+            "CassetteNumber": 8,
+            "FEN": 0,
+            "Hybrid": 0,
+            "HybridId": "a08000e4fccca0803410082006704410",
+            "Ring": 1,
+            "Thresholds": [
+                [
+                    0
+                ],
+                [
+                    0
+                ]
+            ]
+        },
+        {
+            "CassetteNumber": 7,
+            "FEN": 0,
+            "Hybrid": 1,
+            "HybridId": "a08000e4fccca0803410082006704411",
+            "Ring": 1,
+            "Thresholds": [
+                [
+                    0
+                ],
+                [
+                    0
+                ]
+            ]
+        },
+        {
+            "CassetteNumber": 6,
+            "FEN": 0,
+            "Hybrid": 2,
+            "HybridId": "a08000e4fccca0803410082006704412",
+            "Ring": 1,
+            "Thresholds": [
+                [
+                    0
+                ],
+                [
+                    0
+                ]
+            ]
+        },
+        {
+            "CassetteNumber": 5,
+            "FEN": 0,
+            "Hybrid": 3,
+            "HybridId": "a08000e4fccca0803410082006704413",
+            "Ring": 1,
+            "Thresholds": [
+                [
+                    0
+                ],
+                [
+                    0
+                ]
+            ]
+        },
+        {
+            "CassetteNumber": 4,
+            "FEN": 0,
+            "Hybrid": 4,
+            "HybridId": "a08000e4fccca0803410082006704414",
+            "Ring": 1,
+            "Thresholds": [
+                [
+                    0
+                ],
+                [
+                    0
+                ]
+            ]
+        },
+        {
+            "CassetteNumber": 3,
+            "FEN": 0,
+            "Hybrid": 0,
+            "HybridId": "a08000e4fccca0803410082006704420",
+            "Ring": 2,
+            "Thresholds": [
+                [
+                    0
+                ],
+                [
+                    0
+                ]
+            ]
+        },
+        {
+            "CassetteNumber": 2,
+            "FEN": 0,
+            "Hybrid": 1,
+            "HybridId": "a08000e4fccca0803410082006704421",
+            "Ring": 2,
+            "Thresholds": [
+                [
+                    0
+                ],
+                [
+                    0
+                ]
+            ]
+        },
+        {
+            "CassetteNumber": 1,
+            "FEN": 0,
+            "Hybrid": 2,
+            "HybridId": "a08000e4fccca0803410082006704422",
+            "Ring": 2,
+            "Thresholds": [
+                [
+                    0
+                ],
+                [
+                    0
+                ]
+            ]
+        },
+        {
+            "CassetteNumber": 0,
+            "FEN": 0,
+            "Hybrid": 3,
+            "HybridId": "a08000e4fccca0803410082006704423",
+            "Ring": 2,
+            "Thresholds": [
+                [
+                    0
+                ],
+                [
+                    0
+                ]
+            ]
+        }
+    ],
+    "Date": "2023-11-04 21:53:34",
+    "Detector": "Freia",
+    "History": [
+        "2023-09-12 Change hybrid order",
+        "2023-09-25 Added hybrid id's",
+        "2023-10-06 add info fields to config file, thresholds"
+    ],
+    "Info": "Generated by vmmdcs version 20231103",
+    "InstrumentGeometry": "AMOR",
+    "MaxGapStrip": 1,
+    "MaxGapWire": 1,
+    "MaxPulseTimeNS": 2071428570,
+    "Version": 1,
+    "VersionStr": "v1: strip and wire thresholds per cassette, not per channel",
+    "WireChOffset": 16
+}
