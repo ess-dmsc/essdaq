@@ -1,8 +1,7 @@
 #!/bin/bash
 
 basedir=${EFUBASE:-/home/essdaq/essproj/event-formation-unit}
-config=$PWD/config/cfg1/AMOR_config_20231104215334
-calib=$PWD/config/cfg1/AMOR_clib_20231104215334
+config=$PWD/config/cfg1/AMOR_config_20231104215334.json
 efu=$basedir/build/bin/freia
 
 local_kafka="127.0.0.1:9092"
@@ -14,4 +13,4 @@ dataport=9000
 cmdport=8888
 region=9
 
-. ../../checkandrun --calibration $calib -t amor_detector $@
+. ../../checkandrun -t amor_detector $@
