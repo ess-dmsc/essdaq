@@ -216,7 +216,8 @@ end
 -- Register the protocol
 
 udp_table = DissectorTable.get("udp.port")
-udp_table:add(8192, timepix_proto)
+udp_table:add(9888, timepix_proto)
+udp_table:add(4096, timepix_proto)
 
 tcp_table = DissectorTable.get("tcp.port")
 tcp_table:add(50000, tpix_ctrl)
