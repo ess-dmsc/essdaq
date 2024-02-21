@@ -7,5 +7,9 @@ daquiri/daquiri/
 
 detectors/multigrid/mvme/mvme-*
 
+#Python ignores
 __pycache__
 .DS_Store
+
+#Devcontainers
+.devcontainer/*
