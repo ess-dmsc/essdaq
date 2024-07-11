@@ -1,0 +1,1251 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "$$hashKey": "object:10",
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 63,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": "",
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "graphite",
+        "uid": "pDnUZznSk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 0,
+        "y": 0
+      },
+      "hiddenSeries": false,
+      "id": 2,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.4.7",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:545",
+          "alias": "bytes/s",
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "alias(perSecond(efu.heimdal.$region.receive.packets), 'packets/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "B",
+          "target": "alias(perSecond(efu.heimdal.$region.receive.dropped), 'dropped/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "C",
+          "target": "alias(perSecond(scale(efu.heimdal.$region.receive.bytes, 8)), 'bits/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "D",
+          "target": "alias(perSecond(efu.heimdal.$region.receive.fifo_seq_errors), 'seq err/s')"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Receive Stats",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:558",
+          "decimals": 1,
+          "format": "short",
+          "label": "",
+          "logBase": 10,
+          "min": "0",
+          "show": true
+        },
+        {
+          "$$hashKey": "object:559",
+          "format": "short",
+          "logBase": 10,
+          "min": "0",
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": "",
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "graphite",
+        "uid": "pDnUZznSk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 8,
+        "y": 0
+      },
+      "hiddenSeries": false,
+      "id": 4,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.4.7",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:110",
+          "alias": "bytes/s",
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "alias(perSecond(efu.heimdal.$region.essheader.error_header), 'header errors/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "C",
+          "target": "alias(perSecond(efu.heimdal.$region.essheader.error_buffer), 'buffer errors/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "D",
+          "target": "alias(perSecond(efu.heimdal.$region.essheader.error_version), 'version errors/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "E",
+          "target": "alias(perSecond(efu.heimdal.$region.essheader.error_output_queue), 'OQ errors/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "F",
+          "target": "alias(perSecond(efu.heimdal.$region.essheader.error_type), 'type errors/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "G",
+          "target": "alias(perSecond(efu.heimdal.$region.essheader.error_seqno), 'seqno errors/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "H",
+          "target": "alias(perSecond(efu.heimdal.$region.essheader.error_timefrac), 'timefrac errors/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "B",
+          "target": "alias(perSecond(efu.heimdal.$region.essheader.error_timehigh), 'max pulse time diff/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "I",
+          "target": "alias(perSecond(efu.heimdal.$region.essheader.heartbeats), 'heartbeats/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "J",
+          "target": "alias(perSecond(efu.heimdal.$region.essheader.error_cookie), 'cookie err/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "K",
+          "target": "alias(perSecond(efu.heimdal.$region.essheader.error_pad), 'padding err/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "L",
+          "target": "alias(perSecond(efu.heimdal.$region.essheader.version.v0), 'v0 header/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "M",
+          "target": "alias(perSecond(efu.heimdal.$region.essheader.version.v1), 'v1 header/s')"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "ESS Readout Header Stats",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:123",
+          "format": "short",
+          "logBase": 10,
+          "min": "0",
+          "show": true
+        },
+        {
+          "$$hashKey": "object:124",
+          "format": "short",
+          "logBase": 10,
+          "min": "0",
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": "",
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "graphite",
+        "uid": "pDnUZznSk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 16,
+        "y": 0
+      },
+      "hiddenSeries": false,
+      "id": 3,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.4.7",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:2641",
+          "alias": "bytes/s",
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "B",
+          "target": "alias(perSecond(efu.heimdal.$region.readouts.count), 'readouts/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "alias(perSecond(efu.heimdal.$region.readouts.error_ring), 'ring_err/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "C",
+          "target": "alias(perSecond(efu.heimdal.$region.readouts.error_fen), 'fen_err/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "D",
+          "target": "alias(perSecond(efu.heimdal.$region.readouts.error_datalen), 'dlen_err/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "M",
+          "target": "alias(perSecond(efu.heimdal.$region.readouts.error_fen_mapping), 'fen_mapping_err/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "P",
+          "target": "alias(perSecond(efu.heimdal.$region.readouts.error_ringmapping), 'ring_mapping_err/s')"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Readout Stats",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:2654",
+          "format": "short",
+          "logBase": 10,
+          "min": "0",
+          "show": true
+        },
+        {
+          "$$hashKey": "object:2655",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": "",
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "graphite",
+        "uid": "pDnUZznSk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 0,
+        "y": 9
+      },
+      "hiddenSeries": false,
+      "id": 6,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.4.7",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "bytes/s",
+          "yaxis": 2
+        },
+        {
+          "alias": "uptime",
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "alias(perSecond(efu.heimdal.$region.thread.processing_idle), 'processing idle/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "B",
+          "target": "alias(efu.heimdal.$region.main.uptime, 'uptime')"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Idle/Uptime",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "logBase": 10,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "s",
+          "logBase": 1,
+          "min": "0",
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "cacheTimeout": "",
+      "datasource": {
+        "type": "graphite",
+        "uid": "pDnUZznSk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "log": 10,
+              "type": "log"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 8,
+        "y": 9
+      },
+      "id": 9,
+      "links": [],
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "alias(perSecond(efu.heimdal.$region.readouts), 'tof too large/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "B",
+          "target": "alias(perSecond(efu.heimdal.$region.readouts), 'tof count/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "C",
+          "target": "alias(perSecond(efu.heimdal.$region.readouts), 'tof negative/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "D",
+          "target": "alias(perSecond(efu.heimdal.$region.readouts), 'prev tof count/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "E",
+          "target": "alias(perSecond(efu.heimdal.$region.readouts), 'prev tof neg/s')"
+        }
+      ],
+      "title": "Time Stats",
+      "type": "timeseries"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": "",
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "graphite",
+        "uid": "pDnUZznSk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 16,
+        "y": 9
+      },
+      "hiddenSeries": false,
+      "id": 10,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.4.7",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "bytes/s",
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "alias(perSecond(efu.heimdal.$region.events.count), 'events/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "B",
+          "target": "alias(perSecond(efu.heimdal.$region.events.geometry_errors), 'pixel errors/s')"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Event rates",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "logBase": 10,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": "",
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "graphite",
+        "uid": "pDnUZznSk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 8,
+        "y": 18
+      },
+      "hiddenSeries": false,
+      "id": 11,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.4.7",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:202",
+          "alias": "bytes/s",
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "alias(perSecond(scale(efu.heimdal.$region.kafka.ev_errors, 8)), 'ev errors/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "B",
+          "target": "alias(perSecond(scale(efu.heimdal.$region.kafka.ev_others, 8)), 'ev others/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "C",
+          "target": "alias(perSecond(scale(efu.heimdal.$region.kafka.dr_errors, 8)), 'dr errors/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "D",
+          "target": "alias(perSecond(scale(efu.heimdal.$region.kafka.dr_others, 8)), 'dr others/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "E",
+          "target": "alias(perSecond(scale(efu.heimdal.$region.kafka.config_errors, 8)), 'cfg err/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "F",
+          "target": "alias(perSecond(scale(efu.heimdal.$region.kafka.err_other, 8)), 'err other/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "G",
+          "target": "alias(perSecond(scale(efu.heimdal.$region.kafka.err_queue_full, 8)), 'err q full/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "H",
+          "target": "alias(perSecond(scale(efu.heimdal.$region.kafka.err_unknown_topic, 8)), 'err unkn topic/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "I",
+          "target": "alias(perSecond(scale(efu.heimdal.$region.kafka.produce_calls, 8)), 'produce calls/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "J",
+          "target": "alias(perSecond(scale(efu.heimdal.$region.kafka.produce_errors, 8)), 'produce err/s')"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Kafka stats",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:215",
+          "format": "short",
+          "logBase": 10,
+          "min": "0",
+          "show": true
+        },
+        {
+          "$$hashKey": "object:216",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "cacheTimeout": "",
+      "datasource": {
+        "type": "graphite",
+        "uid": "pDnUZznSk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "log": 10,
+              "type": "log"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 16,
+        "y": 18
+      },
+      "id": 7,
+      "links": [],
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "B",
+          "target": "alias(perSecond(scale(efu.heimdal.$region.kafka.produce_bytes_ok, 8)), 'bits ok/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "A",
+          "target": "alias(perSecond(scale(efu.heimdal.$region.kafka.produce_bytes_error, 8)), 'bits error/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "C",
+          "target": "alias(perSecond(scale(efu.heimdal.$region.transmit.monitor_packets, 8)), 'mon pkt/s')"
+        }
+      ],
+      "title": "Output rates",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "5s",
+  "revision": 1,
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "1",
+          "value": "1"
+        },
+        "datasource": {
+          "type": "graphite",
+          "uid": "pDnUZznSk"
+        },
+        "definition": "efu.freia.*",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "region",
+        "options": [],
+        "query": {
+          "queryType": "Default",
+          "refId": "A",
+          "target": "efu.dream.*"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-5m",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "",
+  "title": "Heimdal",
+  "uid": "fnEMshlIk",
+  "version": 8,
+  "weekStart": ""
+}
