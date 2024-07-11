@@ -1,0 +1,643 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "$$hashKey": "object:7",
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 31,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 11,
+      "title": "ROW TITLE",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": "",
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "graphite",
+        "uid": "pDnUZznSk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 1
+      },
+      "hiddenSeries": false,
+      "id": 2,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.4.7",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "alias(perSecond(scale(efu.timepix3.1.receive.bytes, 8)), 'bits/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "B",
+          "target": "alias(perSecond(efu.timepix3.1.receive.dropped), 'dropped/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "C",
+          "target": "alias(perSecond(efu.timepix3.1.receive.fifo_seq_errors), 'fifo errors/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "D",
+          "target": "alias(perSecond(efu.timepix3.1.receive.packets), 'packets /s')"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Receive stats",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:178",
+          "format": "short",
+          "logBase": 10,
+          "min": "0",
+          "show": true
+        },
+        {
+          "$$hashKey": "object:179",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": "",
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "graphite",
+        "uid": "pDnUZznSk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 1
+      },
+      "hiddenSeries": false,
+      "id": 9,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.4.7",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "alias(perSecond(efu.timepix3.1.readouts.pixel_readout_count), 'pixel readouts/s')",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "B",
+          "target": "alias(perSecond(efu.timepix3.1.readouts.evr.evr_readout_count), 'evr readouts/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "C",
+          "target": "alias(perSecond(efu.timepix3.1.readouts.tdc.tdc_readout_count), 'tdc readouts/s')"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Readouts",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:341",
+          "format": "short",
+          "logBase": 10,
+          "min": "0",
+          "show": true
+        },
+        {
+          "$$hashKey": "object:342",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "graphite",
+        "uid": "pDnUZznSk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 9
+      },
+      "hiddenSeries": false,
+      "id": 6,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.4.7",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "alias(perSecond(efu.timepix3.1.events.count), 'events/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "B",
+          "target": "alias(perSecond(efu.timepix3.1.handlers.timeingevent.ess_global_time_count), 'global time count/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "D",
+          "target": "alias(perSecond(efu.timepix3.1.handlers.timeingevent.miss_evr_count), 'miss evr errors/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "E",
+          "target": "alias(perSecond(efu.timepix3.1.handlers.timeingevent.miss_tdc_count), 'miss tdc errors/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "C",
+          "target": "alias(perSecond(efu.timepix3.1.handlers.pixelevent.no_global_time_error), 'no global time errors/s')"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Event rates",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:470",
+          "format": "short",
+          "logBase": 10,
+          "min": "0",
+          "show": true
+        },
+        {
+          "$$hashKey": "object:471",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": "",
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "graphite",
+        "uid": "pDnUZznSk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 9
+      },
+      "hiddenSeries": false,
+      "id": 8,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.4.7",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:166",
+          "alias": "Uptime",
+          "yaxis": 2
+        },
+        {
+          "alias": "idle/s",
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "alias(efu.timepix3.1.main.uptime, 'uptime')",
+          "textEditor": false
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "B",
+          "target": "alias(perSecond(efu.timepix3.1.thread.processing_idle), 'idle/s')",
+          "textEditor": false
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Idle/Uptime",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:1164",
+          "format": "short",
+          "logBase": 1,
+          "min": "0",
+          "show": true
+        },
+        {
+          "$$hashKey": "object:1165",
+          "format": "s",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "datasource": {
+        "type": "graphite",
+        "uid": "pDnUZznSk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 6,
+        "y": 18
+      },
+      "id": 13,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "refCount": 0,
+          "refId": "A",
+          "target": "alias(perSecond(efu.timepix3.1.kafka.produce_bytes_ok), 'bytes ok/s')"
+        },
+        {
+          "datasource": {
+            "type": "graphite",
+            "uid": "pDnUZznSk"
+          },
+          "hide": false,
+          "refCount": 0,
+          "refId": "B",
+          "target": "alias(perSecond(efu.timepix3.1.kafka.produce_bytes_error), 'bytes error/s')"
+        }
+      ],
+      "title": "Transmission",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "5s",
+  "revision": 1,
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Odin",
+  "uid": "sKsOtba4k",
+  "version": 15,
+  "weekStart": ""
+}
