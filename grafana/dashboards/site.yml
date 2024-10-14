@@ -6,13 +6,13 @@
 #   ...
 #
 dashboards:
-  bifrost: bifrost/2024_02_16_bifrost.json
-  dream: DREAM/2024_02_16_dream.json
-  freia: freia/2024_02_16_freia.json
+  bifrost: bifrost/2024_04_29_bifrost.json
+  dream: DREAM/2024_04_29_dream.json
+  freia: freia/2024_04_29_freia.json
   heimdal: heimdal/2024_07_11_heimdal.json
-  loki: loki/2024_02_16_loki.json
-  magic: magic/2024_02_16_magic.json
+  loki: loki/2024_04_29_loki.json
+  magic: magic/2024_04_29_magic.json
   miracles: miracles/2024_02_16_miracles.json
-  nmx: nmx/2024_02_16_nmx.json
-  odin: odin/2023_03_31_odin.json
-  tbl3he: tbl3he/2024_07_11_tbl3he.json
+  nmx: nmx/2024_04_29_nmx.json
+  odin: odin/2023_04_29_odin.json
+  tbl3he: tbl3he/2024_10_14_tbl3he.json
