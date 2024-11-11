@@ -1,5 +1,7 @@
 from scapy.all import *
 import struct
+import signal
+import sys
 
 PORT = 9001
 
@@ -45,7 +47,16 @@ def handle_packet(packet):
                 if i + caen_readout_size <= len(remaining_payload):
                     caen_readout_data = remaining_payload[i:i + caen_readout_size]
                     caen_readout = parse_caen_readout(caen_readout_data)
-                    print(f"Time: {caen_readout['TimeLow']}, AmpA: {caen_readout['AmpA']}, AmpB: {caen_readout['AmpB']}")
+                    
+                    print(f"TimeHigh: {caen_readout['TimeHigh']} "
+                          f"TimeLow: {caen_readout['TimeLow']}, "
+                          f"AmpA: {caen_readout['AmpA']}, "
+                          f"AmpB: {caen_readout['AmpB']}")
+                    with open('output.csv', 'a') as f:
+                        f.write(f"{caen_readout['TimeHigh']},"
+                                f"{caen_readout['TimeLow']},"
+                                f"{caen_readout['AmpA']},"
+                                f"{caen_readout['AmpB']}\n")
 
 # Start sniffing UDP packets
 sniff(iface="ens2f0", filter=f"udp port {PORT}", prn=handle_packet)
