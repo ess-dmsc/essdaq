@@ -1,6 +1,14 @@
 
--- Copyright (C) 2023 European Spallation Source ERIC
+-- Copyright (C) 2023 - 2025 European Spallation Source ERIC
 -- Wireshark plugin for dissecting ESS Beam Monitor Readout
+
+-- helper variable and functions
+
+require "common"
+
+datasize = 16
+dataheadersize = 4
+resolution = 11.36 -- ns per clock tick for 88.025 MHz which is ESS time
 
 -- monitor type identifier
 
@@ -33,47 +41,8 @@ end
 essmonitor_proto = Proto("ess_monitor","ESSR Monitor")
 
 function essmonitor_proto.dissector(buffer, pinfo, tree)
-	-- helper variable and functions
-	esshdrsize = 30
-	datasize = 16
-	dataheadersize = 4
-	resolution = 11.36 -- ns per clock tick for 88.025 MHz which is ESS time
-	--
 
-	pinfo.cols.protocol = "ESSR/MONITOR"
-	protolen = buffer():len()
-	esshdr = tree:add(essmonitor_proto,buffer(0, esshdrsize),"ESSR Header")
-
-	padding1= buffer(0,1):uint()
-  version = buffer(1,1):uint()
-  cookie =  buffer(2,3):uint()
-  type =    buffer(5,1):uint()
-  length =  buffer(6,2):le_uint()
-  oq =      buffer(8,1):uint()
-  tmsrc =   buffer(9,1):uint()
-
-  pth =     buffer(10, 4):le_uint()
-  ptl =     buffer(14, 4):le_uint()
-  ppth =    buffer(18, 4):le_uint()
-  pptl =    buffer(22, 4):le_uint()
-  seqno =   buffer(26, 4):le_uint()
-
-	esshdr:add(buffer( 0,1),string.format("Padding  0x%02x", padding1))
-  esshdr:add(buffer( 1,1),string.format("Version  %d", version))
-  esshdr:add(buffer( 2,3),string.format("Cookie   0x%x", cookie))
-  esshdr:add(buffer( 5,1),string.format("Type     0x%02x", type))
-  esshdr:add(buffer( 6,2),string.format("Length   %d", length))
-  esshdr:add(buffer( 8,1),string.format("OutputQ  %d", oq))
-  esshdr:add(buffer( 9,1),string.format("TimeSrc  %d", tmsrc))
-  esshdr:add(buffer(10,8),string.format("PulseT   0x%04x%04x", pth, ptl))
-  esshdr:add(buffer(18,8),string.format("PrevPT   0x%04x%04x", ppth, pptl))
-  esshdr:add(buffer(26,4),string.format("SeqNo    %d", seqno))
-
-  if version == 1 then
-    esshdrsize = esshdrsize + 2
-    padding2 = buffer(30, 2):le_uint()
-    esshdr:add(buffer(30,2),string.format("V1 pad   %d", padding2))
-  end
+	esshdrsize = essheader("ESSR/MONITOR", esscaen_proto, buffer, pinfo, tree)
 
   bytesleft = protolen - esshdrsize
   offset = esshdrsize
@@ -122,15 +91,4 @@ function essmonitor_proto.dissector(buffer, pinfo, tree)
 end
 
 
---
--- Register the protocol
---
-
-udp_table = DissectorTable.get("udp.port")
-
-efuport = os.getenv("EFUPORT")
-if efuport ~= nil then
-  udp_table:add(efuport, essmonitor_proto)
-else
-  udp_table:add(9001, essmonitor_proto)
-end
+register_protocol(essmonitor_proto)
