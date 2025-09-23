@@ -1,7 +1,7 @@
 from scapy.all import *
 import struct
 
-PORT = 9001
+PORT = 9010
 
 # Define the PacketHeaderV0 struct format
 packet_header_v0_format = 'BBIHBIIIII'
@@ -29,10 +29,15 @@ def parse_caen_readout(data):
     return caen_readout
 
 # Define the CbmReadout struct format (little-endian)
-cbm_readout_format = '<BBHIIBBHI'  # Added '<' for little-endian
+cbm_readout_format = 'BBHIIBBHI'  # Added '<' for little-endian
 
 def parse_cbm_readout(data):
     unpacked_data = struct.unpack(cbm_readout_format, data)
+    
+    # Invert the byte order of NPos
+    npos_bytes = struct.pack('<I', unpacked_data[8])
+    inverted_npos = struct.unpack('<I', npos_bytes[::-1])[0]
+    
     cbm_readout = {
         'FiberId': unpacked_data[0],
         'FENId': unpacked_data[1],
@@ -42,7 +47,8 @@ def parse_cbm_readout(data):
         'Type': unpacked_data[5],
         'Channel': unpacked_data[6],
         'ADC': unpacked_data[7],
-        'NPos': unpacked_data[8],  # Using NPos from the union
+        # Convert NPos from big-endian to little-endian
+        'NPos': inverted_npos 
     }
     return cbm_readout
 
@@ -69,7 +75,8 @@ def handle_packet(packet):
                           f"Type: {readout['Type']}, "
                           f"Channel: {readout['Channel']}, "
                           f" ADC: {readout['ADC']}, "
-                          f"NPos: {readout['NPos']}")
+                          f"NPos: {readout['NPos']}, "
+                          f"NPoshex: {readout['NPos']:#x}")
                     with open('output.csv', 'a') as f:
                         f.write(f"{readout['TimeHigh']},"
                                 f"{readout['TimeLow']},"
