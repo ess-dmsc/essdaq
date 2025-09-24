@@ -14,6 +14,13 @@ import pickle
 import time
 from datetime import datetime
 
+# Try to import zstandard for decompression
+try:
+    import zstandard as zstd
+    HAS_ZSTD = True
+except ImportError:
+    HAS_ZSTD = False
+
 
 def load_kafka_config(config_path):
     """Load and process Kafka configuration from JSON file"""
@@ -35,6 +42,20 @@ def load_kafka_config(config_path):
         else:
             processed[key] = value
     return processed
+
+
+def get_decompressor(input_file):
+    """Get the appropriate decompressor based on file extension"""
+    if input_file.endswith('.zst'):
+        if HAS_ZSTD:
+            dctx = zstd.ZstdDecompressor()
+            return dctx.stream_reader(open(input_file, 'rb')), "Zstandard decompression"
+        else:
+            raise ValueError("File has .zst extension but zstandard library not installed. Install with: pip install zstandard")
+    elif input_file.endswith('.gz'):
+        return gzip.open(input_file, 'rb'), "Gzip decompression"
+    else:
+        return open(input_file, 'rb'), "no decompression"
 
 
 class KafkaMessageUploader:
@@ -93,9 +114,17 @@ class KafkaMessageUploader:
     def upload_from_jsonl(self, jsonl_file, target_topic):
         """Upload messages from JSON Lines format"""
         count = errors = 0
-        opener = gzip.open if jsonl_file.endswith('.gz') else open
         
-        with opener(jsonl_file, 'rt') as f:
+        # Use the new decompressor function
+        decompressor, decomp_info = get_decompressor(jsonl_file)
+        print(f"Using {decomp_info}")
+        
+        with decompressor as f:
+            # For text mode, wrap binary streams
+            if hasattr(f, 'mode') and 'b' in str(f.mode):
+                import io
+                f = io.TextIOWrapper(f, encoding='utf-8')
+            
             for line_num, line in enumerate(f, 1):
                 try:
                     record = json.loads(line.strip())
@@ -141,9 +170,12 @@ class KafkaMessageUploader:
     def upload_from_binary(self, binary_file, target_topic):
         """Upload messages from binary pickle format"""
         count = errors = 0
-        opener = gzip.open if binary_file.endswith('.gz') else open
         
-        with opener(binary_file, 'rb') as f:
+        # Use the new decompressor function
+        decompressor, decomp_info = get_decompressor(binary_file)
+        print(f"Using {decomp_info}")
+        
+        with decompressor as f:
             while True:
                 try:
                     record = pickle.load(f)
@@ -208,6 +240,12 @@ def main():
     parser.add_argument('--kafka-config', help='Kafka configuration file (JSON format)')
     
     args = parser.parse_args()
+    
+    # Show compression library status for supported file types
+    if not HAS_ZSTD and (args.input.endswith('.zst')):
+        print("Error: File has .zst extension but zstandard library not installed.")
+        print("Install with: pip install zstandard")
+        return 1
     
     # Load Kafka configuration
     kafka_config = None
