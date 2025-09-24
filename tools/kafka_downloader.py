@@ -219,6 +219,12 @@ def main():
     
     args = parser.parse_args()
     
+    # Auto-append .gz extension when compress flag is used
+    output_file = args.output
+    if args.compress and not output_file.endswith('.gz'):
+        output_file += '.gz'
+        print(f"Compression enabled, output file changed to: {output_file}")
+    
     # Load Kafka configuration
     kafka_config = None
     if args.kafka_config:
@@ -248,9 +254,9 @@ def main():
     downloader = KafkaMessageDownloader(args.brokers, args.topic, args.group_id, kafka_config)
     
     if args.format == 'json':
-        downloader.download_to_json(args.output, args.max_messages, start_time_ms, end_time_ms)
+        downloader.download_to_json(output_file, args.max_messages, start_time_ms, end_time_ms)
     elif args.format == 'binary':
-        downloader.download_to_binary(args.output, args.compress, start_time_ms, end_time_ms)
+        downloader.download_to_binary(output_file, args.compress, start_time_ms, end_time_ms)
 
 
 if __name__ == "__main__":
