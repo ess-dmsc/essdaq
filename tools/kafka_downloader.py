@@ -12,6 +12,7 @@ import base64
 import gzip
 import pickle
 from datetime import datetime
+from kafka import TopicPartition
 
 
 def parse_timestamp(time_str):
@@ -87,22 +88,51 @@ class KafkaMessageDownloader:
                 if key not in skip and key in mappings:
                     config[mappings[key]] = value
         
+        self.topic = topic
         self.consumer = KafkaConsumer(topic, **config)
+    
+    def _seek_to_timestamp(self, start_time_ms=None, end_time_ms=None):
+        """Seek consumer to specific timestamp positions"""
+        if not start_time_ms:
+            return
+            
+        # Get all partitions for the topic
+        partitions = self.consumer.partitions_for_topic(self.topic)
+        if not partitions:
+            print("No partitions found for topic")
+            return
+            
+        # Create timestamp dictionary for all partitions
+        timestamp_dict = {}
+        for partition in partitions:
+            topic_partition = TopicPartition(self.topic, partition)
+            timestamp_dict[topic_partition] = start_time_ms
+        
+        # Get offsets for timestamps
+        offset_dict = self.consumer.offsets_for_times(timestamp_dict)
+        
+        # Seek to the appropriate offsets
+        for topic_partition, offset_timestamp in offset_dict.items():
+            if offset_timestamp is not None:
+                self.consumer.seek(topic_partition, offset_timestamp.offset)
+                print(f"Seeking partition {topic_partition.partition} to offset {offset_timestamp.offset} (timestamp: {offset_timestamp.timestamp})")
+            else:
+                print(f"No messages found after start time in partition {topic_partition.partition}")
     
     def download_to_json(self, output_file, max_messages=None, start_time_ms=None, end_time_ms=None):
         """Download messages as JSON Lines format with optional time filtering"""
+        # Seek to start timestamp if provided
+        self._seek_to_timestamp(start_time_ms, end_time_ms)
+        
         count = skipped = 0
         
         with open(output_file, 'w') as f:
             for message in self.consumer:
                 try:
-                    # Time filtering
-                    if start_time_ms and message.timestamp < start_time_ms:
-                        skipped += 1
-                        continue
+                    # Only need to filter end time now (start time handled by seeking)
                     if end_time_ms and message.timestamp > end_time_ms:
-                        skipped += 1
-                        continue
+                        print("Reached end time, stopping...")
+                        break
                     
                     # Handle binary data (FlatBuffers) - encode as base64
                     key_data = base64.b64encode(message.key).decode('utf-8') if message.key else None
@@ -135,27 +165,23 @@ class KafkaMessageDownloader:
                     print(f"Error processing message: {e}")
                     continue
         
-        # Final status
-        if skipped > 0:
-            print(f"Downloaded {count} messages to {output_file} (skipped {skipped} outside time range)")
-        else:
-            print(f"Downloaded {count} messages to {output_file}")
+        print(f"Downloaded {count} messages to {output_file}")
     
     def download_to_binary(self, output_file, compress=True, start_time_ms=None, end_time_ms=None):
         """Download messages in binary format for faster processing"""
+        # Seek to start timestamp if provided
+        self._seek_to_timestamp(start_time_ms, end_time_ms)
+        
         count = skipped = 0
         opener = gzip.open if compress else open
         
         with opener(output_file, 'wb') as f:
             for message in self.consumer:
                 try:
-                    # Time filtering
-                    if start_time_ms and message.timestamp < start_time_ms:
-                        skipped += 1
-                        continue
+                    # Only need to filter end time now (start time handled by seeking)
                     if end_time_ms and message.timestamp > end_time_ms:
-                        skipped += 1
-                        continue
+                        print("Reached end time, stopping...")
+                        break
                     
                     record = {
                         'timestamp': message.timestamp,
@@ -175,10 +201,7 @@ class KafkaMessageDownloader:
                     print(f"Error processing message: {e}")
                     continue
         
-        if skipped > 0:
-            print(f"Downloaded {count} messages to {output_file} (skipped {skipped} outside time range)")
-        else:
-            print(f"Downloaded {count} messages to {output_file}")
+        print(f"Downloaded {count} messages to {output_file}")
 
 
 def main():
