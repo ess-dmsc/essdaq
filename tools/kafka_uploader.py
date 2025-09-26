@@ -44,18 +44,64 @@ def load_kafka_config(config_path):
     return processed
 
 
+def detect_file_format(file_path):
+    """Detect file format based on magic bytes"""
+    with open(file_path, 'rb') as f:
+        header = f.read(16)  # Read first 16 bytes for magic number detection
+    
+    # Zstandard magic number: 0x28B52FFD (little endian) or various frame formats
+    if header[:4] == b'\x28\xb5\x2f\xfd':
+        return 'zstd'
+    # Alternative zstd magic (big endian)
+    elif header[:4] == b'\xfd\x2f\xb5\x28':
+        return 'zstd'
+    # Gzip magic number: 0x1f8b
+    elif header[:2] == b'\x1f\x8b':
+        return 'gzip'
+    # Pickle magic numbers (various protocol versions)
+    elif header[0:1] in [b'\x80', b'\x81', b'\x82', b'\x83', b'\x84', b'\x85']:  # Pickle protocols 2-5
+        return 'pickle'
+    # Legacy pickle format (protocol 0/1) starts with '(' for tuple or 'c' for class
+    elif header[0:1] in [b'(', b'c', b'l', b'd', b'S', b'I']:  
+        return 'pickle'
+    # JSON-like content (starts with { or [)
+    elif header.lstrip()[:1] in [b'{', b'[']:
+        return 'json'
+    else:
+        return 'unknown'
+
+
 def get_decompressor(input_file):
-    """Get the appropriate decompressor based on file extension"""
+    """Get the appropriate decompressor based on file extension AND content detection"""
+    # First try extension-based detection for backwards compatibility
+    extension_format = None
     if input_file.endswith('.zst'):
+        extension_format = 'zstd'
+    elif input_file.endswith('.gz'):
+        extension_format = 'gzip'
+    elif input_file.endswith('.bin'):
+        extension_format = 'pickle'
+    elif input_file.endswith(('.json', '.jsonl')):
+        extension_format = 'json'
+    
+    # Then detect based on content
+    content_format = detect_file_format(input_file)
+    
+    # Use content detection, but fall back to extension if content is ambiguous
+    detected_format = content_format if content_format != 'unknown' else extension_format
+    
+    print(f"File analysis: extension suggests '{extension_format}', content suggests '{content_format}', using '{detected_format}'")
+    
+    if detected_format == 'zstd':
         if HAS_ZSTD:
             dctx = zstd.ZstdDecompressor()
-            return dctx.stream_reader(open(input_file, 'rb')), "Zstandard decompression"
+            return dctx.stream_reader(open(input_file, 'rb')), "Zstandard decompression (auto-detected)"
         else:
-            raise ValueError("File has .zst extension but zstandard library not installed. Install with: pip install zstandard")
-    elif input_file.endswith('.gz'):
-        return gzip.open(input_file, 'rb'), "Gzip decompression"
+            raise ValueError("File contains zstd data but zstandard library not installed. Install with: pip install zstandard")
+    elif detected_format == 'gzip':
+        return gzip.open(input_file, 'rb'), "Gzip decompression (auto-detected)"
     else:
-        return open(input_file, 'rb'), "no decompression"
+        return open(input_file, 'rb'), "no decompression (raw binary/pickle/json)"
 
 
 class KafkaMessageUploader:

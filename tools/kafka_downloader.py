@@ -89,8 +89,12 @@ class KafkaMessageDownloader:
             'enable.auto.commit': False,
         }
         
+        # Always set a group.id - auto-generate if not provided
         if group_id:
             config['group.id'] = group_id
+        else:
+            import time
+            config['group.id'] = f'kafka_downloader_{int(time.time())}'
         
         # Apply Kafka config (confluent-kafka uses librdkafka config names directly)
         if kafka_config:
