@@ -5,7 +5,7 @@ Uploads previously downloaded Kafka messages with SASL/SSL support.
 Preserves timestamps by default and handles binary FlatBuffers data.
 """
 
-from kafka import KafkaProducer
+from confluent_kafka import Producer
 import json
 import argparse
 import base64
@@ -64,62 +64,120 @@ class KafkaMessageUploader:
     def __init__(self, brokers, preserve_timestamps=True, kafka_config=None):
         self.preserve_timestamps = preserve_timestamps
         
-        # Base producer config
+        # Base producer config for confluent-kafka
         config = {
-            'bootstrap_servers': brokers if isinstance(brokers, list) else brokers.split(','),
+            'bootstrap.servers': brokers if isinstance(brokers, str) else ','.join(brokers),
             'acks': 'all',
             'retries': 3,
-            'batch_size': 16384,
-            'linger_ms': 10,
-            'buffer_memory': 33554432,
-            'key_serializer': lambda x: x if isinstance(x, bytes) else x.encode('utf-8') if isinstance(x, str) else None,
-            'value_serializer': lambda x: x if isinstance(x, bytes) else x.encode('utf-8') if isinstance(x, str) else None
+            'batch.size': 16384,
+            'linger.ms': 10,
+            'queue.buffering.max.kbytes': 32768,  # confluent-kafka equivalent of buffer.memory
         }
         
-        # Apply Kafka config (producer-specific mappings)
+        # Apply Kafka config (confluent-kafka uses librdkafka config names directly)
         if kafka_config:
-            mappings = {
-                'message.max.bytes': 'max_request_size',
-                'message.timeout.ms': 'request_timeout_ms',
-                'queue.buffering.max.ms': 'linger_ms',
-                'batch.size': 'batch_size',
-                'retries': 'retries',
-                'security.protocol': 'security_protocol',
-                'sasl.mechanism': 'sasl_mechanism', 
-                'sasl.username': 'sasl_plain_username',
-                'sasl.password': 'sasl_plain_password',
-                'ssl.ca.location': 'ssl_cafile',
-                'ssl.certificate.location': 'ssl_certfile',
-                'ssl.key.location': 'ssl_keyfile',
-                'ssl.key.password': 'ssl_password',
-                'ssl.check.hostname': 'ssl_check_hostname'
-            }
-            
-            # Skip consumer-only configs
-            skip = {'fetch.message.max.bytes', 'statistics.interval.ms', 'api.version.request', 'message.copy.max.bytes'}
-            
-            for key, value in kafka_config.items():
-                if key not in skip and key in mappings:
-                    config[mappings[key]] = value
+            self._apply_kafka_config(config, kafka_config)
         
-        # Ensure proper timeout relationships
-        linger_ms = config.get('linger_ms', 0)
-        request_timeout_ms = config.get('request_timeout_ms', 30000)
-        min_delivery_timeout = linger_ms + request_timeout_ms + 1000
-        if config.get('delivery_timeout_ms', 0) <= min_delivery_timeout:
-            config['delivery_timeout_ms'] = min_delivery_timeout
-        
-        self.producer = KafkaProducer(**config)
+        # Create producer with delivery callback
+        self.producer = Producer(config)
+        self.delivery_callback = self._delivery_callback
     
-    def upload_from_jsonl(self, jsonl_file, target_topic):
-        """Upload messages from JSON Lines format"""
+    def _apply_kafka_config(self, config, kafka_config):
+        """Apply Kafka configuration to producer config"""
+        # Most configs can be passed directly to confluent-kafka
+        direct_configs = {
+            'message.max.bytes', 'message.timeout.ms', 'queue.buffering.max.ms',
+            'batch.size', 'retries', 'security.protocol', 'sasl.mechanism',
+            'sasl.username', 'sasl.password', 'ssl.ca.location',
+            'ssl.certificate.location', 'ssl.key.location', 'ssl.key.password',
+            'ssl.check.hostname'
+        }
+        
+        # Skip consumer-only configs
+        skip = {'fetch.message.max.bytes', 'statistics.interval.ms', 'api.version.request', 'message.copy.max.bytes'}
+        
+        for key, value in kafka_config.items():
+            if key not in skip and key in direct_configs:
+                config[key] = value
+    
+    def _delivery_callback(self, err, msg):
+        """Delivery callback for producer"""
+        if err:
+            print(f'Message delivery failed: {err}')
+        # Silent on success to avoid spam
+    
+    def _process_upload(self, input_file, target_topic, message_loader):
+        """Common upload processing for both JSON and binary formats"""
         count = errors = 0
         
-        # Use the new decompressor function
-        decompressor, decomp_info = get_decompressor(jsonl_file)
+        decompressor, decomp_info = get_decompressor(input_file)
         print(f"Using {decomp_info}")
         
         with decompressor as f:
+            try:
+                for record in message_loader(f):
+                    try:
+                        # Extract message components
+                        key, value, timestamp_ms, partition = self._extract_message_data(record)
+                        
+                        # Prepare producer call arguments
+                        produce_args = {
+                            'topic': target_topic,
+                            'key': key,
+                            'value': value,
+                            'callback': self.delivery_callback
+                        }
+                        
+                        # Only add partition if it's not None
+                        if partition is not None:
+                            produce_args['partition'] = partition
+                            
+                        # Only add timestamp if it's not None and we're preserving timestamps
+                        if timestamp_ms is not None and self.preserve_timestamps:
+                            if isinstance(timestamp_ms, str):
+                                # Convert ISO timestamp to milliseconds since epoch
+                                try:
+                                    # Add midnight if only date provided
+                                    if 'T' not in timestamp_ms:
+                                        timestamp_ms += 'T00:00:00'
+                                    timestamp_ms = int(datetime.fromisoformat(timestamp_ms.replace('Z', '+00:00')).timestamp() * 1000)
+                                except (ValueError, AttributeError) as e:
+                                    print(f"Warning: Could not parse timestamp '{timestamp_ms}': {e}")
+                                    timestamp_ms = None
+                            
+                            if timestamp_ms is not None:
+                                produce_args['timestamp'] = timestamp_ms
+                        
+                        # Send message using confluent-kafka
+                        self.producer.produce(**produce_args)
+                        
+                        count += 1
+                        if count % 1000 == 0:
+                            print(f"Uploaded {count} messages...")
+                            self.producer.flush()
+                            
+                    except Exception as e:
+                        print(f"Error processing message: {e}")
+                        errors += 1
+                        
+            except Exception as e:
+                print(f"Error reading file: {e}")
+                errors += 1
+        
+        # Final flush and status
+        self.producer.flush()
+        print(f"Upload completed: {count} messages sent, {errors} errors")
+        
+        return count, errors
+    
+    def _extract_message_data(self, record):
+        """Extract message components from record (to be overridden by format-specific logic)"""
+        raise NotImplementedError("Subclasses must implement _extract_message_data")
+    
+    def upload_from_jsonl(self, jsonl_file, target_topic):
+        """Upload messages from JSON Lines format"""
+        
+        def json_loader(f):
             # For text mode, wrap binary streams
             if hasattr(f, 'mode') and 'b' in str(f.mode):
                 import io
@@ -128,84 +186,70 @@ class KafkaMessageUploader:
             for line_num, line in enumerate(f, 1):
                 try:
                     record = json.loads(line.strip())
-                    
-                    # Extract and decode binary data
-                    key = record.get('key')
-                    if key and record.get('key_is_binary', False):
-                        key = base64.b64decode(key)
-                    elif key:
-                        key = key.encode('utf-8')
-                    
-                    value = record.get('value')
-                    if value and record.get('value_is_binary', False):
-                        value = base64.b64decode(value)
-                    elif value:
-                        value = value.encode('utf-8')
-                    
-                    # Handle timestamp preservation
-                    timestamp_ms = record.get('timestamp') if self.preserve_timestamps else None
-                    
-                    # Send message
-                    self.producer.send(
-                        target_topic,
-                        key=key,
-                        value=value,
-                        partition=record.get('partition'),
-                        timestamp_ms=timestamp_ms
-                    )
-                    
-                    count += 1
-                    if count % 1000 == 0:
-                        print(f"Uploaded {count} messages...")
-                        self.producer.flush()
-                        
+                    yield record
                 except Exception as e:
                     print(f"Error on line {line_num}: {e}")
-                    errors += 1
         
-        # Final flush and status
-        self.producer.flush()
-        print(f"Upload completed: {count} messages sent, {errors} errors")
+        def extract_json_message_data(record):
+            # Extract and decode binary data
+            key = record.get('key')
+            if key and record.get('key_is_binary', False):
+                key = base64.b64decode(key)
+            elif key:
+                key = key.encode('utf-8')
+            
+            value = record.get('value')
+            if value and record.get('value_is_binary', False):
+                value = base64.b64decode(value)
+            elif value:
+                value = value.encode('utf-8')
+            
+            # Handle timestamp preservation
+            timestamp_ms = record.get('timestamp')
+            partition = record.get('partition')
+            
+            return key, value, timestamp_ms, partition
+        
+        # Temporarily override the extract method for JSON processing
+        original_extract = self._extract_message_data
+        self._extract_message_data = extract_json_message_data
+        
+        try:
+            return self._process_upload(jsonl_file, target_topic, json_loader)
+        finally:
+            self._extract_message_data = original_extract
     
     def upload_from_binary(self, binary_file, target_topic):
         """Upload messages from binary pickle format"""
-        count = errors = 0
         
-        # Use the new decompressor function
-        decompressor, decomp_info = get_decompressor(binary_file)
-        print(f"Using {decomp_info}")
-        
-        with decompressor as f:
+        def pickle_loader(f):
             while True:
                 try:
                     record = pickle.load(f)
-                    
-                    # Prepare data
-                    key = record['key'].decode('utf-8', errors='ignore') if record['key'] else None
-                    value = record['value']
-                    timestamp_ms = record.get('timestamp') if self.preserve_timestamps else None
-                    
-                    # Send message
-                    self.producer.send(
-                        target_topic,
-                        key=key,
-                        value=value,
-                        timestamp_ms=timestamp_ms
-                    )
-                    
-                    count += 1
-                    if count % 1000 == 0:
-                        print(f"Uploaded {count} messages...")
-                        self.producer.flush()
-                        
+                    yield record
                 except EOFError:
                     break
                 except Exception as e:
-                    print(f"Error processing message: {e}")
-                    errors += 1
+                    print(f"Error loading pickle data: {e}")
+                    break
         
-        self.producer.flush()
-        print(f"Upload completed: {count} messages sent, {errors} errors")
+        def extract_binary_message_data(record):
+            # Binary format keys and values are already bytes
+            key = record.get('key')
+            value = record.get('value')
+            timestamp_ms = record.get('timestamp')
+            partition = record.get('partition')
+            
+            return key, value, timestamp_ms, partition
+        
+        # Temporarily override the extract method for binary processing
+        original_extract = self._extract_message_data
+        self._extract_message_data = extract_binary_message_data
+        
+        try:
+            return self._process_upload(binary_file, target_topic, pickle_loader)
+        finally:
+            self._extract_message_data = original_extract
     
     def batch_upload_with_rate_limit(self, input_file, target_topic, rate_limit, format_type='json'):
         """Upload with rate limiting (messages per second)"""

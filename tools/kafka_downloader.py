@@ -5,16 +5,15 @@ Downloads messages from Kafka topics with SASL/SSL support and time filtering.
 Handles FlatBuffers binary data automatically with automatic parallel compression.
 """
 
-from kafka import KafkaConsumer
-from kafka.errors import KafkaError, NoBrokersAvailable, KafkaTimeoutError
+from confluent_kafka import Consumer, TopicPartition, KafkaError, KafkaException
 import json
 import argparse
 import base64
 import gzip
 import pickle
 import os
+import time
 from datetime import datetime
-from kafka import TopicPartition
 
 # Try to import zstandard for parallel compression
 try:
@@ -78,184 +77,327 @@ class KafkaMessageDownloader:
     """Downloads messages from Kafka with authentication and filtering support"""
     
     def __init__(self, brokers, topic, group_id=None, kafka_config=None):
-        # Base consumer config
+        self.topic = topic
+        self._create_consumer(brokers, group_id, kafka_config)
+    
+    def _create_consumer(self, brokers, group_id, kafka_config):
+        """Create and test Kafka consumer connection"""
+        # Base consumer config for confluent-kafka
         config = {
-            'bootstrap_servers': brokers.split(','),
-            'auto_offset_reset': 'earliest',
-            'enable_auto_commit': False,
-            'consumer_timeout_ms': 10000,
-            'key_deserializer': None,
-            'value_deserializer': None,
-            'max_partition_fetch_bytes': 1024*1024
+            'bootstrap.servers': brokers if isinstance(brokers, str) else ','.join(brokers),
+            'auto.offset.reset': 'earliest',
+            'enable.auto.commit': False,
         }
         
         if group_id:
-            config['group_id'] = group_id
+            config['group.id'] = group_id
         
-        # Apply Kafka config (consumer-specific mappings)
+        # Apply Kafka config (confluent-kafka uses librdkafka config names directly)
         if kafka_config:
-            mappings = {
-                'message.max.bytes': 'max_partition_fetch_bytes',
-                'fetch.message.max.bytes': 'fetch_max_bytes',
-                'security.protocol': 'security_protocol',
-                'sasl.mechanism': 'sasl_mechanism', 
-                'sasl.username': 'sasl_plain_username',
-                'sasl.password': 'sasl_plain_password',
-                'ssl.ca.location': 'ssl_cafile',
-                'ssl.certificate.location': 'ssl_certfile',
-                'ssl.key.location': 'ssl_keyfile',
-                'ssl.key.password': 'ssl_password',
-                'ssl.check.hostname': 'ssl_check_hostname'
-            }
-            
-            # Skip producer-only configs
-            skip = {'statistics.interval.ms', 'message.timeout.ms', 'queue.buffering.max.ms', 'message.copy.max.bytes'}
-            
-            for key, value in kafka_config.items():
-                if key not in skip and key in mappings:
-                    config[mappings[key]] = value
-        
-        self.topic = topic
+            self._apply_kafka_config(config, kafka_config)
         
         try:
-            self.consumer = KafkaConsumer(topic, **config)
+            self.consumer = Consumer(config)
             # Test the connection by trying to get partition info
-            partitions = self.consumer.partitions_for_topic(topic)
-            if partitions is None:
-                raise Exception(f"Topic '{topic}' not found or no access permissions")
-        except NoBrokersAvailable:
-            raise Exception(f"Failed to connect to Kafka brokers: {brokers}. Check if brokers are running and accessible.")
-        except KafkaTimeoutError:
-            raise Exception(f"Connection timeout to Kafka brokers: {brokers}. Check network connectivity or authentication.")
+            metadata = self.consumer.list_topics(self.topic, timeout=10)
+            if self.topic not in metadata.topics:
+                raise KafkaException(f"Topic '{self.topic}' not found or no access permissions")
+        except KafkaException as e:
+            self._handle_consumer_error(e, brokers)
         except Exception as e:
-            if "authentication" in str(e).lower() or "sasl" in str(e).lower():
-                raise Exception(f"Authentication failed: {str(e)}. Check your credentials in the Kafka config.")
-            elif "ssl" in str(e).lower():
-                raise Exception(f"SSL/TLS connection failed: {str(e)}. Check your SSL configuration.")
-            else:
-                raise Exception(f"Failed to initialize Kafka consumer: {str(e)}")
+            raise Exception(f"Failed to initialize Kafka consumer: {str(e)}")
+    
+    def _apply_kafka_config(self, config, kafka_config):
+        """Apply Kafka configuration to consumer config"""
+        # Most configs can be passed directly to confluent-kafka
+        direct_configs = {
+            'message.max.bytes', 'fetch.message.max.bytes', 'security.protocol',
+            'sasl.mechanism', 'sasl.username', 'sasl.password', 'ssl.ca.location',
+            'ssl.certificate.location', 'ssl.key.location', 'ssl.key.password',
+            'ssl.check.hostname'
+        }
+        
+        # Skip producer-only configs
+        skip = {'statistics.interval.ms', 'message.timeout.ms', 'queue.buffering.max.ms', 'message.copy.max.bytes'}
+        
+        for key, value in kafka_config.items():
+            if key not in skip and key in direct_configs:
+                config[key] = value
+    
+    def _handle_consumer_error(self, e, brokers):
+        """Handle consumer creation errors with specific messages"""
+        error_str = str(e).lower()
+        if "authentication" in error_str or "sasl" in error_str:
+            raise Exception(f"Authentication failed: {str(e)}. Check your credentials in the Kafka config.")
+        elif "ssl" in error_str:
+            raise Exception(f"SSL/TLS connection failed: {str(e)}. Check your SSL configuration.")
+        elif "broker" in error_str or "connection" in error_str:
+            raise Exception(f"Failed to connect to Kafka brokers: {brokers}. Check if brokers are running and accessible.")
+        else:
+            raise Exception(f"Failed to initialize Kafka consumer: {str(e)}")
 
     def _seek_to_timestamp(self, start_time_ms=None, end_time_ms=None):
         """Seek consumer to specific timestamp positions"""
         if not start_time_ms:
-            return
+            return False  # Return False to indicate no seeking was done
             
         # Get all partitions for the topic
-        partitions = self.consumer.partitions_for_topic(self.topic)
+        metadata = self.consumer.list_topics(self.topic, timeout=10)
+        partitions = list(metadata.topics[self.topic].partitions.keys())
+        
         if not partitions:
             print("No partitions found for topic")
-            return
+            return False
             
-        # Create timestamp dictionary for all partitions
-        timestamp_dict = {}
-        for partition in partitions:
-            topic_partition = TopicPartition(self.topic, partition)
-            timestamp_dict[topic_partition] = start_time_ms
+        # Create TopicPartition objects for all partitions (without offset)
+        topic_partitions = [TopicPartition(self.topic, p) for p in partitions]
+        
+        # Assign partitions to consumer
+        self.consumer.assign(topic_partitions)
+        
+        # For confluent-kafka, offsets_for_times expects TopicPartitions 
+        # with timestamps in the offset field
+        timestamp_partitions = [TopicPartition(self.topic, p, start_time_ms) for p in partitions]
         
         # Get offsets for timestamps
-        offset_dict = self.consumer.offsets_for_times(timestamp_dict)
+        seeking_successful = False
+        try:
+            offset_results = self.consumer.offsets_for_times(timestamp_partitions, timeout=10)
+            
+            # Seek to the appropriate offsets
+            for result in offset_results:
+                if result and result.offset >= 0:
+                    self.consumer.seek(result)
+                    print(f"Seeking partition {result.partition} to offset {result.offset}")
+                    seeking_successful = True
+                elif result:
+                    print(f"No messages found after start time in partition {result.partition}")
+                    
+        except Exception as e:
+            print(f"Error seeking to timestamp: {e}")
+            # Fallback: just assign partitions and start from beginning
+            self.consumer.assign(topic_partitions)
+            return False
+            
+        return seeking_successful
+
+    def _process_messages(self, start_time_ms, end_time_ms, seeking_successful, message_processor, max_messages=None, flush_func=None):
+        """Common message processing loop for both JSON and binary formats"""
+        count = 0
+        messages_in_timeframe = 0
+        empty_polls = 0
+        messages_before_timeframe = 0
         
-        # Seek to the appropriate offsets
-        for topic_partition, offset_timestamp in offset_dict.items():
-            if offset_timestamp is not None:
-                self.consumer.seek(topic_partition, offset_timestamp.offset)
-                print(f"Seeking partition {topic_partition.partition} to offset {offset_timestamp.offset} (timestamp: {offset_timestamp.timestamp})")
-            else:
-                print(f"No messages found after start time in partition {topic_partition.partition}")
+        # Reduce timeout when seeking failed and we have a time window
+        max_empty_polls = 10 if start_time_ms and not seeking_successful else 30  # Much more reasonable timeout
+        max_messages_before_timeout = 1000  # Stop if we see too many messages before timeframe
+        
+        try:
+            while True:
+                msg = self.consumer.poll(timeout=1.0)
+                if msg is None:
+                    empty_polls += 1
+                    if empty_polls >= max_empty_polls:
+                        if messages_in_timeframe == 0 and (start_time_ms or end_time_ms):
+                            print(f"No messages found in specified time window. Stopping after {max_empty_polls} empty polls...")
+                        else:
+                            print(f"No more messages after {max_empty_polls} empty polls. Stopping...")
+                        break
+                    continue
+                
+                empty_polls = 0  # Reset counter when we get a message
+                    
+                if msg.error():
+                    if msg.error().code() == KafkaError._PARTITION_EOF:
+                        # End of partition, continue polling but count as empty
+                        empty_polls += 1
+                        if empty_polls >= max_empty_polls:
+                            print(f"Reached end of all partitions after {max_empty_polls} consecutive EOF. Stopping...")
+                            break
+                        continue
+                    else:
+                        print(f'Consumer error: {msg.error()}')
+                        break
+                
+                # Filter by time window (both start and end time)
+                msg_timestamp = msg.timestamp()[1]
+                
+                # Skip messages before start time (when seeking failed)
+                if start_time_ms and not seeking_successful and msg_timestamp < start_time_ms:
+                    messages_before_timeframe += 1
+                    # If we're seeing lots of messages before our timeframe, probably no messages in window
+                    if messages_before_timeframe > max_messages_before_timeout:
+                        print(f"Processed {messages_before_timeframe} messages before timeframe with none in target window. Likely no messages exist in specified time range. Stopping...")
+                        break
+                    continue
+                
+                # Stop when we reach the end time
+                if end_time_ms and msg_timestamp > end_time_ms:
+                    print("Reached end time, stopping...")
+                    break
+                
+                # Count messages in our time frame
+                messages_in_timeframe += 1
+                
+                # Process the message using the provided processor function
+                message_processor(msg, msg_timestamp)
+                count += 1
+                
+                # Check for max message limit
+                if max_messages and count >= max_messages:
+                    print(f"Reached max message limit of {max_messages}")
+                    break
+                
+                # Flush output periodically
+                if flush_func and count % 1000 == 0:
+                    flush_func()
+                    print(f"Downloaded {count} messages...")
+        
+        except KeyboardInterrupt:
+            print(f"\nDownload interrupted by user. Downloaded {count} messages.")
+        finally:
+            self.consumer.close()
+            
+        return count
     
     def download_to_json(self, output_file, max_messages=None, start_time_ms=None, end_time_ms=None, compress=True):
         """Download messages as JSON Lines format with automatic compression"""
-        # Seek to start timestamp if provided
-        self._seek_to_timestamp(start_time_ms, end_time_ms)
         
-        count = 0
+        # Check for invalid compression + JSON combination
+        if compress and (output_file.endswith('.json') or output_file.endswith('.jsonl')):
+            print("Error: JSON format does not support compression. Use --no-compression or change to binary format.")
+            return 1
+        
+        seeking_successful = self._seek_to_timestamp(start_time_ms, end_time_ms)
+        
+        if not seeking_successful and not start_time_ms:
+            # No time constraints, use subscription approach
+            self.consumer.subscribe([self.topic])
+            
+            # Wait for partition assignment (important for consumer groups)
+            print("Waiting for partition assignment...")
+            import time
+            assignment_timeout = 10  # seconds
+            start_time = time.time()
+            
+            while time.time() - start_time < assignment_timeout:
+                assignment = self.consumer.assignment()
+                if assignment:
+                    print(f"Assigned to partitions: {[tp.partition for tp in assignment]}")
+                    break
+                self.consumer.poll(0.1)  # This triggers partition assignment
+            else:
+                print("Warning: No partition assignment received within timeout")
+        
         compressor, compression_info = get_compressor(output_file, compress)
         print(f"Using {compression_info}")
         
-        with compressor as f:
-            for message in self.consumer:
-                try:
-                    # Only need to filter end time now (start time handled by seeking)
-                    if end_time_ms and message.timestamp > end_time_ms:
-                        print("Reached end time, stopping...")
-                        break
-                    
-                    # Handle binary data (FlatBuffers) - encode as base64
-                    key_data = base64.b64encode(message.key).decode('utf-8') if message.key else None
-                    value_data = base64.b64encode(message.value).decode('utf-8') if message.value else None
-                    
-                    record = {
-                        'timestamp': message.timestamp,
-                        'timestamp_iso': datetime.fromtimestamp(message.timestamp/1000).isoformat(),
-                        'partition': message.partition,
-                        'offset': message.offset,
-                        'key': key_data,
-                        'value': value_data,
-                        'key_is_binary': message.key is not None,
-                        'value_is_binary': message.value is not None,
-                        'headers': {k: v.decode('utf-8', errors='ignore') if v else None 
-                                  for k, v in (message.headers or [])}
-                    }
-                    
-                    json_line = json.dumps(record) + '\n'
-                    f.write(json_line.encode('utf-8'))
-                    
-                    count += 1
-                    if count % 1000 == 0:
-                        print(f"Downloaded {count} messages...")
-                        if hasattr(f, 'flush'):
-                            f.flush()
-                    
-                    if max_messages and count >= max_messages:
-                        break
-                        
-                except Exception as e:
-                    print(f"Error processing message: {e}")
-                    continue
+        def json_message_processor(msg, msg_timestamp):
+            try:
+                # Handle binary data (FlatBuffers) - encode as base64
+                key_data = msg.key()
+                value_data = msg.value()
+                
+                key_is_binary = key_data and not isinstance(key_data, (str, type(None)))
+                value_is_binary = value_data and not isinstance(value_data, (str, type(None)))
+                
+                # Convert key
+                if key_is_binary:
+                    key_str = base64.b64encode(key_data).decode('ascii')
+                else:
+                    key_str = key_data.decode('utf-8') if key_data else None
+                
+                # Convert value
+                if value_is_binary:
+                    value_str = base64.b64encode(value_data).decode('ascii')
+                else:
+                    value_str = value_data.decode('utf-8') if value_data else None
+                
+                # Create record
+                record = {
+                    'topic': msg.topic(),
+                    'partition': msg.partition(),
+                    'offset': msg.offset(),
+                    'timestamp': msg_timestamp,
+                    'key': key_str,
+                    'value': value_str,
+                    'key_is_binary': key_is_binary,
+                    'value_is_binary': value_is_binary
+                }
+                
+                # Write JSON line
+                compressor.write(json.dumps(record).encode('utf-8') + b'\n')
+                
+            except Exception as e:
+                print(f"Error processing message: {e}")
+        
+        def flush_compressor():
+            if hasattr(compressor, 'flush'):
+                compressor.flush()
+        
+        with compressor:
+            count = self._process_messages(start_time_ms, end_time_ms, seeking_successful, 
+                                         json_message_processor, max_messages, flush_compressor)
         
         print(f"Downloaded {count} messages to {output_file}")
+        return count
     
-    def download_to_binary(self, output_file, compress=True, start_time_ms=None, end_time_ms=None):
+    def download_to_binary(self, output_file, max_messages=None, start_time_ms=None, end_time_ms=None, compress=True):
         """Download messages in binary format with automatic compression"""
-        # Seek to start timestamp if provided
-        self._seek_to_timestamp(start_time_ms, end_time_ms)
+        seeking_successful = self._seek_to_timestamp(start_time_ms, end_time_ms)
         
-        count = 0
+        if not seeking_successful and not start_time_ms:
+            # No time constraints, use subscription approach
+            self.consumer.subscribe([self.topic])
+            
+            # Wait for partition assignment (important for consumer groups)
+            print("Waiting for partition assignment...")
+            import time
+            assignment_timeout = 10  # seconds
+            start_time = time.time()
+            
+            while time.time() - start_time < assignment_timeout:
+                assignment = self.consumer.assignment()
+                if assignment:
+                    print(f"Assigned to partitions: {[tp.partition for tp in assignment]}")
+                    break
+                self.consumer.poll(0.1)  # This triggers partition assignment
+            else:
+                print("Warning: No partition assignment received within timeout")
+        
         compressor, compression_info = get_compressor(output_file, compress)
         print(f"Using {compression_info}")
         
-        with compressor as f:
-            for message in self.consumer:
-                try:
-                    # Only need to filter end time now (start time handled by seeking)
-                    if end_time_ms and message.timestamp > end_time_ms:
-                        print("Reached end time, stopping...")
-                        break
-                    
-                    record = {
-                        'timestamp': message.timestamp,
-                        'partition': message.partition,
-                        'offset': message.offset,
-                        'key': message.key,
-                        'value': message.value,
-                        'headers': dict(message.headers or [])
-                    }
-                    
-                    # Serialize and write
-                    data = pickle.dumps(record)
-                    f.write(data)
-                    count += 1
-                    
-                    if count % 1000 == 0:
-                        print(f"Downloaded {count} messages...")
-                        if hasattr(f, 'flush'):
-                            f.flush()
-                        
-                except Exception as e:
-                    print(f"Error processing message: {e}")
-                    continue
+        def binary_message_processor(msg, msg_timestamp):
+            try:
+                # Store message data in pickle format
+                record = {
+                    'topic': msg.topic(),
+                    'partition': msg.partition(),
+                    'offset': msg.offset(),
+                    'timestamp': msg_timestamp,
+                    'key': msg.key(),
+                    'value': msg.value(),
+                    'headers': dict(msg.headers() or [])
+                }
+                
+                # Use pickle to serialize
+                pickle.dump(record, compressor)
+                
+            except Exception as e:
+                print(f"Error processing message: {e}")
+        
+        def flush_compressor():
+            if hasattr(compressor, 'flush'):
+                compressor.flush()
+        
+        with compressor:
+            count = self._process_messages(start_time_ms, end_time_ms, seeking_successful, 
+                                         binary_message_processor, max_messages, flush_compressor)
         
         print(f"Downloaded {count} messages to {output_file}")
+        return count
+
 
 def main():
     parser = argparse.ArgumentParser(description='Download Kafka messages with authentication and time filtering')
@@ -265,30 +407,27 @@ def main():
     parser.add_argument('--format', choices=['json', 'binary'], default='json', help='Output format')
     parser.add_argument('--output', required=True, help='Output file')
     parser.add_argument('--max-messages', type=int, help='Maximum messages to download')
-    parser.add_argument('--compress', action='store_true', default=True, help='Enable compression (default: True)')
-    parser.add_argument('--no-compress', action='store_false', dest='compress', help='Disable compression')
+    parser.add_argument('--compression', action='store_true', help='Enable compression')
     parser.add_argument('--start-time', help='Start time (ISO format: YYYY-MM-DDTHH:MM:SS or YYYY-MM-DD)')
     parser.add_argument('--end-time', help='End time (ISO format: YYYY-MM-DDTHH:MM:SS or YYYY-MM-DD)')
     parser.add_argument('--kafka-config', help='Kafka configuration file (JSON format)')
     
     args = parser.parse_args()
     
-    # Auto-append appropriate extension when compress is enabled
-    output_file = args.output
-    if args.compress:
-        if HAS_ZSTD:
-            if not output_file.endswith('.zst'):
-                output_file += '.zst'
-                print(f"Zstandard parallel compression enabled, output file changed to: {output_file}")
-        else:
-            if not output_file.endswith('.gz'):
-                output_file += '.gz'
-                print(f"Gzip compression enabled, output file changed to: {output_file}")
+    # Validate JSON + compression combination
+    if args.format == 'json' and args.compression:
+        print("Error: JSON format does not support compression. Use binary format for compression or remove --compression flag.")
+        return 1
     
-    # Show compression library status
-    if not HAS_ZSTD:
-        print("Note: Zstandard library not installed. Using gzip fallback.")
-        print("For parallel compression: pip install zstandard")
+    # Show compression library status for supported file types
+    if not HAS_ZSTD and (args.output.endswith('.zst')):
+        print("Error: File has .zst extension but zstandard library not installed.")
+        print("Install with: pip install zstandard")
+        return 1
+    
+    # Parse timestamps
+    start_time_ms = parse_timestamp(args.start_time) if args.start_time else None
+    end_time_ms = parse_timestamp(args.end_time) if args.end_time else None
     
     # Load Kafka configuration
     kafka_config = None
@@ -300,36 +439,23 @@ def main():
             print(f"Error loading config: {e}")
             return 1
     
-    # Parse time arguments
-    start_time_ms = end_time_ms = None
-    try:
-        if args.start_time:
-            start_time_ms = parse_timestamp(args.start_time)
-            print(f"Start time: {args.start_time} ({start_time_ms})")
-        if args.end_time:
-            end_time_ms = parse_timestamp(args.end_time)
-            print(f"End time: {args.end_time} ({end_time_ms})")
-        if start_time_ms and end_time_ms and start_time_ms > end_time_ms:
-            raise ValueError("Start time must be before end time")
-    except ValueError as e:
-        print(f"Time parsing error: {e}")
-        return 1
+    # Create downloader and download
+    downloader = KafkaMessageDownloader(args.brokers, args.topic, args.group_id, kafka_config)
     
-    # Download messages with proper error handling
     try:
-        downloader = KafkaMessageDownloader(args.brokers, args.topic, args.group_id, kafka_config)
+        # Determine compression based on format and flag
+        use_compression = args.compression if args.format == 'binary' else False
         
         if args.format == 'json':
-            downloader.download_to_json(output_file, args.max_messages, start_time_ms, end_time_ms, args.compress)
+            downloader.download_to_json(args.output, args.max_messages, start_time_ms, end_time_ms, use_compression)
         elif args.format == 'binary':
-            downloader.download_to_binary(output_file, args.compress, start_time_ms, end_time_ms)
-            
+            downloader.download_to_binary(args.output, args.max_messages, start_time_ms, end_time_ms, use_compression)
     except KeyboardInterrupt:
         print("\nDownload interrupted by user")
-        return 1
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Download failed: {e}")
         return 1
+
 
 if __name__ == "__main__":
     main()
