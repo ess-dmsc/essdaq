@@ -1,6 +1,6 @@
 
--- Copyright (C) 2023 European Spallation Source ERIC
--- Wireshark plugin for dissecting TimePix3 UDP and TimePix3 Control TCP
+-- Copyright (C) 2026 European Spallation Source ERIC
+-- Wireshark plugin for dissecting IDEAS remote software upgrade.
 
 -- bytes
 datasize = 8
@@ -52,16 +52,6 @@ cmdtype = {
 
 
 -- helper variable and functions
-
-function getcmdtype(t)
-  if t == 0x11
-  then
-    return "Request "
-  else
-    return "Response"
-  end
-end
-
 
 function arr2str(arr, val)
   res = arr[val]
