@@ -33,21 +33,22 @@ end
 
 -- protocol commands and register addresses
 
-commands = {
+registers = {
   [0x0000] = "Register 0x0000",
   [0x0001] = "Register 0x0001",
   [0x0002] = "Register 0x0002",
   [0x0031] = "Register 0x0031",
   [0x0032] = "Register 0x0032",
   [0x0033] = "Register 0x0033",
-  [0x0400] = '1KB',
+  [0x0400] = "---",
 }
 
 
-cmdtype = {
+commands = {
   [0x0011] = "Request ",
   [0x0012] = "Response",
   [0x0020] = "Data    ",
+  [0x0022] = "Unknown ",
 }
 
 
@@ -63,11 +64,11 @@ function arr2str(arr, val)
 end
 
 function ctype2str(t)
-  return arr2str(cmdtype, t)
+  return arr2str(commands, t)
 end  
 
 function cmd2str(t)
-  return arr2str(commands, t)
+  return arr2str(registers, t)
 end
 
 
@@ -85,28 +86,53 @@ function sonde_proto.dissector(buffer, pinfo,tree)
   pinfo.cols.protocol = "SONDE CTRL"
   local protolen = buffer():len()
   
-
   local reqresp = buffer(0, 2):uint()
+  local cmdtype = ctype2str(reqresp)
+
   local seqno = buffer(2, 2):uint()
   local cmdlen = buffer(9, 1):uint()
+
   local cmdarg = buffer(10, 2):uint()
   local cmdstr = cmd2str(cmdarg)
-  -- if (cmdlen == 2 and reqresp == "Request ") then
-  --   local cmdstr = cmd2str(cmdarg)
-  -- else
-  --   local cmdstr = "unimplemented"
-  -- end
+
+  hexlen = cmdlen
   if (cmdlen > 30) 
   then
-    cmdlen = 30
+    hexlen = 30
   end
 
 
-  b = buffer(12, cmdlen - 2):bytes():tohex()
+  local common = string.format("seqno %3d: %s", seqno, cmdtype)
+  
 
-  pinfo.cols.info = string.format("seqno %3s: %s cmd %-20s | %s", seqno, ctype2str(reqresp), cmdstr, b)
-  local header = tree:add(sonde_proto, buffer(), string.format("seqno %s: %s cmd %s | %s", seqno, ctype2str(reqresp), cmdstr, b))
-end
+  if reqresp == 0x20 then
+    local laddr = buffer(14,4):uint()
+    pinfo.cols.info = string.format("%s                   | load 1024 bytes at 0x%08x", common, laddr)
+  elseif reqresp == 0x22 then
+    local b = buffer(0, hexlen):bytes():tohex()
+    pinfo.cols.info = string.format("%s                   | %s", common, b)
+  else
+    local b = buffer(12, hexlen - 2):bytes():tohex()
+    pinfo.cols.info = string.format("%s - %-15s | %s", common, cmdstr, b)
+  end
+
+  -- local b = string.format("%d %s", seqno, buffer(12, cmdlen - 2):bytes():tohex())
+  --   -- pinfo.cols.info = string.format("seqno %3s: %s cmd %-20s | %s", seqno, cmdtype, cmdstr, string.format("load %d bytes @ 0x%04x", llen, laddr))
+  
+  -- if (reqresp == 0x20) then
+  --   print("Data")
+  --   local laddr = buffer(14,4):uint()
+  --   llen = 1024
+  --   local b = string.format("seqno %d %d %db at 0x%08x", seqno, reqresp, llen, laddr)
+  -- end
+  --  -- local header = tree:add(sonde_proto, buffer(), string.format("seqno %s: %s cmd %s | %s", seqno, cmdtype, cmdstr, b))
+  -- pinfo.cols.info = string.format("%s",b)
+  
+  local header = tree:add(sonde_proto, buffer(), string.format("ABCDE"))
+
+end 
+
+
 
 -- Register the protocol
 tcp_table = DissectorTable.get("tcp.port")
