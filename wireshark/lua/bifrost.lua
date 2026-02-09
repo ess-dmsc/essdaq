@@ -37,10 +37,10 @@ function esscaen_proto.dissector(buffer, pinfo, tree)
     ampc   = buffer(offset + 20, 2):le_uint()
     ampd   = buffer(offset + 22, 2):le_uint()
 
-    ringid = fiber/2
+    ringid = fiber//2
 
-    dtree = esshdr:add(buffer(offset, 24),string.format("Fiber %2d, Ring %2d, FEN %2d - Time 0x%08x 0x%08x - OM 0x%02x, Group %2d, A %5d, B %5d, C %5d, D %5d",
-               fiber, ringid, fenid, th, tl, om, group, ampa, ampb, ampc, ampd))
+    dtree = esshdr:add(buffer(offset, 24),string.format("Ring %2d, FEN %2d - Time 0x%08x 0x%08x - OM 0x%02x, Group %2d, A %5d, B %5d, C %5d, D %5d",
+               ringid, fenid, th, tl, om, group, ampa, ampb, ampc, ampd))
 
     if bytesleft < 24 then
         return

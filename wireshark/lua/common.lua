@@ -40,6 +40,8 @@ function essheader(name, proto, buffer, pinfo, tree)
   pptl =    buffer(22, 4):le_uint()
   seqno =   buffer(26, 4):le_uint()
 
+  ptg = i64_ax(pth, ptl)
+
   esshdr:add(buffer( 0,1),string.format("Padding  0x%02x", padding1))
   esshdr:add(buffer( 1,1),string.format("Version  %d", version))
   esshdr:add(buffer( 2,3),string.format("Cookie   0x%x", cookie))
@@ -47,8 +49,8 @@ function essheader(name, proto, buffer, pinfo, tree)
   esshdr:add(buffer( 6,2),string.format("Length   %d", length))
   esshdr:add(buffer( 8,1),string.format("OutputQ  %d", oq))
   esshdr:add(buffer( 9,1),string.format("TimeSrc  %d", tmsrc))
-  esshdr:add(buffer(10,8),string.format("PulseT   0x%04x%04x", pth, ptl))
-  esshdr:add(buffer(18,8),string.format("PrevPT   0x%04x%04x", ppth, pptl))
+  esshdr:add(buffer(10,8),string.format("PulseT   0x%08x %08x", pth, ptl))
+  esshdr:add(buffer(18,8),string.format("PrevPT   0x%08x %08x", ppth, pptl))
   esshdr:add(buffer(26,4),string.format("SeqNo    %d", seqno))
 
   if version == 1 then
